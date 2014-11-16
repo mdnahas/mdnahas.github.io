@@ -1,0 +1,2070 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.02 [en] (X11; I; SunOS 5.6 sun4u) [Netscape]">
+</HEAD>
+<BODY>
+
+<H1>
+CS 216 Course Coverage Outline</H1>
+This course at its core is an examination of abstraction and implementation.&nbsp;&nbsp;
+We will look especially at the environment where high level language programs
+operate.&nbsp; We will also look at different methods of implementing a
+Table (Dictionary) data structure.&nbsp;&nbsp; Numerous small related topics
+will be covered.
+
+<P>NOTE: I expect to complete the material between two lines in a single
+day.
+<UL>
+<LI>
+Introduction&nbsp; to course</LI>
+
+<UL>
+<LI>
+Complexity is controlled by abstraction</LI>
+
+<UL>
+<LI>
+The Interface is the services provided by the abstraction</LI>
+
+<LI>
+The Environment is the services available to the abstraction</LI>
+
+<LI>
+The Representation is the way services are implemented for the abstraction</LI>
+</UL>
+
+<LI>
+Abstractions are generally hierarchical and often layered</LI>
+
+<UL>
+<LI>
+Example: quantum physics, classical physics, transistors, ..., user interface</LI>
+
+<UL>
+<LI>
+Silicon: Atomic Weight=28, Density = 2.33 g/cm3, 12.1 cm3/mol</LI>
+
+<LI>
+10 um feature size in 1971, 0.35 um feature size in 1995</LI>
+
+<LI>
+How long until feature size breaks the quatum/classical physics abstraction?</LI>
+</UL>
+
+<LI>
+Layers can be transparent or opaque (obscuring lower levels)</LI>
+</UL>
+
+<LI>
+The selected Representation of an Abstraction determines performance</LI>
+
+<LI>
+We will go down from the HLL abstraction to the Machine Language/OS abstraction</LI>
+
+<UL>
+<LI>
+Code -> Machine language</LI>
+
+<UL>
+<LI>
+IBCM - RISC-like, clean design, easy to the basics on</LI>
+
+<LI>
+x86 - CISC, lots of complications</LI>
+</UL>
+
+<LI>
+How "new" works</LI>
+
+<LI>
+How function calls work</LI>
+
+<LI>
+How OS calls work</LI>
+
+<LI>
+How the I/O librarys work</LI>
+</UL>
+
+<LI>
+We will go above the HLL abstraction into Data Structure and Algorithm
+abstraction</LI>
+
+<UL>
+<LI>
+Multiple representations of a Table</LI>
+
+<LI>
+Other commonly used structures (Heaps &amp; Graphs)&nbsp;
+<HR WIDTH="100%"></LI>
+</UL>
+</UL>
+
+<LI>
+Machine Level Basics</LI>
+
+<UL>
+<LI>
+Data Formats</LI>
+
+<UL>
+<LI>
+Bytes, Words, Double Words, Quad Words</LI>
+
+<UL>
+<LI>
+Rational for finite sizes</LI>
+</UL>
+
+<LI>
+Number formats</LI>
+
+<UL>
+<LI>
+binary representation of unsigned integers</LI>
+
+<UL>
+<LI>
+conversion of decimal or hexadecimal</LI>
+
+<LI>
+addition, subtraction of unsigned integers</LI>
+</UL>
+
+<LI>
+signed integer format</LI>
+
+<UL>
+<LI>
+sign-magnitude</LI>
+
+<LI>
+1's complement</LI>
+
+<LI>
+bias</LI>
+</UL>
+</UL>
+</UL>
+
+<UL>
+<UL>
+<UL>
+<LI>
+2's complement for assignment</LI>
+</UL>
+
+<LI>
+IEEE Floating Pt. format basics</LI>
+
+<UL>
+<LI>
+1 bit for sign</LI>
+
+<LI>
+8 bits for exponent in 127 bias format&nbsp; (bits - 127 = exponent)</LI>
+
+<LI>
+23 bits of mantissa (+1 hidden bit)</LI>
+
+<LI>
+Special values for 0, + infinity, -infinity, and NaN</LI>
+
+<LI>
+<A HREF="http://www.math.grin.edu/~stone/courses/fundamentals/IEEE-reals.html">http://www.math.grin.edu/~stone/courses/fundamentals/IEEE-reals.html</A></LI>
+</UL>
+
+<LI>
+Mention Fixed Point arithmetic in DSPs</LI>
+
+<LI>
+ASSIGNMENT:</LI>
+
+<UL>
+<LI>
+binary math</LI>
+
+<LI>
+think on numbering scheme for 2's complement</LI>
+</UL>
+</UL>
+
+<LI>
+Character formats</LI>
+
+<UL>
+<LI>
+ASCII</LI>
+
+<LI>
+EBCDIC</LI>
+
+<LI>
+Unicode&nbsp;
+<HR WIDTH="100%"></LI>
+</UL>
+
+<LI>
+Array Formats</LI>
+
+<UL>
+<LI>
+Multi-dimensional Arrays</LI>
+
+<UL>
+<LI>
+pointer vs. rectangular subscript calculations</LI>
+
+<LI>
+Row-major layout A[row][col]</LI>
+
+<UL>
+<LI>
+A[3][2] -> A[0][0], A[0][1], A[1][0], A[1][1], A[2][0], A[2][1]</LI>
+</UL>
+
+<LI>
+K&amp;R's "ANSI C" pgs. 110 to 114&nbsp; (C uses ROW major)</LI>
+</UL>
+
+<LI>
+Trade-offs of array bounds checking</LI>
+
+<LI>
+Mention array alignments for speed (Byte Benchmark problem)</LI>
+</UL>
+
+<LI>
+Struct Format</LI>
+
+<LI>
+Class Format</LI>
+
+<UL>
+<LI>
+2 structs are used for class members</LI>
+
+<UL>
+<LI>
+one holds instance members</LI>
+
+<LI>
+the other holds members common to all instances of the class</LI>
+</UL>
+
+<LI>
+An offset is used to convert a pointer of a class to a pointer to the parent
+class</LI>
+
+<LI>
+A pointer is followed to convert a pointer of a class to a pointer to a
+virtual parent class</LI>
+</UL>
+
+<LI>
+ASSIGNMENT: Compare speed of traversing an array rows-cols vs. cols-rows,</LI>
+
+<LI>
+ASSIGNMENT: Declare a class, find out locations of data items in an instance</LI>
+
+<BR>
+<HR WIDTH="100%"></UL>
+
+<LI>
+Computer Layout (Mem, CPU, I/O, buses)</LI>
+
+<UL>
+<LI>
+Memory is simple - address goes in one clock cycle, data comes out K cycles
+later</LI>
+
+<UL>
+<LI>
+Caches provide faster access at cheap price</LI>
+
+<UL>
+<LI>
+exploit temporal and spatial locality</LI>
+
+<LI>
+require "snooping" to prevent errors</LI>
+</UL>
+
+<LI>
+RAM = Random Access Memory</LI>
+
+<UL>
+<LI>
+Volitile!</LI>
+
+<LI>
+Main memory is Dynamic RAM (DRAM) 1 bit = 1 transistor + 1 capacitor</LI>
+
+<LI>
+Cache memory is Static RAM (SRAM) 1 bit = 6 to 8 transistors</LI>
+</UL>
+
+<LI>
+ROM = Read Only Memory</LI>
+
+<UL>
+<LI>
+Non-Volitile</LI>
+
+<LI>
+Good for initialization</LI>
+
+<LI>
+PROM - Programmable ROM - can be changed</LI>
+</UL>
+
+<LI>
+NOTE: Memory does not include typing - bits is bits!</LI>
+</UL>
+
+<LI>
+CPU, to the outsider, merely appears to be doing read and write operations</LI>
+
+<UL>
+<LI>
+Under "Memory Mapped I/O" address determines if its is I/O or to main memory</LI>
+</UL>
+
+<LI>
+I/O has 3 basic ways of communicating</LI>
+
+<UL>
+<LI>
+Being Polled - CPU reads registers on the I/O device</LI>
+
+<LI>
+Interrupts - I/O device sends signal to CPU</LI>
+
+<UL>
+<LI>
+requires individual wire in bus for each type of interrupt</LI>
+</UL>
+
+<LI>
+Direct Memory Access (DMA) - I/O device becomes master of the bus</LI>
+</UL>
+</UL>
+
+<LI>
+IBCM - Itty Bitty Computing Machine</LI>
+
+<UL>
+<LI>
+IBCM basics</LI>
+
+<LI>
+Fetch-Execute cycle&nbsp;
+<HR WIDTH="100%"></LI>
+
+<LI>
+Operations and Op-codes</LI>
+
+<LI>
+ASSIGNMENT: Write small program in IBCM Machine Code</LI>
+
+<BR>
+<HR WIDTH="100%">
+<LI>
+High Level Language conversion to IBCM code</LI>
+
+<LI>
+stack-based calculations of arithmetic expressions (is this possible with
+IBCM?)</LI>
+
+<LI>
+ASSIGNMENT: Convert C expression to IBCM Machine Code</LI>
+
+<BR>
+<HR WIDTH="100%"></UL>
+
+<LI>
+Memory Organization (code, consts, globals, stack, heap)</LI>
+
+<UL>
+<LI>
+Code and consts often are write protected (permits sharing)</LI>
+
+<LI>
+Globals - often placed at bottom of the stack</LI>
+
+<LI>
+Stack</LI>
+
+<UL>
+<LI>
+What is saved on the stack?</LI>
+
+<UL>
+<LI>
+Parameters</LI>
+
+<LI>
+Local variables</LI>
+
+<LI>
+The Link - the address to return to</LI>
+
+<LI>
+The size of the stack frame</LI>
+
+<LI>
+Return values</LI>
+
+<LI>
+Register values (in case of "callee saves")</LI>
+</UL>
+
+<LI>
+Why a stack?</LI>
+
+<UL>
+<LI>
+Recursion</LI>
+</UL>
+
+<LI>
+Most processors have a "stack pointer", Sparc's directly manage the stack!</LI>
+
+<LI>
+2 major classes of "Calling Conventions"</LI>
+
+<UL>
+<LI>
+Callee saves</LI>
+
+<UL>
+<LI>
+Subroutine call just branch-and-links to subroutine code</LI>
+
+<LI>
+Subroutine code saves registers before use, replaces before returning</LI>
+</UL>
+
+<LI>
+Caller saves</LI>
+
+<UL>
+<LI>
+Caller saves important values before branch-and-linking to subroutine code</LI>
+
+<LI>
+Subroutine code assumes anything in registers can be overwritten</LI>
+</UL>
+</UL>
+
+<LI>
+Stack often "grows down" from the top of memory</LI>
+</UL>
+
+<HR WIDTH="100%">
+<LI>
+Heap Management</LI>
+
+<UL>
+<LI>
+Heap often "grows up" from the base of memory</LI>
+
+<LI>
+Simple linked list implementation (First Fit)</LI>
+
+<UL>
+<LI>
+First Fit with merging of contiguous free blocks</LI>
+</UL>
+
+<LI>
+Best Fit</LI>
+
+<LI>
+Worst Fit</LI>
+
+<LI>
+Fragmentation: wasted memory</LI>
+
+<UL>
+<LI>
+Internal fragmentation - the allocated memory is larger than the request</LI>
+
+<LI>
+External fragmentation - memory between allocated blocks</LI>
+
+<UL>
+<LI>
+especially bad when requests could have been fulfilled if memory was contiguous</LI>
+</UL>
+</UL>
+
+<LI>
+ASSIGNMENT: Think up better implementation</LI>
+
+<BR>
+<HR WIDTH="100%">
+<LI>
+Quick Fit</LI>
+
+<UL>
+<LI>
+For small sizes, array holds pointers to blocks of that size</LI>
+
+<LI>
+Larger size blocks are allocated separately</LI>
+</UL>
+
+<LI>
+Allocate based on 2^N sized blocks</LI>
+
+<UL>
+<LI>
+Array where A[N] is a pointer to a list of blocks of size 2^N</LI>
+
+<LI>
+At most N steps to initially allocate a block of size 2^N, averages 2 steps</LI>
+
+<LI>
+When a merge occurs, the block is moved into the neighboring list of larger
+blocks</LI>
+
+<LI>
+Fast, but suffers from internal fragmentation</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%"></UL>
+</UL>
+
+<LI>
+Testing Basics</LI>
+
+<UL>
+<LI>
+NOTE: Testing only can tell if code is bad - it cannot prove the code is
+good!</LI>
+
+<LI>
+Black Box Testing</LI>
+
+<UL>
+<LI>
+Triangle Classification example</LI>
+
+<LI>
+Use the Specifications and Your Experience to uncover problems</LI>
+
+<LI>
+Can only test a finite number of cases - make them go far</LI>
+
+<UL>
+<LI>
+Divide problem space into equivalence classes and make sure there is a
+test for each</LI>
+</UL>
+
+<LI>
+Things to think on</LI>
+
+<UL>
+<LI>
+Illegal inputs</LI>
+
+<LI>
+Boundry conditions</LI>
+
+<LI>
+Overlap of conditions</LI>
+
+<LI>
+Order sensitivity</LI>
+
+<LI>
+Look for missing or unspecified conditions in the Spec [HARD]</LI>
+
+<LI>
+Think of multiple ways of implementation and each one's weaknesses</LI>
+</UL>
+
+<LI>
+Test Plan and Testing Environment</LI>
+
+<UL>
+<LI>
+Description of test data and rationale</LI>
+
+<LI>
+Description of expected results for each test</LI>
+
+<LI>
+Driver programs</LI>
+
+<UL>
+<LI>
+Contains (or reads in) test data</LI>
+
+<LI>
+Contains code to compare black box results to expected results</LI>
+</UL>
+
+<LI>
+Purpose: Convince yourself and others that all cases are coverd and each
+test is valuable</LI>
+</UL>
+</UL>
+
+<LI>
+Clear Box</LI>
+
+<UL>
+<LI>
+Code coverage</LI>
+
+<UL>
+<LI>
+Many problems show up the first time you run a piece of code.</LI>
+
+<LI>
+Tools like "PureCoverage" are used</LI>
+
+<LI>
+Some code is difficult/impossible to cover (OS error code)</LI>
+</UL>
+
+<LI>
+Code inspections</LI>
+
+<UL>
+<LI>
+Considered the #1 payoff of bugs found per time spent!</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%"></UL>
+
+<LI>
+Tables (Dictionaries, Symbol Table, Associative Memory, Associative Arrays,
+Content-addressable Memory)</LI>
+
+<UL>
+<LI>
+Description of the requirements</LI>
+
+<UL>
+<LI>
+A table is a 1-to-1 or a 1-to-many mapping from one set to another</LI>
+
+<UL>
+<LI>
+A phonebook can be seen as a table, mapping names to phone numbers</LI>
+</UL>
+
+<LI>
+Can grow (not bounded in size)</LI>
+
+<LI>
+Not dense (can be huge gaps between keys without wasting memory)</LI>
+</UL>
+
+<LI>
+Declaration:</LI>
+
+<UL>template &lt;class key, class value>
+<BR>TABLE {
+<BR>&nbsp;&nbsp;&nbsp; public:
+<UL>TABLE();
+<BR>~TABLE();
+
+<P>value&amp; operator[](key index);
+<BR>...</UL>
+};</UL>
+
+<LI>
+Example: word frequency counter</LI>
+
+<LI>
+Issues</LI>
+
+<UL>
+<LI>
+Other methods (delete, is_empty, member, ...)</LI>
+
+<LI>
+Iterator</LI>
+</UL>
+
+<LI>
+Simple Linear array implementation&nbsp;
+<HR WIDTH="100%"></LI>
+
+<LI>
+Abstract performance measurements</LI>
+
+<UL>
+<LI>
+Original idea - non-abstract performance measurement</LI>
+
+<UL>
+<LI>
+Count exact numbers of each operation on a machine</LI>
+
+<LI>
+Non-transferable - different architectures, compilers, primitive operations...</LI>
+
+<LI>
+However, dominant terms existed....</LI>
+</UL>
+
+<LI>
+Big O notation</LI>
+
+<UL>
+<LI>
+Its an upper bound on the time or space required by a program</LI>
+
+<LI>
+We say a function f = O(g) if there exist two constants C and N such that</LI>
+
+<UL>
+<LI>
+f(n) &lt;= C*g(n) for all n >= N</LI>
+</UL>
+
+<LI>
+This only gives us a rough estimate for very large values of n!</LI>
+
+<LI>
+Does not necessarily mean a tight upper bound!</LI>
+</UL>
+
+<LI>
+Big Omega notation - same except for lower bounds.</LI>
+
+<LI>
+Worst case measurements are the standard</LI>
+
+<UL>
+<LI>
+Average case is sometimes stated, but how do you tell if your data is average?</LI>
+</UL>
+
+<LI>
+Speed and Size measurement examples</LI>
+</UL>
+
+<HR WIDTH="100%">
+<LI>
+Linked-list implementations</LI>
+
+<UL>
+<UL>
+<LI>
+Each node in list stores (Key, Value) pair</LI>
+</UL>
+
+<LI>
+Basic</LI>
+
+<UL>
+<LI>
+Insert at front or back</LI>
+
+<LI>
+Required to search entire list to show something is not present</LI>
+</UL>
+
+<LI>
+Move to front</LI>
+
+<UL>
+<LI>
+Whenever a Key is looked up, the containing node is moved to the front
+of the list</LI>
+
+<LI>
+Front of the list acts as a cache - frequently used items remain near front</LI>
+
+<UL>
+<LI>
+Provides fast access to commonly requested items</LI>
+</UL>
+</UL>
+
+<LI>
+Ordered</LI>
+
+<UL>
+<LI>
+Requires more time at insertion</LI>
+
+<LI>
+Can determine node is not present with only searching a part of the list!</LI>
+
+<UL>
+<LI>
+Twice as fast (on average) at determining a key is not present</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%"></UL>
+
+<LI>
+Ordered linear array implementation (Binary Search)</LI>
+
+<UL>
+<LI>
+Insertion is much longer&nbsp; O(n) vs. O(1)</LI>
+
+<LI>
+Finding a key is much shorter O(log(n)) vs. O(n)</LI>
+
+<LI>
+Optimum speed is determined by ratio of insertions to deletions</LI>
+
+<LI>
+Recursive relations: f(n) =</LI>
+
+<UL>
+<LI>
+constant&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (n ==0 or n==1)</LI>
+
+<LI>
+constant + f(n/2)&nbsp;&nbsp;&nbsp; otherwise</LI>
+</UL>
+</UL>
+</UL>
+&nbsp;
+<UL>
+<LI>
+Binary Search Trees</LI>
+
+<UL>
+<LI>
+Most of the beauty of binary search with a faster insertion time!</LI>
+
+<LI>
+Gives up the worst case O(log(n)) time, but on achieves it on average.</LI>
+
+<LI>
+Speed of data structure is sensitive to the order keys are inserted.</LI>
+
+<LI>
+Recursive descent to find node</LI>
+
+<UL>
+<LI>
+Run time analysis</LI>
+</UL>
+
+<HR WIDTH="100%">
+<LI>
+Other considerations</LI>
+
+<UL>
+<LI>
+Allocating dynamic memory takes time, usually independant of size allocated</LI>
+
+<UL>
+<LI>
+Lots of small allocations = lots of time</LI>
+
+<LI>
+Wulf states "this <B>might</B> be the biggest factor for small N"</LI>
+</UL>
+
+<LI>
+Pointers + hidden sizes + internal fragmentation take up space.</LI>
+</UL>
+
+<LI>
+Other things can be stored in binary trees</LI>
+
+<UL>
+<LI>
+Arithmetic expressions</LI>
+
+<LI>
+Any other tree</LI>
+</UL>
+
+<LI>
+Traversals L = left subtree, R = right subtree, N = node itself</LI>
+
+<UL>
+<LI>
+In order (LNR)</LI>
+
+<LI>
+preorder (NLR)</LI>
+
+<LI>
+postorder (LRN)</LI>
+</UL>
+</UL>
+</UL>
+
+<UL>
+<LI>
+HashTables</LI>
+
+<UL>
+<LI>
+Perfect Hashes</LI>
+
+<UL>
+<LI>
+Requires all KEYs be known before hand</LI>
+
+<LI>
+Hash function - converts a KEY to an integer</LI>
+
+<LI>
+Modulus - a size for the array such that no collisions occur</LI>
+
+<LI>
+bool is_member(KEY k)&nbsp;&nbsp; { return (array[ HashFunction(k) % Modulus
+].key == k); }</LI>
+
+<LI>
+Constant Time for searching! O(1)!</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Dynamic Hash Tables</LI>
+
+<UL>
+<LI>
+Can no longer guarantee that no collisions occur - Collision resolution
+strategies!</LI>
+
+<UL>
+<LI>
+Hashing to buckets</LI>
+
+<UL>
+<LI>
+Linked lists are used to store Key/Value pairs</LI>
+</UL>
+
+<LI>
+Linear probing</LI>
+
+<UL>
+<LI>
+If a spot is full in the array, put the Key/Value pair in the next free
+location</LI>
+
+<LI>
+Leads to packed sections in the array</LI>
+
+<LI>
+If deletion is supported, special Key is required to mark deletions</LI>
+</UL>
+
+<LI>
+Double hashing</LI>
+
+<UL>
+<LI>
+A variation on Linear Probing, but prevents packed sections of the array</LI>
+
+<LI>
+Instead of inserting at Ideal + 1 spot, insert at Ideal + hash_function2(KEY)&nbsp;
+% Modulus</LI>
+</UL>
+</UL>
+
+<LI>
+May need to resize array to guarantee average O(1) searches</LI>
+
+<UL>
+<LI>
+Usually multiply size of array by factor (I like to go to next larger size
+of 2^N - 1)</LI>
+
+<LI>
+Resize is usually done when used capacity is greater than 70%</LI>
+</UL>
+</UL>
+
+<LI>
+Good Hash Functions</LI>
+
+<UL>
+<LI>
+Fast</LI>
+
+<LI>
+Spreads keys evenly (no matter what modulus is used)</LI>
+
+<LI>
+Look hard at expected data!</LI>
+
+<UL>
+<LI>
+length sensitivity</LI>
+
+<LI>
+commonly occuring sequences</LI>
+</UL>
+
+<LI>
+String s[0...lenght]</LI>
+
+<UL>
+<LI>
+Sum s[0] to s[length]</LI>
+
+<LI>
+Sum s[0]*k^0 + s[1]*k^1 + ... + s[length]*k^length</LI>
+
+<LI>
+Any CRC (has nearly the same purpose as hash function!)</LI>
+
+<LI>
+hashpjw()&nbsp; does multiply by 16, add current char, then xor top 4 bits
+with lowest 4 bits.</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%"></UL>
+
+<LI>
+Balanced Binary Trees</LI>
+
+<UL>
+<LI>
+2-3-4 Trees</LI>
+
+<UL>
+<LI>
+Are NOT binary trees - each node can have upto 4 children</LI>
+
+<LI>
+Are the smallest example of a B-trees</LI>
+
+<LI>
+Each node has 0&lt; N &lt; 4 Keys and N+1 children</LI>
+
+<LI>
+Tree is always perfectly balanced (in terms of nodes, not keys)</LI>
+
+<LI>
+Insertion</LI>
+
+<UL>
+<LI>
+If target node is a 2- or a 3-node, just insert</LI>
+
+<LI>
+If target node is a 4-node, split into 2 2-nodes, and insert center key
+into parent node</LI>
+
+<UL>
+<LI>
+then do insert into a 2-node</LI>
+</UL>
+
+<LI>
+Can cause recursive nightmare if all ancestors are 4-nodes</LI>
+
+<UL>
+<LI>
+Trick: split all 4 nodes on the way down!</LI>
+
+<LI>
+Guarantees that parent is never a 4-node.</LI>
+</UL>
+</UL>
+
+<LI>
+All transforms keep the tree perfectly balanced</LI>
+
+<UL>
+<LI>
+Tree only grows in height if root is a 4-node that gets split.</LI>
+</UL>
+
+<LI>
+Tree height is at most log(N), so all operations are O(log(N))!</LI>
+</UL>
+
+<LI>
+B-Trees</LI>
+
+<UL>
+<LI>
+can go from simple 2-3-4 Trees, to nodes that have thousands of keys</LI>
+
+<LI>
+Used on disk drives where loading a node from the drive takes a while</LI>
+
+<UL>
+<LI>
+Maps file numbers to data structures which hold the locations of pieces
+of a file.</LI>
+
+<LI>
+File names are mapped to file numbers by directory files.</LI>
+</UL>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Red-Black Trees</LI>
+
+<UL>
+<LI>
+Binary trees which function like 2-3-4 trees</LI>
+
+<LI>
+Two different kinds of edges in tree:</LI>
+
+<UL>
+<LI>
+"black" links connect 2-3-4 nodes to 2-3-4 nodes</LI>
+
+<LI>
+"red" links bind binary nodes into 3-nodes and 4-nodes (none needed for
+a 2-node)</LI>
+</UL>
+
+<LI>
+O(log(n)) search time</LI>
+
+<UL>
+<LI>
+Since 2-3-4 tree is perfectly balanced, searches traverse log(n) black
+links</LI>
+
+<LI>
+Paths contain at most as many red edges as black edges</LI>
+
+<LI>
+So, log(n) + log(n) = O(log(n))</LI>
+</UL>
+
+<LI>
+Insertion</LI>
+
+<UL>
+<LI>
+Once again, we must break up 4-nodes as we go down</LI>
+
+<LI>
+BUT - this may require rotations for the proper orientation of 4-nodes!</LI>
+
+<LI>
+New node is inserted with a red link</LI>
+
+<LI>
+AND - may also require a rotation if it makes a 4-node!</LI>
+</UL>
+
+<LI>
+Rotation</LI>
+
+<UL>
+<LI>
+Done when a 4-node is laid out linearly, rather than heirarchically</LI>
+
+<LI>
+2 versions</LI>
+
+<UL>
+<LI>
+Single rotation - middle key of 4-node is in the middle of the line</LI>
+
+<LI>
+Double rotation - middle key of 4-node is at the bottom</LI>
+</UL>
+</UL>
+
+<LI>
+Check out:&nbsp; <A HREF="http://www.cs.virginia.edu/~mdn4f/binary_tree/BinaryTree.html">http://www.cs.virginia.edu/~mdn4f/binary_tree/BinaryTree.html</A></LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<LI>
+Skip Lists</LI>
+
+<UL>
+<LI>
+An improvement to linked lists to avoid O(n) search times</LI>
+
+<LI>
+Actually composed of a collection of O(log(n)) linked lists organized as
+levels</LI>
+
+<LI>
+Searching for k:</LI>
+
+<UL>
+<LI>
+Start at top level, if k >= node's key and k is &lt; next node's key, go
+down level.</LI>
+
+<LI>
+when at bottom level, if k == node's key, return node, else return not
+found.</LI>
+</UL>
+
+<LI>
+Inserting:</LI>
+
+<UL>
+<LI>
+Imitate search, saving final node followed in each level</LI>
+
+<LI>
+Insert node at the correct place in the bottom level</LI>
+
+<LI>
+keep flipping coin: until it reads tails, keep inserting node at next higher
+level</LI>
+</UL>
+
+<LI>
+Search time is based on randomness - but a randomness independent of keys!
+(unlike BST)</LI>
+
+<UL>
+<LI>
+With a good random number generator, can almost make guarantees.</LI>
+</UL>
+
+<LI>
+Simple to implement delete! (unlike Red-black trees)</LI>
+
+<LI>
+Read Bill Wulf's notes: <A HREF="http://www.cs.virginia.edu/~cs216/doc/Note9 -- Skip Lists.ps">PS</A>&nbsp;&nbsp;
+<A HREF="http://www.cs.virginia.edu/~cs216/doc/Note9 -- Skip Lists.pdf">PDF</A></LI>
+
+<LI>
+Source code for skil lists is available at&nbsp; <A HREF="http://www.cs.virginia.edu/~cs216/doc/skiplist.h">http://www.cs.virginia.edu/~cs216/doc/skiplist.h</A></LI>
+</UL>
+
+<HR WIDTH="100%"></UL>
+
+<LI>
+80x86 Assembly</LI>
+
+<UL>
+<LI>
+Ferrari et al.'s Tiny Guide to 32 bit x86:</LI>
+
+<UL>
+<LI>
+<A HREF="http://www.cs.virginia.edu/~mnl3j/x86.ps">http://www.cs.virginia.edu/~mnl3j/x86.ps</A></LI>
+
+<LI>
+&nbsp;<A HREF="http://www.cs.virginia.edu/~mnl3j/x86.pdf">http://www.cs.virginia.edu/~mnl3j/x86.pdf</A></LI>
+</UL>
+
+<LI>
+Organization of the 8086 processor</LI>
+
+<UL>
+<LI>
+8 "general purpose"?&nbsp; registers</LI>
+
+<LI>
+Machine Status Word - holds flag bits for jumps</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+x86 Assembly</LI>
+
+<UL>
+<LI>
+How the assembler works</LI>
+
+<UL>
+<LI>
+OP - DEST/SRC1 - SRC2 format of x86 assembly instructions</LI>
+
+<UL>
+<LI>
+eg.&nbsp; ADD EAX, EBX - adds the contents of EAX and EBX and stores it
+in EAX.</LI>
+</UL>
+
+<LI>
+Some Op-codes match to more than one Machine Language instruction e.g.
+MOV</LI>
+</UL>
+
+<LI>
+Object Code - Machine Language which still requires offsets for external
+labels</LI>
+
+<LI>
+How variable length instructions affect the fetch-execute cycle</LI>
+
+<LI>
+Little Endianness</LI>
+
+<UL>
+<LI>
+lowest address byte holds least significant bits</LI>
+
+<LI>
+VAX is little endian</LI>
+
+<LI>
+Nearly all other processors are big-endian (although many can switch)</LI>
+</UL>
+
+<LI>
+Comparison with IBCM</LI>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Basic programs</LI>
+
+<UL>
+<LI>
+.DATA section for globals</LI>
+
+<UL>
+<LI>
+DUP can be used for declaring arrays</LI>
+
+<LI>
+No Automatic Alignment!</LI>
+</UL>
+
+<LI>
+.CODE section for code</LI>
+
+<UL>
+<LI>
+Addressing modes - max 2 registers, multiply one by 1,2,3 or 4, plus a
+constant</LI>
+
+<LI>
+PTR directive for ambiguous memory references</LI>
+
+<LI>
+General instructions - ADD, SUB, XOR, etc.</LI>
+
+<LI>
+CMP &amp; JMP - how to implement loops and branches</LI>
+
+<LI>
+CALL &amp; RET - how subroutine calls work with the stack</LI>
+
+<UL>
+<LI>
+PUBLIC directive to export a label</LI>
+
+<LI>
+PROC directive tells which machine language form to convert CALL to.</LI>
+</UL>
+</UL>
+
+<LI>
+Calling Convention</LI>
+
+<UL>
+<LI>
+EAX, EBX, ECX, and EDX are caller saved</LI>
+
+<LI>
+All other registers are callee saved</LI>
+
+<LI>
+Caller pushes parameters onto the stack in Right to Left order</LI>
+
+<LI>
+First thing, the callee saves the base ptr and copies the stack ptr to
+the base ptr.</LI>
+
+<UL>
+<LI>
+base ptr is used to access parameters of the function</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%"></UL>
+
+<LI>
+Interrupts</LI>
+
+<UL>
+<LI>
+An interrupt halts what the processor is currently doing and has it start
+something else</LI>
+
+<LI>
+Interrupt Vector</LI>
+
+<UL>
+<LI>
+Each kind of interrupt is associated with a different number</LI>
+
+<LI>
+The interrupt vector is an array of "interrupt function" pointers at a
+fixed location in memory</LI>
+
+<LI>
+On an interrupt, the processor automatically jumps to the associated interrupt
+function</LI>
+</UL>
+
+<LI>
+What are interrupts good for?</LI>
+
+<UL>
+<LI>
+I/O - handling input/output events that happen on an irregular basis</LI>
+
+<LI>
+Changing which process has the CPU</LI>
+
+<LI>
+Operating System calls (software generated interrupts!)</LI>
+
+<LI>
+Keeping track of time (Timers are used to cause an interrupt)</LI>
+
+<LI>
+Trapping errors (divide by zero, overflow)</LI>
+
+<LI>
+Trapping violations (illegal instructions, using memory you aren't allowed
+to use)</LI>
+
+<LI>
+Failure warnings (UPS is now on...)</LI>
+
+<LI>
+Now is the time to reboot (Vulcan neck pinch)</LI>
+
+<LI>
+Debugging (stepping through a program, breakpoints)</LI>
+
+<LI>
+Multiprocessor synchronization</LI>
+
+<LI>
+Signaling the processor to start again (after entering a low power mode)</LI>
+
+<LI>
+Makes julien fries</LI>
+</UL>
+
+<LI>
+Masking Interrupts&nbsp; "turning off interrupts"</LI>
+
+<UL>
+<LI>
+Done by clearing the I-bit</LI>
+
+<LI>
+Prevents an interrupt of an interrupt</LI>
+
+<LI>
+Also good for "Critical Sections" of multiprogrammed code</LI>
+</UL>
+
+<LI>
+What happens on an interrupt</LI>
+
+<UL>
+<LI>
+Push Machine Status Word (a.k.a. Flags register)</LI>
+
+<LI>
+Clear I-big and T-bit</LI>
+
+<LI>
+Push Program Counter (a.k.a. "IP" register)</LI>
+
+<LI>
+load Program Counter with [Interrupt_Vector + 4*Interrupt_Number]</LI>
+
+<LI>
+NOTE: STACK IS USED!!!&nbsp; ANYTHING BEYOND [SP] IS WRITTEN OVER!!!</LI>
+</UL>
+
+<LI>
+INT - Software Interrupt</LI>
+
+<UL>
+<LI>
+Takes a constant argument, the interrupt number</LI>
+
+<LI>
+INT 3 fits in a single byte (good for breakpoints)</LI>
+</UL>
+
+<LI>
+IRET - Interrupt Return</LI>
+
+<UL>
+<LI>
+Does the reverse of an interrupt</LI>
+</UL>
+
+<LI>
+How I/O uses interrupts</LI>
+
+<UL>
+<LI>
+Interrupt service routine reads data from a keyboard</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Definitions:</LI>
+
+<UL>
+<LI>
+Interrupt - an event which causes the processor to stop what its doing
+and do something else</LI>
+
+<LI>
+Interrupt Service Routine (ISR)- code to handle an interrupt which returns
+with an IRET instr.</LI>
+
+<LI>
+Interrupt Number - a number indicating what kind of event triggered the
+interrupt</LI>
+
+<LI>
+Interrupt Vector - an array of pointers to ISRs which is indexed by the
+IN</LI>
+
+<LI>
+Exception, Trap = other names for interrupts</LI>
+
+<LI>
+Clearing a flag - setting the associated bit to 0</LI>
+
+<LI>
+Setting a flag - setting the associated bit to 1</LI>
+
+<LI>
+Critical Section - a section of code which must be run by only 1 process
+at a time</LI>
+
+<UL>
+<LI>
+Often in the OS</LI>
+
+<LI>
+Actions must be seen to be atomic(indivisible) - all happening at once</LI>
+</UL>
+</UL>
+
+<LI>
+How OS System Calls work</LI>
+
+<UL>
+<LI>
+User code pushes arguments on the stack</LI>
+
+<LI>
+User code puts value in register indicating which OS system call</LI>
+
+<LI>
+User code triggers software interrupt</LI>
+
+<LI>
+Processor looks up ISR in Interrupt Vector and jumps to it</LI>
+
+<LI>
+OS code contains "switch()" statement to select OS system call</LI>
+
+<LI>
+OS system call operation is performed</LI>
+
+<LI>
+Optional delay (eg. disk read operation must wait until data is read from
+the disk)</LI>
+
+<LI>
+OS system call places return code in register</LI>
+
+<LI>
+OS executes IRET</LI>
+
+<LI>
+User code checks return code of OS to confirm that everything went okay.</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%"></UL>
+</UL>
+
+<LI>
+Data Structures</LI>
+
+<UL>
+<LI>
+Heaps</LI>
+
+<UL>
+<LI>
+For any subtree, the key at the root is greatest (least) of keys in the
+subtree</LI>
+
+<LI>
+Root holds maximum for the entire tree</LI>
+
+<LI>
+Insertion:</LI>
+
+<UL>
+<LI>
+place new node in tree such that the tree is optimally balanced</LI>
+
+<LI>
+N = new node;</LI>
+
+<LI>
+while (N->parent->key > N->key &amp;&amp; root != N) { swap(N, N->parent);&nbsp;
+}</LI>
+
+<LI>
+upperbounded by height of tree = O(log(n))</LI>
+</UL>
+
+<LI>
+Deletion:</LI>
+
+<UL>
+<LI>
+remove root from the tree</LI>
+
+<LI>
+move lowest leaf into the old place of root</LI>
+
+<LI>
+N = root;</LI>
+
+<LI>
+swap N with the node with the greatest key of N, N->left, N->right</LI>
+
+<LI>
+repeat until no swaps are made</LI>
+
+<LI>
+upperbounded by height of tree = O(log(n))</LI>
+</UL>
+
+<LI>
+Fast heap construction:</LI>
+
+<UL>
+<LI>
+slow version is inserting n keys = O(n*log(n))</LI>
+
+<LI>
+fast version creates n/2 heaps of size 1</LI>
+
+<LI>
+n/4 heaps of size 3</LI>
+
+<LI>
+then n/8 heaps of size 7</LI>
+
+<LI>
+etc.</LI>
+
+<LI>
+n/2 * log(1) + n/4 * log(3) + n/8 * log(7) + n/16 * log(15) + ... = n -
+log(n) - 1 = O(n)</LI>
+</UL>
+
+<LI>
+Building a heap in an array</LI>
+
+<UL>
+<LI>
+Its possible to encode any binary tree in an array - it works well only
+if its balanced.</LI>
+
+<LI>
+root is in location 1</LI>
+
+<LI>
+left child of node in location x is in location 2*x</LI>
+
+<LI>
+right child of node in location x is in location 2*x+1</LI>
+</UL>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Queues</LI>
+
+<UL>
+<LI>
+FIFO = first in, first out</LI>
+
+<LI>
+Can be implemented using the "circular buffer" technique.</LI>
+
+<LI>
+Requires in_end = out_end = 0, buffer[size]</LI>
+
+<LI>
+Insert "k":</LI>
+
+<UL>
+<LI>
+if ( (in_end + 1) % size == out_end)&nbsp; then the buffer is full, report
+error (or expand the buffer)</LI>
+
+<LI>
+buffer[in_end] = k;</LI>
+
+<LI>
+in_end++;</LI>
+</UL>
+
+<LI>
+Removal:</LI>
+
+<UL>
+<LI>
+if (in_end == out_end) then buffer is empty, report error</LI>
+
+<LI>
+temp = buffer[out_end];</LI>
+
+<LI>
+out_end++;</LI>
+
+<LI>
+return temp;</LI>
+</UL>
+
+<LI>
+File buffers in libraries often use circular buffers</LI>
+
+<UL>
+<LI>
+inserts or removals to the OS side are done in block transfers.</LI>
+
+<LI>
+"flush" or "endl" force a block transfer before the buffer is full.</LI>
+</UL>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Graphs</LI>
+
+<UL>
+<LI>
+Array based representation</LI>
+
+<LI>
+Linked list of edges representation</LI>
+
+<LI>
+Set representation&nbsp;
+<HR WIDTH="100%"></LI>
+</UL>
+
+<LI>
+Huffman Encoding Trees (optional)&nbsp;
+<HR WIDTH="100%"></LI>
+</UL>
+
+<LI>
+Sorting - Assume array A of size N</LI>
+
+<UL>
+<LI>
+Bubble Sort</LI>
+
+<UL>
+<LI>
+if A[i] > A[i+1]&nbsp; swap them</LI>
+
+<LI>
+repeat until array is sorted</LI>
+
+<LI>
+requires O(N<SUP>2</SUP>) compares and O(N<SUP>2</SUP>) swaps</LI>
+</UL>
+
+<LI>
+Selection Sort</LI>
+
+<UL>
+<LI>
+A[0] to A[i] is sorted and are the i+1 lowest elements in the array</LI>
+
+<LI>
+A[i+1] to A[N-1] is not sorted.</LI>
+
+<LI>
+To advance i</LI>
+
+<UL>
+<LI>
+find the minimum value in the unsorted range</LI>
+
+<LI>
+Stick it in A[i+1]</LI>
+
+<LI>
+Now A[0] to A[i+1] is sorted.</LI>
+</UL>
+
+<LI>
+Requires as few as O(N<SUP>2</SUP>) compares and O(N) swaps</LI>
+</UL>
+
+<LI>
+Insertion Sort</LI>
+
+<UL>
+<LI>
+A[0] to A[i] is sorted</LI>
+
+<LI>
+A[i+1] to A[N-1] is not sorted</LI>
+
+<LI>
+To advance i</LI>
+
+<UL>
+<LI>
+Save the element in location A[i+1] into the variable "k"</LI>
+
+<LI>
+Find the location "j" in A[0] to A[i] where "k" should go to keep the array
+sorted</LI>
+
+<LI>
+Move elements A[j] to A[i] over one spot into the range A[j+1] to A[i+1]</LI>
+
+<LI>
+Move "k" into location A[j]</LI>
+
+<LI>
+Now A[0] to A[i+1] is sorted</LI>
+</UL>
+
+<LI>
+Requires as few as O(N*log(N)) compares and O(N<SUP>2</SUP>) moves</LI>
+</UL>
+
+<LI>
+Quick Sort</LI>
+
+<UL>
+<LI>
+Quick Sort uses the "divide and conquer" strategy</LI>
+
+<UL>
+<LI>
+Divide the problem into smaller pieces</LI>
+
+<LI>
+Solve each of the pieces individually</LI>
+
+<LI>
+Merge the solutions of the pieces into a solution for the whole</LI>
+
+<LI>
+(Often uses recursion)</LI>
+</UL>
+
+<LI>
+To sort the array:</LI>
+
+<UL>
+<LI>
+Partition it</LI>
+
+<UL>
+<LI>
+Pick a partition element "k"</LI>
+
+<LI>
+find the first element on the left end greater than "k"</LI>
+
+<LI>
+find the first element on the right end less than "k"</LI>
+
+<LI>
+swap the locations of the two elements.</LI>
+
+<LI>
+repeat until "k" is in the middle, every thing to the left is less than
+"k", and everything to the right is greater than "k"</LI>
+</UL>
+
+<LI>
+Sort everything less than the partition element</LI>
+
+<LI>
+Sort everything greater than the partition element</LI>
+
+<LI>
+The array is now sorted!</LI>
+</UL>
+
+<LI>
+f(N) = O(N) + 2*f(N/2)</LI>
+
+<LI>
+f(N) = O(N*log(N))</LI>
+</UL>
+
+<LI>
+Merge Sort</LI>
+
+<UL>
+<LI>
+Also "divide and conquer"</LI>
+
+<LI>
+To sort the array:</LI>
+
+<UL>
+<LI>
+Divide the array in half</LI>
+
+<LI>
+Sort the left half</LI>
+
+<LI>
+Sort the right half</LI>
+
+<LI>
+Merge the two halves together</LI>
+
+<UL>
+<LI>
+have "p" point to the first element in the left half</LI>
+
+<LI>
+have "q" point to the first element in the right half</LI>
+
+<LI>
+if (p is past the end OR *p &lt; *q )&nbsp; select *p, p++</LI>
+
+<LI>
+else select *q, q++</LI>
+
+<LI>
+Repeat until both go past their ends.</LI>
+
+<LI>
+Put elements into the array in the selected order</LI>
+
+<LI>
+The array is now sorted.</LI>
+</UL>
+</UL>
+
+<LI>
+f(N) = 2*f(N/2) + O(N)</LI>
+
+<LI>
+f(N) = O(N*log(N))</LI>
+</UL>
+</UL>
+
+<HR WIDTH="100%">
+<UL>
+<LI>
+Heap Sort</LI>
+
+<UL>
+<LI>
+To sort the array:</LI>
+
+<UL>
+<LI>
+Make a heap in place in the array (linear time if you use the bottom-up
+method)</LI>
+
+<LI>
+One-by-one remove items from the heap and place them at the end of the
+array</LI>
+
+<LI>
+The array is now sorted.</LI>
+</UL>
+
+<LI>
+f(N) = O(N) + N*O(logN)</LI>
+
+<LI>
+f(N) = O(N*log(N))</LI>
+</UL>
+</UL>
+</UL>
+&nbsp;
+<H1>
+Labs</H1>
+
+<OL>
+<LI>
+Linked Lists</LI>
+
+<LI>
+IBCM Programming</LI>
+
+<LI>
+Testing of SubSort Function</LI>
+
+<LI>
+Linear Table</LI>
+
+<LI>
+Binary Trees</LI>
+
+<LI>
+Hash Table</LI>
+
+<LI>
+Red-Black Trees</LI>
+
+<LI>
+x86 Assembly</LI>
+
+<LI>
+Priority Queues</LI>
+</OL>
+&nbsp;
+<H1>
+Issues</H1>
+An interesting item might be how a debugger works.
+<BR>How buffering within "cin" and "cout" works.
+<BR>Also vectors and double ended queues might be interesting.
+<BR>We've looked at data abstraction, how about algorithm abstraction?
+<BR>Project?
+<BR>&nbsp;
+</BODY>
+</HTML>

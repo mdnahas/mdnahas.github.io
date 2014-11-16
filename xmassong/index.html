@@ -1,0 +1,316 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.06 [en] (X11; I; SunOS 5.6 sun4u) [Netscape]">
+</HEAD>
+<BODY>
+
+<H1>
+How does the 12 Days of Christmas program work?</H1>
+One of the best pieces from the Obfuscated C Contest is the code below.
+Believe it or not, it prints out the text of the 12 days of Christmas!
+<P><FONT COLOR="#000099">#include &lt;stdio.h></FONT>
+<BR><FONT COLOR="#000099">main(t,_,a)</FONT>
+<BR><FONT COLOR="#000099">char *a;</FONT>
+<BR><FONT COLOR="#000099">{</FONT>
+<BR><FONT COLOR="#000099">return!0&lt;t?t&lt;3?main(-79,-13,a+main(-87,1-_,main(-86,0,a+1)+a)):</FONT>
+<BR><FONT COLOR="#000099">1,t&lt;_?main(t+1,_,a):3,main(-94,-27+t,a)&amp;&amp;t==2?_&lt;13?</FONT>
+<BR><FONT COLOR="#000099">main(2,_+1,"%s %d %d\n"):9:16:t&lt;0?t&lt;-72?main(_,t,</FONT>
+<BR><FONT COLOR="#000099">"@n'+,#'/*{}w+/w#cdnr/+,{}r/*de}+,/*{*+,/w{%+,/w#q#n+,/#{l+,/n{n+,/+#n+,/#\</FONT>
+<BR><FONT COLOR="#000099">;#q#n+,/+k#;*+,/'r :'d*'3,}{w+K w'K:'+}e#';dq#'l
+\</FONT>
+<BR><FONT COLOR="#000099">q#'+d'K#!/+k#;q#'r}eKK#}w'r}eKK{nl]'/#;#q#n'){)#}w'){){nl]'/+#n';d}rw'
+i;# \</FONT>
+<BR><FONT COLOR="#000099">){nl]!/n{n#'; r{#w'r nc{nl]'/#{l,+'K {rw' iK{;[{nl]'/w#q#n'wk
+nw' \</FONT>
+<BR><FONT COLOR="#000099">iwk{KK{nl]!/w{%'l##w#' i; :{nl]'/*{q#'ld;r'}{nlwb!/*de}'c
+\</FONT>
+<BR><FONT COLOR="#000099">;;{nl'-{}rw]'/+,}##'*}#nc,',#nw]'/+kd'+e}+;#'rdq#w!
+nr'/ ') }+}{rl#'{n' ')# \</FONT>
+<BR><FONT COLOR="#000099">}'+}##(!!/")</FONT>
+<BR><FONT COLOR="#000099">:t&lt;-50?_==*a?putchar(31[a]):main(-65,_,a+1):main((*a=='/')+t,_,a+1)</FONT>
+<BR><FONT COLOR="#000099">:0&lt;t?main(2,2,"%s"):*a=='/'||main(0,main(-61,*a,</FONT>
+<BR><FONT COLOR="#000099">"!ek;dc i@bK'(q)-[w]*%n+r3#l,{}:\nuwloca-O;m
+.vpbks,fxntdCeghiry"),a+1);</FONT>
+<BR><FONT COLOR="#000099">}</FONT>
+<P>One day, I just got sick of not knowing how it worked, and decided to
+take it apart.
+<P>
+<HR WIDTH="100%">
+<H4>
+The Strings</H4>
+There are 2 major strings in the program.&nbsp; The first one is encrypted
+with a substitution cypher - the second string is the key of the cypher.
+<P>The key string is:
+<BR><FONT COLOR="#000099">"!ek;dc i@bK'(q)-[w]*%n+r3#l,{}:\nuwloca-O;m
+.vpbks,fxntdCeghiry"</FONT>
+<P>For an encrypted character at index X in the key, the decrypted value
+is at index X+31 in the key.&nbsp; So '@' at index 8, decrypts to the character
+at index 39, 'O'.&nbsp; Notice that '!' (index 0) translates to '\n' (index
+31).
+<P>The first string in the program - the one encrypted with they cypher
+is:
+<P><FONT COLOR="#000099">"@n'+,#'/*{}w+/w#cdnr/+,{}r/*de}+,/*{*+,/w{%+,/w#q#n+,/#{l+,/n{n+,/+#n+,/#\</FONT>
+<BR><FONT COLOR="#000099">;#q#n+,/+k#;*+,/'r :'d*'3,}{w+K w'K:'+}e#';dq#'l
+\</FONT>
+<BR><FONT COLOR="#000099">q#'+d'K#!/+k#;q#'r}eKK#}w'r}eKK{nl]'/#;#q#n'){)#}w'){){nl]'/+#n';d}rw'
+i;# \</FONT>
+<BR><FONT COLOR="#000099">){nl]!/n{n#'; r{#w'r nc{nl]'/#{l,+'K {rw' iK{;[{nl]'/w#q#n'wk
+nw' \</FONT>
+<BR><FONT COLOR="#000099">iwk{KK{nl]!/w{%'l##w#' i; :{nl]'/*{q#'ld;r'}{nlwb!/*de}'c
+\</FONT>
+<BR><FONT COLOR="#000099">;;{nl'-{}rw]'/+,}##'*}#nc,',#nw]'/+kd'+e}+;#'rdq#w!
+nr'/ ') }+}{rl#'{n' ')# \</FONT>
+<BR><FONT COLOR="#000099">}'+}##(!!/"</FONT>
+<P>When it is decrypted it looks like this:
+<P><FONT COLOR="#006600">"On the /first/second/third/fourth/fifth/sixth/seventh/eigth/ninth/tenth/eleventh/twelfth/
+day of Christmas my true love gave to me</FONT>
+<BR><FONT COLOR="#006600">/twelve drummers drumming, /eleven pipers piping,
+/ten lords a-leaping,</FONT>
+<BR><FONT COLOR="#006600">/nine ladies dancing, /eight maids a-milking,
+/seven swans a-swimming,</FONT>
+<BR><FONT COLOR="#006600">/six geese a-laying, /five gold rings;</FONT>
+<BR><FONT COLOR="#006600">/four calling birds, /three french hens, /two
+turtle doves</FONT>
+<BR><FONT COLOR="#006600">and /a partridge in a pear tree.</FONT><FONT COLOR="#006600"></FONT>
+<P><FONT COLOR="#006600">/"</FONT>
+<P>The slashes are not in the cypher key; they are used to divide the encrypted
+string into a sequence of substrings.&nbsp; One of the functions of the
+program decrypts and prints the Nth substring in the sequence.
+<P>For more on substitution cyphers, you can check out <A HREF="/~mdn4f/stl/example.html">my
+solver</A>, which I wrote as an example of using STL.
+<P>
+<HR WIDTH="100%">
+<H4>
+Basic Outline of How it Works</H4>
+You probably have a good idea of how it works right now:
+<P><FONT COLOR="#006600">main(){</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; for(day = 1; day &lt;= 12;
+day++) {</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decrypt_and_print_substring(0);</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decrypt_and_print_substring(day);</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decrypt_and_print_substring(13);</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(gift
+= day; gift >= 1; gift--)</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+decrypt_and_print_substring(26 - gift);</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; }</FONT>
+<BR><FONT COLOR="#006600">}</FONT><FONT COLOR="#006600"></FONT>
+<P>Now, the program does not have loops, so both for-loops are done via
+recursion.&nbsp; It may appear that there are no sequential pieces to the
+actual code, but there are.&nbsp; For sequential operations the author
+either uses the comma operator or does multiple function calls in a single
+line (e.g. main(main(main()) - the inner most call must be done first).
+<P>The code for decrypt_and_print_substring (using a few of the author's
+tricks) is:<FONT COLOR="#006600"></FONT>
+<P><FONT COLOR="#006600">decrypt_and_print_substring(index){</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; s = ENCRYPTED_STRING;</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; substr_count = 0;</FONT><FONT COLOR="#006600"></FONT>
+<P><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; /* advance to the correct substring&nbsp;*/</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; while (substr_count != index)
+{</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; substr_count
++= (*(s++) == '/');</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; }</FONT><FONT COLOR="#006600"></FONT>
+<P><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; /* print the substring */</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; while (*s != '/') {</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; decrypt_and_print_char(*(s++));</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp; }</FONT>
+<BR><FONT COLOR="#006600">}</FONT>
+<P>Decrypt_and_print_char is pretty simple:
+<P><FONT COLOR="#006600">decrypt_and_print_char(encrypted_char) {</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; s = ENCRYPTION_KEY;</FONT><FONT COLOR="#006600"></FONT>
+<P><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; /* advance to place of encrypted
+character in string */</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; while (*s != encrypted_char)</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s++;</FONT><FONT COLOR="#006600"></FONT>
+<P><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; /* print the character 31 places
+after it.&nbsp;*/</FONT>
+<BR><FONT COLOR="#006600">&nbsp;&nbsp;&nbsp; putchar( *(s+31));</FONT>
+<BR><FONT COLOR="#006600">}</FONT>
+<P>
+<HR WIDTH="100%">
+<H4>
+Under the Hood</H4>
+The 12 days of Christmas program recursively calls main().&nbsp; The different
+operations performed by main() are selected by the first argument.
+<BR>&nbsp;
+<BLOCKQUOTE>
+<UL>
+<LI>
+Decrypt_and_print_char:</LI>
+
+<UL>
+<LI>
+First argument must be in the range -51 to -72</LI>
+
+<LI>
+Second argument is the character to be decrypted</LI>
+
+<LI>
+Third argument is the encryption key string</LI>
+</UL>
+
+<UL>
+<LI>
+Example: <FONT COLOR="#000099">main(-61,*a, "!ek;dc i@bK'(q)-[w]*%n+r3#l,{}:\nuwloca-O;m
+.vpbks,fxntdCeghiry")</FONT></LI>
+
+<LI>
+Algorithm: Recursively calls itself via <FONT COLOR="#000099">main(-65,_,a+1)
+</FONT>until (<FONT COLOR="#000099">_==*a</FONT>), at which time it prints
+the decrypted character using <FONT COLOR="#000099">putchar(31[a])</FONT></LI>
+</UL>
+
+<LI>
+<FONT COLOR="#000000">Decrypt_and_print_substring:</FONT></LI>
+
+<UL>
+<LI>
+<FONT COLOR="#000000">First argument must be less than -72</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">Second argument is the -1 times the index of the
+substring to be printed.&nbsp; E.g. -2 to print the substring at index
+2.</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">Third argument: unused</FONT></LI>
+</UL>
+<FONT COLOR="#000000"></FONT>
+<UL>
+<LI>
+<FONT COLOR="#000000">Example: </FONT><FONT COLOR="#000099">main(-86,0,a+1)</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">Algorithm: First, it calls main() with new arguments:
+The first is the index of the substring times -1, the second is now irrelavent,
+and the third argument is the encrypted string.&nbsp; Then it recursively
+calls main() processing the encrypted string one character at a time, increasing
+the first argument every time it encounters a '/'.&nbsp; When the first
+argument is 0, it invokes the decrypt_and_print_char functionality on every
+character up to the next '/'.</FONT></LI>
+</UL>
+
+<LI>
+<FONT COLOR="#000000">"main":</FONT></LI>
+
+<UL>
+<LI>
+<FONT COLOR="#000000">First argument must be 1 (Note: in the first call
+(with no command-line arguments) value will be 1.)</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">Second argument: unused</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">Third argument: unused</FONT></LI>
+</UL>
+<FONT COLOR="#000000"></FONT>
+<UL>
+<LI>
+<FONT COLOR="#000000">Algorithm: First, it calls main() again with this
+call: </FONT><FONT COLOR="#000099">main(2,2,"%s").</FONT><FONT COLOR="#000000">
+When the first argument is 2, the second argument indicates the current
+day of Christmas plus 1.&nbsp; So </FONT><FONT COLOR="#000099">main(2,2,"%s")</FONT><FONT COLOR="#000000">
+means we are on the first day of Christmas.&nbsp; (The third argument is
+unused.)&nbsp; While the first argument is 2, the function invokes decrypt_and_print_substring
+with seconds arguments of 0,&nbsp; 1-second_argument, -13, and (via recursion)
+all items from-27+second_argument through -25.</FONT></LI>
+</UL>
+</UL>
+</BLOCKQUOTE>
+<FONT COLOR="#000000">Note: If you want to test this out, you have to modify
+the program so that the command-line arguments are translated before becoming
+arguments to the function.&nbsp; Otherwise, you can never make the first
+argument to main() negative.</FONT>
+<BR>
+<HR WIDTH="100%">
+<H4>
+<FONT COLOR="#000000">Cute Tricks by the Author:</FONT></H4>
+
+<UL>
+<LI>
+<FONT COLOR="#000000">main() : I never saw a recursive call to main() before
+this program.&nbsp; I never even considered it possible!</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">_&nbsp; : Underscore is one of the legal characters
+in a label.&nbsp; Using it by itself is unusual.&nbsp; (NOTE: You should
+not begin you variable names with an underscore; most libraries begin their
+variable names with underscore with the intention of avoiding name conflicts.&nbsp;
+Starting you variable names with an underscore could cause the very name
+conflicts library writers are trying to avoid.)</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">?: and , : Questionmark-colon (a.k.a. Teriary operator)
+and the comma are two of the least used operators in C and C++.&nbsp; They
+are used to combine multiple statements into a single operation.&nbsp;
+The author was able to write the entire main() in a single return statement!</FONT></LI>
+
+<LI>
+<FONT COLOR="#000000">|| : The author uses the short-cut operator "or"
+to act like a ?: operation.&nbsp; Due to the short-cut, if the first part
+is true, the second part is never executed.</FONT></LI>
+
+<LI>
+<FONT COLOR="#000099">!0</FONT><FONT COLOR="#000000"> and </FONT><FONT COLOR="#000099">(*a
+== '\')+t</FONT><FONT COLOR="#000000"> : The author used these boolean
+logic statements as integers, relying on the fact that true is returned
+as 1 by the system.</FONT></LI>
+
+<LI>
+<FONT COLOR="#000099">31[a]</FONT><FONT COLOR="#000000"> : A very cool
+usage of the array opertor.&nbsp; Why does it work?&nbsp; The compiler
+translates any array invocation like s[i] into *(s+i).&nbsp; So </FONT><FONT COLOR="#000099">31[a]</FONT><FONT COLOR="#000000">
+is translated into *(31+a) which is equivalent to *(a+31), the translation
+of a[31]!</FONT></LI>
+</UL>
+<FONT COLOR="#000000">The author also used a large number of red herrings
+- irrelavent strings like </FONT><FONT COLOR="#000099">"%s"</FONT><FONT COLOR="#000000">
+and </FONT><FONT COLOR="#000099">%s %d %d\n"</FONT> and calls like&nbsp;
+<FONT COLOR="#000099">main(-79,-13,a+main(-87,1-_,main(-86,0,a+1)+a))</FONT>
+(which is merely a serial operation because the third arguments are irrelavent)
+- to throw people like me off the track.
+<BR>
+<HR WIDTH="100%">
+<H4>
+How did I&nbsp;do it?</H4>
+I figured out how it worked by slowly picking it apart.
+<UL>
+<LI>
+xmassong.c&nbsp; <A HREF="xmassong.c">Source</A></LI>
+
+<LI>
+First, I went through and organized the ?: and , operations&nbsp; <A HREF="xmassong2.c">Source</A></LI>
+
+<LI>
+then I&nbsp;translated it into if-then-else notation&nbsp; <A HREF="xmassong3.c">Source</A></LI>
+
+<LI>
+then I changed variable names to get rid of "_"&nbsp; <A HREF="xmassong4.c">Source</A></LI>
+
+<LI>
+then I&nbsp;modified it to produce a callgraph - tracking the path of recursive
+calls&nbsp; <A HREF="xmassong6.c">Source</A>&nbsp;&nbsp; <A HREF="callgraph_output.txt">Output</A></LI>
+
+<LI>
+Knowing the callgraph, I was able to separate out the decrypt_and_print_char
+(foo8 in file) and decrypt_and_print_substring (foo7 in file) functions.&nbsp;
+<A HREF="xmassong7.c">Source</A></LI>
+
+<UL>
+<LI>
+I realized that it was doing a substitution cypher and wrote a small program
+to print the decrypted string&nbsp; <A HREF="text_decrypt.c">Source</A>&nbsp;&nbsp;
+<A HREF="text_decrypt_output.txt">Output</A></LI>
+</UL>
+
+<LI>
+Lastly, I pulled decrypt_and_print_substring a little more apart&nbsp;
+<A HREF="xmassong8.c">Source</A></LI>
+</UL>
+
+</BODY>
+</HTML>

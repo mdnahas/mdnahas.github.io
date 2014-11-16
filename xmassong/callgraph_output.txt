@@ -1,0 +1,84 @@
+On the first day of Christmas my true love gave to me
+a partridge in a pear tree.
+
+On the second day of Christmas my true love gave to me
+two turtle doves
+and a partridge in a pear tree.
+
+On the third day of Christmas my true love gave to me
+three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the fourth day of Christmas my true love gave to me
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the fifth day of Christmas my true love gave to me
+five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the sixth day of Christmas my true love gave to me
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the seventh day of Christmas my true love gave to me
+seven swans a-swimming,
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the eigth day of Christmas my true love gave to me
+eight maids a-milking, seven swans a-swimming,
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the ninth day of Christmas my true love gave to me
+nine ladies dancing, eight maids a-milking, seven swans a-swimming,
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the tenth day of Christmas my true love gave to me
+ten lords a-leaping,
+nine ladies dancing, eight maids a-milking, seven swans a-swimming,
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the eleventh day of Christmas my true love gave to me
+eleven pipers piping, ten lords a-leaping,
+nine ladies dancing, eight maids a-milking, seven swans a-swimming,
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+On the twelfth day of Christmas my true love gave to me
+twelve drummers drumming, eleven pipers piping, ten lords a-leaping,
+nine ladies dancing, eight maids a-milking, seven swans a-swimming,
+six geese a-laying, five gold rings;
+four calling birds, three french hens, two turtle doves
+and a partridge in a pear tree.
+
+     0     0     0     0     0     0     0     0     0     0     1     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0    12     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0    12     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0    12     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0    55    66     0     0     0     0     0     0     0     0    66     0     0     0     0     0 
+     0     0     0     0     0     0     0    78     0     0     0     0     0     0     0     0     0     0     0     0 
+     0    11    11    11    11    11    10     0     0     0     0     0     0     1     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0   102     0    12    12     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0 37358     0     0     0     0     0     0  2294     0     0     0     0 
+     0     0     0     0     0     0     0     0     0 24829     0   102   102     0     0     0     0     0     0     0 
+     0     1     1     1     0     1     1     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0  2294     0     0     0     0     0     0    64     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0  2244  2244     0     0     0   114     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
+     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0     0 
