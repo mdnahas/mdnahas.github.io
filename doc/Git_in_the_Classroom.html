@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Git in the Classroom</title>
+</head>
+
+<body>
+<h1>Git in the Classroom : my experience and conclusions</h1>
+
+<p> I taught Data Structures to 18 very intelligent teenagers over 3
+weeks in the summer of 2015.  We were in a lab with 20 Macs and I
+decided that a good way to distributed and collect programming
+assignments was using git.  Not only that, but I wanted to give the
+students a "real world" experience and using source control fit right
+in. </p>
+
+<p> I decided to use a single repository.  (Since the course didn't
+have grades, I wasn't very worried about cheating.)  Each student
+created their own directory at the top level, along with a
+"journal.txt" file so that git would pick up the directory.  Also at
+the top level was my directory, which held the assignments, and a
+shared directory, which held common files and guides to bash, git,
+etc. </p>
+
+<h2> How the class worked without the problems </h2>
+
+<p> The first assignment was to clone the repo, create their own
+directory, create the "journal.txt" file, run "git add", "git commit"
+and the push the result.  Of course, there were clashes and everyone
+had to run "git pull" before they could "git push".  The students soon
+figured out it was a race and people cheered when they got their files
+in.  It was a large class, so the race dragged on near the end as the
+last files were committed. </p>
+
+<p> The class was sharp and realized there had to be a better way.  I
+said it worked better if everyone took their turn and did it
+one-at-a-time.  I introduced a "conch" (actually a small stuffed
+animal) that meant that it was that person's time to push and that we
+could quickly check in by passing the conch around the room.  (The
+room had all the computers around the edge, so it was easy to pass the
+conch from one end to the other.) </p>
+
+<p> From then on, assignments were published by me pushing to the repo
+and students pulling.  (This often had the class reminding me to push
+to the shared repo, since I often forgot after I had only committed to
+my local repo.)  Assignments were turned in by doing the "git pull"
+and "git push" around the room.  </p>
+
+
+<h2> Description of the problems </h2>
+
+<p> The first problem was networking.  The college we were at had
+locked down the networks crazy tight.  Machines could not communicate
+with each other.  I couldn't even plug my laptop in to an ethernet
+port and expect it to work.  I didn't want to use GitHub or BitBucket
+because of the program's worries about the students' personal
+information.  After 2 days of problems, the IT staff got my laptop on
+the network and everything went fine from then on. </p>
+
+<p> Everyone using the same repo was both a blessing and a curse.  One
+blessing was that it was simple.  Another blessing was that it
+was shared, so group projects were easy to accomidate.  (One half of
+the class wrote code, the other half wrote unit tests!)  A curse was
+that there were no permissions - it was easy for a student to delete
+the assignments from my directory or, when looking at another
+student's good result, modify it.  Luckily, this was git, so those
+were repairable.  </p>
+
+<p> Another problem was configuration.  Git made it easy to move
+students to a different computer, because their code was already
+there, but the git config for name and email remained that of the
+computer's previous resident.  Also, on the Mac, the default editor
+for git was "vm", which is not a friendly editor to newbies.  I had
+them change to "nano".  The students were not familiar with git so a
+huge block warning from "git pull" about setting the default merge
+strategy in git 2.0 went unnoticed for most of the class.  Lastly, I
+think making "git pull" default to using rebase would have been better
+and would have produced clearer histories when being viewed with
+"gitk". </p>
+
+<p> A big problem for me was source code editors.  I didn't know what
+ones the classroom would have available and I certainly didn't know
+any of the advanced features of Eclipse or the other editors.
+Students started on Dr.Java and Textedit, but soon all migrated to
+Eclipse, which had good support for JUnit.  Eclipse, if you don't
+know, creates all sorts of directories and a ton of files.  If you
+Google git and Eclipse, you'll find that there's a git plugin for
+Eclipse, but I didn't know how to use it and I wasn't going to
+introduce it mid-stream.  I tried adding some stuff to ".gitignore",
+but it did no good.  Some students were checking in everything.
+Others were checking in nothing.  Those who just did their .java
+files, had a huge print out with "git status" that warned them about
+all the Eclipse files that they weren't checking in.  All told, it was
+a mess that I never figured out how to resolve, but we did eventually
+get the students to make sure their .java files were checked in by
+running 'find . -name "*.java" -print0 | xargs -0 git add'. </p>
+
+<p> The "git pull"/"git push" around the room worked, but it was slow.
+ When it worked, it took 5 minutes because each student did at least 4
+ commands: "git add *.java", 'git commit -m "..."', "git pull" and
+ "git push".  It also suffered from bad handoffs: someone would push
+ and forget to pass the conch or someone wasn't looking for the conch.
+ I think a better strategy would be to have everyone do their "git
+ commit"s and have a teacher walk around to finalize the "git pull" /
+ "git push".  Also, finding a way to do a "git pull" without having to
+ write a commit message (does --rebase do that?) would help in a huge
+ way.  Then you could have each type the command "git pull; git push"
+ and have each run in turn and get it done in 20 seconds.</p>
+
+<p> There were also the usual git problems.  I had a number of
+problems with stale hidden message files (e.g., ".git/.MERGE_MSG.swp")
+in the .git directory.  The nice thing is that the worst problems
+could be resolved by cloning a new copy of the repo, adding the
+student's latest changes to that version, and then deleting the
+problematic repo. </p>
+
+<p> A pervasive problem was that many students hadn't used the
+command-line before.  I had to have a little lesson telling them about
+"ls", "cd", "cp", etc.. </p>
+
+
+
+<h2> Conclusions </h2>
+
+<p> Did it work?  Yes.  Not flawlessly, but it worked. </p>
+
+<p> Would I use it again?  Certainly.  Even with all the problems.
+Sharing code with the students and collecting it was easy.  Keeping a
+history of everything done was helpful.  No one's code was lost.
+Sharing code between students - for the testing assignments or for
+group projects - was ideal.  And students got to use a production tool
+that they'll see again.</p>
+
+<p> What would you do differently?  First, I'd nail down the editor
+and figure out how to keep the repository tidy.  I hated all those
+Eclipse files.  I'd also look a little closer at "git push" / "git
+pull" to see if I could make the end-of-class checkin faster.  I'd
+also look at the variants on "git add" to make sure students didn't
+miss files that they should have been adding to their repo.<p>
+
+<p> Another thing I'd do differently is have more discipline about the
+layout of the directories and files in the repo.  I had my teaching
+assistant run tests on everyone's code and it would have been easier
+if he could write a script to find the code for each student's
+assignments.</p>
+
+<p> I consider it a success, but not a resounding one.  Certainly if
+you worry about cheating, you'll need a more complicated repo
+structure.  I know I'll be trying it again the next time I teach.  
+
+<hr>
+<address></address>
+<!-- hhmts start -->Last modified: Mon Jul 20 13:49:54 CDT 2015 <!-- hhmts end -->
+</body> </html>
