@@ -6,12 +6,12 @@
 <body>
 <h1>Git in the Classroom : my experience and conclusions</h1>
 
-<p> I taught Data Structures to 18 very intelligent teenagers over 3
-weeks in the summer of 2015.  We were in a lab with 20 Macs and I
-decided that a good way to distribute and collect programming
-assignments was using git.  Not only that, but I wanted to give the
-students a "real world" experience and using source control fit right
-in. </p>
+<p> In the summer of 2015, I taught Data Structures using git.  The
+class had 18 very intelligent teenagers and lasted 3 weeks.  We were in a
+lab with 20 Macs and I decided that a good way to distribute and
+collect programming assignments was using git.  Not only that, but I
+wanted to give the students a "real world" experience and using source
+control fit right in. </p>
 
 <p> I decided to use a single repository.  (The course didn't
 have grades, so I wasn't worried about cheating.)  Each student
@@ -28,15 +28,15 @@ directory, create the "journal.txt" file, run "git add", "git commit"
 and the push the result.  Of course, there were clashes and everyone
 had to run "git pull" before they could "git push".  The students soon
 figured out it was a race and people cheered when they got their files
-in.  It was a large class, so the race dragged on near the end as the
-last files were committed. </p>
+checked in.  It was a large class, so the race dragged on near the end
+as the last files were committed. </p>
 
 <p> The class was sharp and realized there had to be a better way.  I
-said it worked better if everyone took their turn and did it
+said git worked better if everyone took their turn and did check-ins
 one-at-a-time.  I introduced a "conch" (actually a small stuffed
 animal) that meant that it was that person's time to push and that we
 could quickly check in by passing the conch around the room.  (The
-room had all the computers around the edge, so it was easy to pass the
+room had all the computers around the outside, so it was easy to pass the
 conch from one end to the other.) </p>
 
 <p> From then on, assignments were published by me pushing to the repo
@@ -50,9 +50,9 @@ and "git push" around the room.  </p>
 
 <p> The first problem was networking.  The college we were at had
 locked down the networks crazy tight.  Machines could not communicate
-with each other.  I couldn't even plug my laptop in to an ethernet
+with each other.  I couldn't even plug my laptop into an ethernet
 port and expect it to work.  I didn't want to use GitHub or BitBucket
-because of the program's worries about the students' personal
+because of the school's worries about the students' personal
 information.  After 2 days of problems, the IT staff got my laptop on
 the network and everything went fine from then on. </p>
 
@@ -71,11 +71,10 @@ there, but the git config for name and email remained that of the
 computer's previous resident.  Also, on the Mac, the default editor
 for git was "vm", which is not a friendly editor to newbies.  I had
 them change to "nano".  The students were not familiar with git so a
-huge block warning from "git pull" about setting the default merge
-strategy in git 2.0 went unnoticed for most of the class.  Lastly, I
-think making "git pull" default to using rebase would have been better
-and would have produced clearer histories when being viewed with
-"gitk". </p>
+huge warning from "git pull" about the default merge strategy in git
+2.0 went unnoticed for most of the class.  Lastly, I think making "git
+pull" default to using rebase would have been better and would have
+produced clearer histories when being viewed with "gitk". </p>
 
 <p> A big problem for me was source code editors.  I didn't know what
 ones the classroom would have available and I certainly didn't know
@@ -145,29 +144,27 @@ assignments.</p>
 
 <p> I consider it a success, but not a resounding one.  Certainly if
 you worry about cheating, you'll need a more complicated repo
-structure.  I know I'll be trying it again the next time I teach.  
+structure.  I know I'll be trying it again the next time I teach.</p>
 
 
-<h2> Unit Tests in the classroom </h2>
+<h2> Postscript: Unit Tests in the classroom </h2>
 
-This was an easy success.  Early on was a short lecture on testing and
+<p>This was an easy success.  Early on was a short lecture on testing and
 some sample unit tests.  Then I had a big assignment where one half of
 the class wrote code and the other half, completely separately, wrote
 unit tests.  They couldn't see each other's code, but there was a lot
 of discussion on what each function should do, which is what I wanted.
-When done, I paired off coders with testers and everyone found bugs,
+When done, I paired off coders with testers and everyone found bugs -
 even the best coder in the class had bugs.  When asked if they'd use
-unit tests again, nearly everyone in the class raised their hand!
+unit tests again, nearly everyone in the class raised their hand! </p>
 
-Later, I would give assignments by providing the students with empty
+<p> Later, I gave assignments by providing the students with empty
 functions and with unit tests already written.  Only the unit tests
 for the first function were uncommented - the rest were inside block
 comments.  Students knew they got the first function right when the
 unit tests passed.  Then, they uncomment the next block of unit tests
-and start on the next function.  It worked smoothly and I could grade
-them by how many unit tests passed!
+and start on the next function.  It worked smoothly and I had an easy
+time grading them by how many unit tests passed! </p>
 
-<hr>
-<address></address>
-<!-- hhmts start -->Last modified: Fri Oct  2 08:50:06 CDT 2015 <!-- hhmts end -->
+
 </body> </html>
