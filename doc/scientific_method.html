@@ -4,22 +4,152 @@
 </head>
 
 <body>
+<h1>NOT FINISHED</h1>
+
+In reading the book by Dawid, I read more on the scientific method and
+decided I didn't know enough to say anything important.  Well, my
+opinion on science as a mathematical function is interesting.  And, I think
+viewing the theory as having a certain amount of information and the
+errors in the predictions as having information and that we choose the
+theory where those informations are smallest is something.  Oh, and,
+stitching together two theories is itself a theory.  But I
+don't think it's a lot.
+
+I found stuff on <a
+href="https://en.wikipedia.org/wiki/Instrumentalism">Instrumentalism</a>
+which I hadn't seen before and seemed to be the direction my thinking
+was going.  That is, that &quot;science&quot; doesn't matter because
+it's indirect.  The direct applications - prediction and engineering -
+matter.  But, as the wikipedia page would tell you, then you get into
+issues of induction.  You also get into some interesting questions of
+whether or not the empirical data you used to verify your scientific
+theory is similar enough to the place you're applying it, such as the
+context surrounding a prediction or the environment of your engineered
+device.
+
+People talk about the marvel that mathematics is so successful in
+science.  I think science requires mathematics, so their statement is
+just strange to me.  I find it amazing that the scientific rules are
+so local that we can ignore far off objects and events and come up
+with useful predictions and engineer useful objects.  E.g., we can
+calculate the orbit of the moon and predict the effect of the tides
+without needed to know the location of every other atom in the
+universe.  When I started to think about &quot;how do we
+predict?&quot;, it actually gets extremely complicated because even if
+we have a simple scientific theory, we need to hand it an extremely
+simplified version of the world.  That we can get anything meaningful
+from it (and reason that our extremely simple version of the world is
+a valid approximation of the whole universe) is stupifying.
+
+
+If I take another stab at this, I need to start with engineering and
+prediction.  Figure out how they work mathematically, what their
+inputs are and what they output.  I think I can call the common
+interal feature of both as &quot;science&quot;.  The information
+theory approach will work, with theories encoded in a Coq-like
+language and compressed.  Algorithmic Information Theory assigns the
+prior of a theory of length <i>n</i> to be <i>2^n</i>.  That seems
+arbitrary and will probably enter into things.  
+
+Reproducable experiments are interesting.  In the single-person
+setting, you can run a reproducable experiment any number of times and
+use the amount of information to slay any theory that doesn't predict
+that value correctly.  In the social setting, reproducable data is
+trusted by everyone, since anyone who doubts it can recreate it.
+Sadly, economics has huge problems here.
+
+I also need to think more about economics and other non-reproducable
+sciences. 
+
+
 <h1>Reply to Sabine Hossenfelder on the Scientific Method</h1>
 
-<a href="http://backreaction.blogspot.com/2015/05/book-review-string-theory-and.html">Sabine's
+<a
+href="http://backreaction.blogspot.com/2015/05/book-review-string-theory-and.html">Dr. Hossenfelder's
 article and video.</a>
 
-I've thought deeply on this subject and I think the discussion can
-be helped by some verbiage. 
+I've thought about the Scientific Method for a while and
+Dr. Hossenfelder's article inspired to write those thoughts down.
+I'll start by clearly separating the areas of discussion into three
+realms, one of philosophy, one of sociology, and another that, well,
+is more business than anything.  I'll then talk about my thoughts on
+the philosophical realm.  Lastly, I'll go through the issues
+Dr. Hossenfelder raised on Dr. Dawid's book and discuss my perspective
+on them.
+
+<h2>What is Science? </h2>
+
+The goal of science is to describe how everything works.  We've found
+math to be good tool and, ideally, we want to find a mathematical
+function where, given the state of the universe, predicts the future
+of everything in the universe.
+
+We want that function to satisfy our own curiosity, but also because
+it lets us predict avoidable catastrophes (floods, hurricanes, etc.)
+and lets us use the predictions to engineer (buildings, vehicles,
+etc.)
+
+How will we know when we have the correct function?
+How do we account for mis-predicted experiments?
+Can we trust an function that only works on a subset of the domain?
+
+
+<h2>Three Realms </h2>
+
+I've found a lot of arguments in the area of philosophy of science are
+muddled by language that doesn't clearly separate the problems.  To me
+the problems lie in three different realms:
 
 <ul>
   <li> Scientific Method Theory - the philosophical arguments underpinning science</li>
   <li> Scientific Process - what scientists do on a day-to-day basis</li>
-  <li> Scientific Sociology - how the community decides on a theory</li>
+  <li> Scientific Sociology - how the scientific community works </li>
 </ul>
 
-Now, the discussion of the Scientific Method Theory that is closest to
-my own is <a href="https://www.youtube.com/watch?v=EYPapE-3FRw" >this one by Feynman.</a>   My own is:
+The first realm is pure philosophy, logic, and math.  Given some
+scientific theories and results from experiments, which (if any)
+theory should be accepted as &quot;true until future experiement
+proved it not true&quot;.
+
+The Scientific Process is what scientists do on a day-to-day basis:
+create theories, run experiements, etc.. 
+
+Scientific Sociology is everything that involves more than one
+scientist.  So, sharing data, deciding which papers to trust, coming
+to concensus as a community on a theory.  If something could be done
+hypothetically by one scientist, then it lies in the realm of the
+Scientific Process, but if it involves more than one it lies in the
+realm of Scientific Sociology.
+
+[Regarding Scientific Sociology, I recommend the excellent work by
+Kuhn.  He goes into how scientists can get spellbound by a collection
+of theories, called a <a
+ href="https://en.wikipedia.org/wiki/Paradigm#Scientific_paradigm"
+ >paradigm</a>, and marginalize another paradigm that is better.  The
+new paradigm wins by winning over the younger generation of scientists
+and waiting for the old guard to retire.  This &quot;paradigm
+shift&quot; can take decades.]
+
+Having introduced those three realms, I want to comment on
+Dr. Hossenfelder's statement saying &quot;Science basically operates
+as a self-organized adaptive system, that is in the same class of
+systems as natural selection.&quot;.  She goes on to say theories are
+born, mutate, intercombine, and die.  To that extent, she is talking
+about the Scientific Process, because it could be just one scientist
+who is coming up with theories and changing them and invalidating them.
+But I think she wants to go further into sociology and say something
+about how one scientist trust the results of another and eventually
+the community finds a concensus.  Which, to me, is a very different
+statement.  
+
+
+<h2>My Scientific Method Theory </h2>
+
+Having introduced the three realms, I'd like to talk about my approach
+to Scientific Method Theory.  So, I'll talk about philospophy, logic
+and math.  I don't think my approach is new - it's very similar to <a
+href="https://www.youtube.com/watch?v=EYPapE-3FRw" >this one by
+expressed by Feynman.</a>   My appraoch is:
 
 <ol>
   <li> We generate theories. </li>
@@ -27,27 +157,28 @@ my own is <a href="https://www.youtube.com/watch?v=EYPapE-3FRw" >this one by Fey
   <li> We pick the simplest theory that matches the results. </li>
 </ol>
 
-Let me go into detail of each of these.
+Let me go into detail, and you'll see some effect of Chaitin on these.
 
 <i>We generate theories</i>.  Each theory is predictive.  In fact,
-each theory is a function from the inputs of the experiment to the
-results of the experiment.  This is easy to imagine in physics where
-the input is the speed of a ball launched into the air and the
-predicted result is the time it takes the ball to hit the ground.  It
-is harder to see in paleobiology, where the prediction might be that
-the next bones dug up are consistent with the existing <a
- href="https://en.wikipedia.org/wiki/Phylogenetic_tree" >phylogenetic
-tree of life</a>.  I leave open the idea that paleobiology, geology,
-economics, etc. may use a different scientific method, but for this
-discussion all theories are predictive functions.
+each theory is a mathematical function from the inputs of the
+experiment to the results of the experiment.  This is easy to imagine
+in physics where the input is the speed of a ball launched into the
+air and the predicted result is the time it takes the ball to hit the
+ground.  It is harder to see in paleobiology, where the prediction
+might be that the next bones dug up are consistent with the existing
+<a href="https://en.wikipedia.org/wiki/Phylogenetic_tree"
+ >phylogenetic tree of life</a>.  I leave open the idea that
+paleobiology, geology, economics, etc. may use a different scientific
+method, but for this discussion all theories are predictive functions.
 
-<i>We collect data from experiments.</i> You may do the experiments
-yourself or you may get data from someone you trust.  Trust of the
-data is important - scientists often throw out some of their data
-because they don't trust it.  Repeatable experiments not only provide
-accurate numbers, they provide data that anyone can get without having
-to trust someone.  The society of scientists is held together by
-trusted data and large shocks happen when that trust fails.
+<i>We collect data from experiments.</i> A scientist may do the
+experiments themselves or they may get data from someone they trust.
+Trust of the data is important - scientists often throw out data that
+they themselves gathered because they don't trust it.  Repeatable
+experiments not only provide accurate numbers, they provide data that
+anyone can get without having to trust someone.  The society of
+scientists is held together by trusted data and large shocks happen
+when that trust fails.
 
 <i>We pick the simplest theory that matches the results.</i> If we run
 the ball-in-the-air experiment 100 times with different speeds, we
@@ -56,74 +187,137 @@ our intuition is that that a 3-term polynomial is &quot;better&quot;,
 even though it doesn't exactly match the data.  The 3-term polynomial
 is simpler, a concept that can be quantified using <a
  href="https://en.wikipedia.org/wiki/Algorithmic_information_theory"
- >Algorithmic Information Theory</a>.  Essentially, the 3-term
+>Algorithmic Information Theory</a>.  Essentially, the 3-term
 polynomial can be encoded in a smaller computer program than the
-100-term.  (A quantified version of <a
- href="https://en.wikipedia.org/wiki/Occam%27s_razor" >Ockham's
-razor</a>.)  Thus, statistics tells us how close the theory matches
-the data and algorithmic information theory tells us which theory is
-simplest.  There can be tradeoffs between the two, but in practice
-there a usually few choices and we pick the one that &quot;feels
-right&quot;.
+100-term.  (Algorithmic Information Theory here acts like a mathematic
+encoding of href="https://en.wikipedia.org/wiki/Occam%27s_razor"
+>Ockham's razor</a>.)  Thus, statistics tells us how close the theory
+matches the data and algorithmic information theory tells us which
+theory is simplest.  There can be tradeoffs between the two, but in
+practice there are usually only a few choices and we pick the one that
+&quot;feels right&quot;.
 
-That was a quick overview of what I'm calling Scientific Method
-Theory.  It's math and philosophy and it spits out a theory.  It's
-separate from the Scientific Process, which is what scientists do on a
-day-to-day basis, and Scientific Sociology, which is how a community
-decides on a theory.
+That was a quick overview of what I'm calling my Scientific Method
+Theory.  It's math and philosophy and it spits out a theory.  As I
+said at the opening, it's separate from the Scientific Process, which
+is what scientists do on a day-to-day basis, and Scientific Sociology,
+which is how a community decides on a theory.
 
-The Scientific Process has a lot of what you'd expect: creating
-theories, generating data by running experiments, and using the
-Scientific Method Theory to decide which theories are bad and which
-are good.  But there's more: evaluating other people's theories,
-deciding which experiments to perform, looking at the data from other
-people's experiments and deciding whether or not to trust it.
+<h2>Perspective on Hossenfelder's Issues</h2>
 
-For Scientific Sociology, you really should read the excellent work by
-Kuhn.  He goes into how scientists can get spellbound by a collection
-of theories, called a <a
- href="https://en.wikipedia.org/wiki/Paradigm#Scientific_paradigm"
- >paradigm</a>, and marginalize another paradigm that is better.  The
-new paradigm wins by winning over the younger generation of scientists
-and waiting for the old guard to retire.  This &quot;paradigm
-shift&quot; can take decades.
+Dr. Hossenfelder had a number of issues with Dr. Dawid's theories.
+I'm going to go through these from the perspective of my Scientific
+Method Theory.
 
-Scientific Sociology is interesting, but will play very little role as
-I address the issues mentioned by Hossenfelder.
+<b> A single theory is not self-consistent. </b> I would not call this
+a theory.  In my definition, a theory is a mathematical function, which means it
+must return a single value for given set of inputs.  A theory that is
+&quot;not self-consistent&quot; cannot be a function and, in my
+opinion, isn't a theory.
 
-I haven't read Richard Dawid's book.  
+<b> We have two theories that each match some of the data, but the two
+theories are inconsistent. </b> I think if we have two functions that
+return different values for the same input, it's clear that only one
+can be &quot;best&quot;.  &quot;Best&quot; being both simple and
+accurate, where simple is defined by Algebraic Information Theory
+and accurate being measured by statistics.  Technically, I suppose
+it is &quot;non-empirical theory assessment&quot;, but I prefer to
+call it &quot;logic and math&quot;.
 
-Two theories are inconsistent.  &quot;non-empirical theory assessment&quot;
+If you have two theories where each is &quot;better&quot; on a
+different domain, you could stitch together a new theory that uses the
+best theory depending on the domain.  But that would be a new theory.
+The new theory would, of course, be more complex than the two parent
+theories, but is would be more accurate.  So, we would have a tradeoff
+between the two parent theories and the child theory, but, as I said,
+one usually &quot;feels right&quot;.  
 
-A single theory is not self-consistent.
+<b> We have a theory that suddenly changes its mind.  (creates
+wormhole with aliens with warp drive...) </b> This was Hossenfelder's
+example that would get Dawid's comment on &quot;limits to scientific
+underdetermination&quot;.  The thing to see here is that this theory
+is emphatically not simple.  Now, we must accept that this
+horrifically complex theory may be the best description of the real
+world, but given the limited resources at our disposal, we should
+check all the simpler theories before resigning ourselves to this
+non-simple one.  I'm not sure I understand Dawid's comment enough to
+reply to it, but I think this &quot;non-empirical theory
+assessment&quot; is product of preferring simplicity and preferring
+cost-effectiveness in research.
 
-Theory that suddenly changes its mind.  (wormhole with aliens with
-warp drive...)  &quot;limits to scientific underdetermination&quot;
+<b> More theory has done for us, the more we trust it. </b>
+Hossenfelder says that when looking for a successor to a well-trusted
+theory, we would look for something that is structurally close to the
+old one. Dawid calls this &quot;meta-inductive inference&quot;.  I
+find nothing in my Scientific Method Theory that would support this.
+The theory that predicts best is chose - the theories origin doesn't
+matter.  There are aspects of the Scientific Process and Scientific Sociology
+which rely on familiarity, which make it easier to try experiments and
+share results.  But those don't affect an individual scientist's trust
+in a theory.
 
-More theory has done for us, the more we trust it.
-&quot;meta-inductive inference&quot;
+<b> The more surprising a finding is the more we trust it.</b> Dawid
+calls this &quot;unexpected explanatory coherence&quot; I wish
+Hossenfelder spent a little more time explaining this one.  I want it
+to be that if there's an experiment with an unusual result that is
+predicted by a theory, that theory gains a lot of trust.  For example,
+relativity predicted that gravity deflects light and experiments
+confirmed it.  Such an experiment must prevent a vast number of
+simpler (and complex!) theories from even being considered.  Since the
+competition is thinned dramatically, we do trust the successful theory
+more.
 
-The more surprising a finding is the more we trust it.
-&quot;Unexpected explanatory coherence&quot;
+... if we define &quot;trust&quot; in that way.
 
-string theory only theory  &quot;limits to global sceintific underdetermination&quot;
 
-Some physicists think since we have only one contender for a
-final theory that must be the one.  &quot;No alternatives
-argument&quot;
+<b> We have sufficient data to deduce a final theory.  </b> String
+theory advocates think they've done enough to prove their theory, but
+others express doubt.  The philosophers say that ignoring the theory
+is &quot;limits to global sceintific underdetermination&quot;.  My
+view of the Scientific Method Theory is that it crowns a
+champion-for-the-moment, not a champion-for-all-time.  If String
+Theory can explain the data and is simpler than all others, then we
+should accept it.  But by &quot;accept&quot;, I mean it's the current
+champion but can be unseated at any moment by a better theory.  Given
+a best-right-now theory, scientists may think that more theories
+should be explored and scientists are unlikely to base their work on a
+theory they think is likely to be unseated soon.  I don't have a
+mathematical expression for when enough theories have been tested to
+crown a longer-term champion; that process is part of the Scientific
+Process and Scientific Sociology.
 
-Hypothesis Preselection - good conduct, reproducable, peer review,
-community standards (math, consistent in region where it is applicable), 
+<b>Some physicists think since we have only one contender for a final
+theory that must be the one.<b> Dawid calls this the &quot;No
+alternatives argument&quot;.  I think it's perfectly valid.  If we
+have only one theory that explains the data and it's simple (that is,
+not the 100-term polynomial from the example above), then it's the
+theory ... for the moment.
 
-What if we can never observe the inconsistency?
+
+<b>Hypothesis Preselection</b> Hossenfelder says hypotheses are
+selected based on: good conduct by authors, reproducable, peer review,
+community standards (e.g., based on math; consistent in region where
+it is applicable).
+
+<b>Hypothesis-Test cycle</b>
+
+<b>What if we can never observe the inconsistency?</b>
+
+<b>Science as self-organizing</b>
 
 
 As Feynman says, &quot;If it disagrees with experiment,
 it's wrong.&quot;.    
 
+What is the goal of science?
+  ---> a model of how the world works.
+What is trust in a scientific theory?
+  ---> the ratio of a theory to the complexity of another potential theory?
+How does a limit theory affect science and trust?
+   ---> e.g. chemistry isn't physics
 
 
 <hr>
 <address></address>
-<!-- hhmts start -->Last modified: Thu Jan 21 08:06:57 CST 2016 <!-- hhmts end -->
+<!-- hhmts start -->Last modified: Fri Jun 10 15:00:56 CDT 2016 <!-- hhmts end -->
 </body> </html>
