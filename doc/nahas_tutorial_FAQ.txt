@@ -1,0 +1,48 @@
+---QUESTION---
+
+I'm reading Mike Nahas's introductory Coq tutorial, which says:
+
+The arguments to "ex_intro" are:
+
+* the predicate
+* the witness
+* a proof of the predicated called with the witness
+
+I looked at the definition:
+
+Inductive ex (A:Type) (P:A -> Prop) : Prop :=
+  ex_intro : forall x:A, P x -> ex (A:=A) P.
+and I'm having trouble parsing it. Which parts of the expression forall x:A, P x -> ex (A:=A) P correspond to those three arguments (predicate, witness, and proof)?
+
+---ANSWER ---
+
+
+
+
+Yeah, those inductive type definitions can be difficult to read. 
+
+The first part is:
+
+    Inductive ex (A:Type) (P:A -> Prop) : Prop :=
+
+This is what is associated with the type itself.   So any time you see an `ex`,  it will have an `A` and and a `P` and the `ex` will be of type `Prop`.  Skipping `A` for the moment, let's focus on `P` which is the predicate.  So, if we use as our example "there exists a natural number which is prime", `P` might be `is_prime`, where `is_prime` takes a `nat` (natural number) as an argument and there can exist a proof of it if the `nat` is prime.  
+
+In this example, `A` would be `nat`. In the tutorial, `A` isn't mentioned because Coq can always infer it.  Given the predicate, Coq can get the type of `A` by looking at the type of the predicate's argument.
+
+To summarize up to here, in our example, the type would be `ex nat is_prime`.  This says there exists a nat that is prime, but it does not say which nat.  When we construct an `ex nat is_prime`, we will need to say which one - we will need a "witness".  And that leads us to the constructor definition:
+
+    ex_intro : forall x:A, P x -> ex (A:=A) P.
+
+The constructor is named `ex_intro`.  What's tricky here is that the constructor has all the parameters for the type.  So, before we get to the ones listed after `ex_intro`, we have to include the ones for the type: `A` and `P`.
+
+After those parameters come the ones listed after `ex_intro`: `x`, which is the witness, and `P x`, which is a proof that the predicate holds for the witness.  Using our example, `x` might be 2 and `P x` would be a proof of `(is_prime 2)`.  
+
+The constructor needs to specify the parameters for the type `ex` that it is constructing.  That is what's happening after the arrow (`->`).  These do not have to match the parameters used in calling the constructor, but they usually do.  To accomplish that, the argument `A` is *not* being inferred - it is being passed explicitly.  The `(A:=A)` says that the parameter `A` in `ex` should be equal to the `A` in the call to the constructor.  Likewise, the parameters `P` of `ex` is being set to `P` from the call to the constructor. 
+
+So, if we had `proof_that_2_is_prime` with type `(prime 2)`, we can call `ex_intro is_prime 2 proof_that_2_is_prime` and it would have type `ex nat is_prime`.  Which is our proof that there exists a natural number that is prime.  
+
+----------
+To answer your question directly: In the expression `forall x:A, P x -> ex (A:=A)`, `x:A` is the witness and `P x` is the proof that the witness is true.  The expression does not contain the predicate, because that is part of the type's parameters which must be passed to the constructor `ex_intro`.  The tutorial's list of parameters does not include `A`, because is inferred by Coq.
+
+I hope you understand why I thought this discussion was too detailed for my tutorial!  Thanks for the question.
+
