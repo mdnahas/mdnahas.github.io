@@ -1,8 +1,10 @@
 (**
 Mike Nahas's Coq Tutorial 
 Started 2012-Nov-06
-Version 1.0, 2014-Oct-10
+Version 1.2, 2019-Jan-22
 
+Tested with Coq version 8.10+alpha
+ 
 ------------------------
 Dedicated to Kernighan and Ritchie,
 who wrote a magnificent introduction to a programming language.
@@ -39,38 +41,18 @@ using Coq.
 (** ** Prerequisites *)
 (** 
 This tutorial will teach you how to use Coq to write formal proofs.  I
-assume you already know how how write a proof and about the formal
-logic on which proofs are based on.  If this tutorial teaches you
-about proofs or formal proofs, that is a happy accident.  I also
-assume you understand a programming language.  It doesn't matter which
-programming language.
+assume you already know how to write a proof and know about formal
+logic.  I tried to make this tutorial easy to read, so if you don't
+know those things, keep reading and you _might_ be able to pick them
+up.
 
-For learning about proofs, I recommend the Pulitzer Prize winning book
-"Godel, Escher, Bach", Chapters 7 and 8.  (Pages 181 to 230 in my
-copy.)
+I also assume you understand a programming language.  It doesn't
+matter which programming language.
 
-For learning about some of the ideas used in formal proofs, it might
-be good to read about Intuitionistic logic, the Curry-Howard
-correspondence, and the BHK-Interpretation.
-
-http://en.wikipedia.org/wiki/Intuitionistic_logic
-
-http://en.wikipedia.org/wiki/Curry-Howard_correspondence
-
-http://en.wikipedia.org/wiki/BHK_interpretation
-
-If you have more interest in logic, I highly recommend Gentzen's
-"Investigations into Logical Deductions".  It's not necessary at all,
-but it is a beautiful paper.
-
-
-If you need to learn a programming language, OCaML is the one that
-would help you with Coq the most.  Coq is written in OCaML and it
-borrows a lot of OCaML's syntax and style.
-
-http://caml.inria.fr/
-
+If you feel unprepared, the "further reading" section at the end has
+useful links.
 *)
+
 
 (** ** Installing Coq *)
 (**
@@ -1523,7 +1505,9 @@ equivalent.  Below is a statement of the theorem; fill it in
 if you think you can.
 
 The tactic "admit" is a cheat.  It ends a subgoal without solving it.
-I use it below to let Coq's parser bypass this unproven theorem.
+A proof with an an "admit" is not a real proof, so it ends with
+"Admitted" instead of "Qed".  I use these below to let Coq's parser
+bypass this unproven theorem.
 
 The "admit" tactic has its uses, though.  When there are multiple
 subgoals and you want to skip over the easy ones to work on the hard
@@ -2665,10 +2649,51 @@ expert provers consider Coq proofs a puzzle and I wish you luck in
 solving your puzzles!
 *)
 
-(** * Vernacular commands *)
+
+(** * Postscripts *)
+
+(** ** Further Reading *)
+(**
+Coq uses a lot of concepts that I didn't explain.  Below are some good
+sources on those topic.
+
+For learning about proofs, I recommend the Pulitzer Prize winning book
+"Godel, Escher, Bach", Chapters 7 and 8.  (Pages 181 to 230 in my
+copy.)
+
+For learning about some of the ideas used in formal proofs, you can
+read about Intuitionistic logic, the Curry-Howard correspondence, and
+the BHK-Interpretation.
+
+http://en.wikipedia.org/wiki/Intuitionistic_logic
+
+http://en.wikipedia.org/wiki/Curry-Howard_correspondence
+
+http://en.wikipedia.org/wiki/BHK_interpretation
+
+If you have a deep interest in logic, I highly recommend Gentzen's
+"Investigations into Logical Deductions".  It's not necessary at all,
+but it is a beautiful paper.
+
+If you need to learn a programming language, OCaML is the one that
+would help you with Coq the most.  Coq is written in OCaML and it
+borrows a lot of OCaML's syntax and style.
+
+http://caml.inria.fr/
+
+To learn more about Coq, I found the textbook "Software Foundations" readable.  It focuses on proving programs correct.  You can also look at Coq's documentation webpage.
+
+https://softwarefoundations.cis.upenn.edu/
+
+https://coq.inria.fr/documentation
+*)
+
+
+(** ** Vernacular commands *)
 (**
   - "Theorem" starts a proof.
   - "Qed" ends a proof.
+  - "Admitted" ends an incomplete proof.
   - "Definition" declares a function.
   - "Fixpoint" declares a recursive function.
   - "Inductive" declares data types.  
@@ -2680,7 +2705,7 @@ solving your puzzles!
   - "Compute" prints out the result of a function call.
 *)
 
-(** * The tactic guide *)
+(** ** The tactic guide *)
 
 (**
 _RULE_: If the subgoal starts with "(forall <name> : <type>, ..." 
