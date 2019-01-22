@@ -189,12 +189,12 @@ Let's see the different states inside your first proof.  Move your
 cursor (by clicking your mouse or using the arrow keys) over any line
 between "Proof." and "Qed.".  Now let's see the state at that point.
 
-In CoqIDE, there are three ways to do it
+In CoqIDE, there are three ways to do it:
   1. From the menu bar, open the "Navigation" menu and select "go to"
   2. In the tool bar, click on the 5th icon (a green arrow pointing at a yellow ball)
   3. Use a keyboard combo.  On my Mac, it's control-option-rightarrow.
 
-In Proof General
+In Proof General:
   Do "C-c C-Enter" (press control-c and then control-Enter)
 
 In a different part of the screen you should see something like:
@@ -313,7 +313,7 @@ IT IS VITALLY IMPORTANT THAT YOU DO NOT THINK OF A Prop AS BEING
 EITHER "TRUE" OR "FALSE".  A Prop either has a proof or it does not
 have a proof.  Godel shattered mathematics by showing that some true
 propositions can never proven.  Tarski went further and showed that
-some propositions cannot even said be to be true or false!!!  Coq deals
+some propositions cannot even be said to be true or false!!!  Coq deals
 with these obstacles in modern mathematics by restricting Prop to
 being either proven or unproven, rather than true or false.
 
@@ -382,7 +382,8 @@ particular proof of A.
 
 The command "pose" assigns the result of "A_implies_B proof_of_A" to
 the new hypothesis "proof_of_B".  (Note the annoying extra set of
-parentheses around the arguments to the "pose" command.)
+parentheses that are necessary around the arguments to the "pose"
+command.)
 
 _RULE_: If you have an hypothesis 
           "<hyp_name>: <type1> -> <type2> -> ... -> <result_type>" 
@@ -629,7 +630,9 @@ code for the proof.  It looks like this:
 I formatted this version so that the correspondence to the proof is
 clearer.  The "intros" commands declare the parameters for the
 function.  "pose" declares constant values in the function.  Lastly,
-the "exact" command is used to return the result of the function.
+the "exact" command is used to return the result of the function.  As
+we go, you'll see the tight relationship in Coq between proofs and
+code. 
 
 
 So far, we've only worked with proofs, propositions, and Prop.  Let's
@@ -1539,7 +1542,7 @@ So, take a swing at proving this theorem.
 Theorem negb_is_not : (forall a, Is_true (negb a) <-> (~(Is_true a))).
 Proof.
   admit.  (** delete "admit" and put your proof here. *)
-Qed.
+Admitted. (** when done, replace "Admitted." with "Qed." *)
 
 (**
 _RULE_: If you have a subgoal that you want to ignore for a while,
@@ -2180,7 +2183,7 @@ you should use the "case" tactic instead of "elim".
 
 _RULE_: If there is a hypothesis "<name>" of a created type
      AND that hypothesis is used in the subgoal,
-     AND the type has a recursive definition
+     AND the type has a recursive definition,
      Then you can try the tactic "elim <name>"
  
 
@@ -2371,7 +2374,7 @@ what should we return if the list is empty?
 
 In some programming languages, you might throw an exception - either
 explicitly or through a memory violation.  In others, you might assume
-the program crashs.  But if you to prove a program correct, these
+the program crashes.  But if you to prove a program correct, these
 aren't choices you can make.  The program needs to be predictable.
 
 There are choices you can make:
@@ -2617,24 +2620,29 @@ proved with induction using the "elim" tactic.
 *)
 
 Theorem app_nil_l : (forall A:Type, (forall l:list A, nil ++ l = l)).
-  admit.  (** delete "admit" and put your proof here. *)
 Proof.
+  admit.  (** delete "admit" and put your proof here. *)
+Admitted. (** when done, replace "Admitted." with "Qed." *)
 
 Theorem app_nil_r : (forall A:Type, (forall l:list A, forall l:list A, l ++ nil = l)).
-  admit.  (** delete "admit" and put your proof here. *)
 Proof.
+  admit.  (** delete "admit" and put your proof here. *)
+Admitted. (** when done, replace "Admitted." with "Qed." *)
 
 Theorem app_comm_cons : forall A (x y:list A) (a:A), a :: (x ++ y) = (a :: x) ++ y.
-  admit.  (** delete "admit" and put your proof here. *)
 Proof.
+  admit.  (** delete "admit" and put your proof here. *)
+Admitted. (** when done, replace "Admitted." with "Qed." *)
 
 Theorem app_assoc : forall A (l m n:list A), l ++ m ++ n = (l ++ m) ++ n.
-  admit.  (** delete "admit" and put your proof here. *)
 Proof.
+  admit.  (** delete "admit" and put your proof here. *)
+Admitted. (** when done, replace "Admitted." with "Qed." *)
 
 Theorem app_cons_not_nil : forall A (x y:list A) (a:A), nil <> x ++ a :: y.
-  admit.  (** delete "admit" and put your proof here. *)
 Proof.
+  admit.  (** delete "admit" and put your proof here. *)
+Admitted. (** when done, replace "Admitted." with "Qed." *)
 
 
 (** * Conclusion *)
