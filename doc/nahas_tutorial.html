@@ -22,12 +22,12 @@
 </div>
 
 <div class="doc">
-Mike Nahas's Coq Tutorial 
-Started 2012-Nov-06
-Version 1.2, 2019-Jan-22
+Mike Nahas's Coq Tutorial
 
 <div class="paragraph"> </div>
 
+Started 2012-Nov-06
+Version 1.2, 2019-Jan-22
 Tested with Coq version 8.10+alpha
 <hr/>
 
@@ -40,7 +40,7 @@ who wrote a magnificent introduction to a programming language.
 
 <div class="paragraph"> </div>
 
-Coq is a proof assistant.  Coq helps you write formal proofs.  
+Coq is a proof assistant.  Coq helps you write formal proofs.
 
 <div class="paragraph"> </div>
 
@@ -99,39 +99,46 @@ useful links.
 
 <div class="paragraph"> </div>
 
-To get started, you need to install Coq. 
-The simple way is:
-<ul class="doclist">
-<li> Get "CoqIDE", the graphical version of Coq. 
-    It is available at http://coq.inria.fr/download
-    (If you're running Linux, your package manager may have it.)
-
-</li>
-</ul>
+This tutorial now ships with CoqIDE, so if you're reading this in
+CoqIDE, you can skip this section and the next one.  If you don't yet
+have Coq installed, keep reading.
 
 <div class="paragraph"> </div>
 
-If you like the Emacs text editor, the alternative is
-<ul class="doclist">
-<li> Get "coqtop", the command-line version of Coq.
-    It is available at http://coq.inria.fr/download
-    (If you're running Linux, your package manager may have it.)
+The easiest thing is to install "CoqIDE", the graphical version of
+Coq.  Windows and MacOS installers and the latest source code are
+available at http://coq.inria.fr/download If you're running Linux,
+your package manager probably has a recent-ish version.
+(Debian/Ubuntu/Mint: "sudo apt install coqide", Fedora/CentOS might be
+'su -c "yum install coq-coqide"'.  Arch might be "sudo pacman -S
+coqide")
 
-</li>
-<li> Get "Proof General" Emacs mode.
-    Is is available at http://proofgeneral.inf.ed.ac.uk/
+<div class="paragraph"> </div>
 
-</li>
-<li> Install Proof General for Emacs.
-    This is not difficult.  Or, at least, it is easier than learning Emacs.
-    The Proof General documentation will tell you how to install it.
+If you like the Emacs text editor, the alternative is to run "coqtop",
+the command-line version of Coq.  It is also available at
+http://coq.inria.fr/download The Linux package is usually called
+"coq".  To use it in Emacs, you have to also download and install the
+"Proof General" Emacs mode.  Is is available at
+http://proofgeneral.inf.ed.ac.uk/ Linux package managers include some
+version of it.  (Debian/Ubuntu/Mint calls it "proofgeneral".
+Fedora/CentOS might call it "emacs-common-proofgeneral".  Arch might
+call it "proofgeneral".)
 
-</li>
-</ul>
+<div class="paragraph"> </div>
+
 
 <div class="paragraph"> </div>
 
 <a name="lab4"></a><h2 class="section">Loading this file</h2>
+
+<div class="paragraph"> </div>
+
+This tutorial now ships with CoqIDE, so if you're running a recent
+version of CoqIDE, you can load the tutorial by going to the "Help"
+menu and selecting "Tutorial".  If the "Help" menu doesn't have a
+"Tutorial" button, you're running an older version of CoqIDE, which is
+fine, but keep reading to learn how to load this file.
 
 <div class="paragraph"> </div>
 
@@ -140,12 +147,29 @@ file's names usually end in ".v".  If this file's name currently ends
 in ".txt", you'll want to change it to ".v" before loading it into
 CoqIDE or Emacs.  (If this file's name ends in ".html" or ".pdf",
 someone used Coq to generate this document, in which case you need to
-find the original ".v" file they used.)
+find the original ".v" file they used.  If you can't find it, the
+author hosts a recent version at
+https://mdnahas.github.io/doc/nahas_tutorial.v)
 
 <div class="paragraph"> </div>
 
 Once you've made sure the file's name ends in ".v", start CoqIDE or
-Emacs and load the file.  
+Emacs and load the file.
+
+<div class="paragraph"> </div>
+
+You need to know that this file was designed to work in a specific
+version of Coq.  Coq is a research tool and the developers
+occasionally make small changes to its file format, so it is possible
+that this file is for a different version of Coq.  As you progress
+through the tutorial, you may find a proof that your version of Coq
+doesn't like.  You can probably make it work, but if you can't, you
+can always install a version of CoqIDE that ships with the tutorial
+(version 8.10 and higher) and that version of the tutorial will be
+sure to be compatible with that version of Coq.
+
+<div class="paragraph"> </div>
+
 
 <div class="paragraph"> </div>
 
@@ -226,21 +250,21 @@ Instead of "Qed", you may also see proofs that end with "Admitted" or
 <div class="paragraph"> </div>
 
 Coq uses 3 different "languages" and you can see them all here in this
-proof.  
+proof.
 <ul class="doclist">
-<li> The "vernacular" language manages definitions, 
+<li> The "vernacular" language manages definitions,
     and each of its commands starts with a capital letter:
     "Theorem", "Proof", and "Qed".
 
 </li>
 <li> The "tactics" language is used to write proofs,
-    and its commands start with a lower-case letter: 
-    "intros" and "exact".  
+    and its commands start with a lower-case letter:
+    "intros" and "exact".
 
 </li>
 <li> The "Gallina" language is used to express what you want to prove,
-    and its expressions use lots of operators and parentheses: 
-     "(forall A : Prop, A -&gt; A)".  
+    and its expressions use lots of operators and parentheses:
+     "(forall A : Prop, A -&gt; A)".
 
 </li>
 </ul>
@@ -364,7 +388,7 @@ Our goal (and current subgoal) starts with "forall A : Prop,...".  In
 English, this would be "For all A such that A is a Prop, ...".  One way
 to prove a statement like "For all x such that x is an integer, ..."
 is to assume we have an arbitrary integer x and show that the rest of
-the statement holds for x. The first tactic "intros" does exactly that. 
+the statement holds for x. The first tactic "intros" does exactly that.
 
 <div class="paragraph"> </div>
 
@@ -381,8 +405,8 @@ subgoal.  You should always keep the same name, if possible.
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If the subgoal starts with "(forall &lt;name&gt; : &lt;type&gt;, ..." 
-     Then use tactic "intros &lt;name&gt;."
+<i>RULE</i>: If the subgoal starts with "(forall &lt;name&gt; : &lt;type&gt;, ..."
+     Then use tactic "intros &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -418,8 +442,8 @@ to the hypothesis named "proof_of_A".
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If the subgoal starts with "&lt;type&gt; -&gt; ..." 
-     Then use tactic "intros &lt;name&gt;."
+<i>RULE</i>: If the subgoal starts with "&lt;type&gt; -&gt; ..."
+     Then use tactic "intros &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -481,16 +505,16 @@ proof of A".  Now, the previous command moved a proof of A into the
 context and called it "proof_of_A".  So, an hypothesis in our context
 (which are all things we know to exist) has a type that matches our
 subgoal (which is we want to create), so we have an exact match.  The
-tactic "exact proof_of_A" solves the subgoal (and the proof).  
+tactic "exact proof_of_A" solves the subgoal (and the proof).
 
 <div class="paragraph"> </div>
 
-Ta-da!  You're first proof!
+Ta-da!  Your first proof!
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the subgoal matches an hypothesis,
-     Then use tactic "exact &lt;hyp_name&gt;."
+     Then use tactic "exact &lt;hyp_name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -519,16 +543,13 @@ Okay, let's try something more complicated!
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 Look at the tactics used in this proof.  (The tactics are the commands
 between "Proof." and "Qed.")  You should be familiar with "intros" and
 "exact".  The new one is "pose".  We're going to use "pose" in a
 forward proof.  A "forward proof" creates larger and more complex
 hypotheses in the context until one matches the goal.  Later, we'll
 see a "backward proof", which breaks the goal into smaller and simpler
-subgoals until they're trivial. 
+subgoals until they're trivial.
 
 <div class="paragraph"> </div>
 
@@ -553,7 +574,7 @@ The subgoal is "B", so we're trying to construct a proof of B.
 
 In the context we have "A_implies_B : A-&gt;B".  "A-&gt;B", if you recall,
 is equivalent to "(forall proof_of_A : A, B)", that is, for every
-proof of A, we have a proof of B.  
+proof of A, we have a proof of B.
 
 <div class="paragraph"> </div>
 
@@ -571,9 +592,9 @@ command.)
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If you have an hypothesis 
-          "&lt;hyp_name&gt;: &lt;type1&gt; -&gt; &lt;type2&gt; -&gt; ... -&gt; &lt;result_type&gt;" 
-     OR an hypothesis 
+<i>RULE</i>: If you have an hypothesis
+          "&lt;hyp_name&gt;: &lt;type1&gt; -&gt; &lt;type2&gt; -&gt; ... -&gt; &lt;result_type&gt;"
+     OR an hypothesis
             "&lt;hyp_name&gt;: (forall &lt;obj1&gt;:&lt;type1&gt;, (forall &lt;obj2&gt;:&lt;type2&gt;, ... &lt;result_type&gt; ...))"
      OR any combination of "-&gt;" and "forall",
      AND you have hypotheses of type "type1", "type2"...,
@@ -674,7 +695,7 @@ And the tactic to solve it is our well worn "exact".
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If you have subgoal "&lt;goal_type&gt;" 
+<i>RULE</i>: If you have subgoal "&lt;goal_type&gt;"
      AND have hypothesis
           "&lt;hyp_name&gt;: &lt;type1&gt; -&gt; &lt;type2&gt; -&gt; ... -&gt; &lt;typeN&gt; -&gt; &lt;goal_type&gt;",
      Then use tactic "refine (&lt;hyp_name&gt; _  ...)." with N underscores.
@@ -684,7 +705,7 @@ And the tactic to solve it is our well worn "exact".
 The important thing to take away from this proof is that we changed
 the subgoal.  That's what happens in a backward proof.  You keep
 changing the subgoal to make it smaller and simpler.  "A" doesn't seem
-much smaller or simpler than "B", but it was. 
+much smaller or simpler than "B", but it was.
 
 <div class="paragraph"> </div>
 
@@ -822,7 +843,7 @@ commas to denote the arguments.
 
 The first "refine" created two subgoals.  CoqIDE and Proof General
 will tell you that two subgoals exist, but they will only show you the
-context for the current subgoal. 
+context for the current subgoal.
 
 <div class="paragraph"> </div>
 
@@ -871,9 +892,6 @@ see what it would look like with a forward one.
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 This is the same theorem as before, except it has a forward proof
 instead of a backward one.
 
@@ -901,11 +919,11 @@ code for the proof.  It looks like this:
 <div class="paragraph"> </div>
 
 <pre>
-  (fun (A B C : Prop) 
-       (proof_of_A : A) (A_implies_B : A -&gt; B) (A_imp_B_imp_C : A -&gt; B -&gt; C) 
+  (fun (A B C : Prop)
+       (proof_of_A : A) (A_implies_B : A -&gt; B) (A_imp_B_imp_C : A -&gt; B -&gt; C)
    =&gt;
      let proof_of_B := A_implies_B proof_of_A in
-     let proof_of_C := A_imp_B_imp_C proof_of_A proof_of_B in 
+     let proof_of_C := A_imp_B_imp_C proof_of_A proof_of_B in
        proof_of_C)
 </pre>
 
@@ -916,7 +934,7 @@ clearer.  The "intros" commands declare the parameters for the
 function.  "pose" declares constant values in the function.  Lastly,
 the "exact" command is used to return the result of the function.  As
 we go, you'll see the tight relationship in Coq between proofs and
-code. 
+code.
 
 <div class="paragraph"> </div>
 
@@ -952,14 +970,14 @@ Inductive bool : Set :=
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Capital-F "False" is a Prop with no proofs.  
+<li> Capital-F "False" is a Prop with no proofs.
 
 </li>
-<li> Capital-T "True" is a Prop that has a single proof called "I".  
-   (That's a capital-I, not a number 1.)  
+<li> Capital-T "True" is a Prop that has a single proof called "I".
+   (That's a capital-I, not a number 1.)
 
 </li>
-<li> Lastly, "bool" is a Set and "bool" has two elements: 
+<li> Lastly, "bool" is a Set and "bool" has two elements:
   lower-case-t "true" and lower-case-f "false".
 
 </li>
@@ -967,16 +985,16 @@ Inductive bool : Set :=
 
 <div class="paragraph"> </div>
 
-I find these names confusing.  Recall that "Prop"s are things that may 
-have a proof.  So I think capital-T "True" and capital-F "False" should 
-have been named "Provable" and "Unprovable" (or "AlwaysProvable" 
-and "NeverProvable").  The lower-case ones act like what you're 
+I find these names confusing.  Recall that "Prop"s are things that may
+have a proof.  So I think capital-T "True" and capital-F "False" should
+have been named "Provable" and "Unprovable" (or "AlwaysProvable"
+and "NeverProvable").  The lower-case ones act like what you're
 accustomed to.
 
 <div class="paragraph"> </div>
 
 Since we've been playing with Props, let's do some proofs with (the badly
-named) "True" and "False" and we'll come back to the lower-case "true" 
+named) "True" and "False" and we'll come back to the lower-case "true"
 and "false" later.
 
 <div class="paragraph"> </div>
@@ -1016,7 +1034,7 @@ a proof of True.  By its definition, True has a single proof called
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If your subgoal is "True",
-     Then use tactic "exact I".
+     Then use tactic "exact I.".
 
 <div class="paragraph"> </div>
 
@@ -1076,7 +1094,7 @@ applied to a Prop.
 
 <div class="paragraph"> </div>
 
-(NOTE: The Notation command is how the operator "-&gt;" was created 
+(NOTE: The Notation command is how the operator "-&gt;" was created
 for "(forall ...)".)
 
 <div class="paragraph"> </div>
@@ -1102,9 +1120,6 @@ Let's try to prove some things are unprovable!
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 The only new tactic here is "unfold".  We said "Definition" says two
 expressions are interchangeable.  Well, "unfold" and "fold" will
 interchange them.  After the "unfold", we have
@@ -1121,7 +1136,7 @@ interchange them.  After the "unfold", we have
 
 The "unfold" exposes that "~" is really an "-&gt;".  And we're very
 familiar with using the tactic "intros" to remove "-&gt;" at the front of
-the subgoal.  The command "intros proof_of_False" does just that.  
+the subgoal.  The command "intros proof_of_False" does just that.
 
 <div class="paragraph"> </div>
 
@@ -1170,7 +1185,7 @@ creates no subgoals!  Without a subgoal, we're done!
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If any hypothesis is "&lt;name&gt; : False",
-     Then use tactic "case &lt;name&gt;."
+     Then use tactic "case &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -1179,7 +1194,7 @@ creates no subgoals!  Without a subgoal, we're done!
 <div class="paragraph"> </div>
 
 We can use True and False to see that Coq's "-&gt;" operator really does
-act like "implication" from logic.  
+act like "implication" from logic.
 
 </div>
 <div class="code">
@@ -1224,7 +1239,7 @@ act like "implication" from logic.
 </div>
 
 <div class="doc">
-True-&gt;False can never be proven.  We demonstrate that by 
+True-&gt;False can never be proven.  We demonstrate that by
 proving ~(True-&gt;False). 
 </div>
 <div class="code">
@@ -1239,10 +1254,7 @@ proving ~(True-&gt;False).
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
-All of the above proofs should be obvious by now.
+All of the above proofs should be obvious to you by now.
 
 <div class="paragraph"> </div>
 
@@ -1281,7 +1293,7 @@ The only other option we know (so far) is "case" on a proof of False.
 <div class="paragraph"> </div>
 
 The tactic "unfold ... in" is used to interchange the definition of
-"not" in a hypothesis.  That exposes that the type "~A" is really 
+"not" in a hypothesis.  That exposes that the type "~A" is really
 "A -&gt; False", that is, a function from a proof of A to a proof of False.
 
 <div class="paragraph"> </div>
@@ -1424,7 +1436,7 @@ single proof named "I".
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the current subgoal contains a function call with all its arguments,
-     Then use the tactic "simpl".
+     Then use the tactic "simpl.".
 
 <div class="paragraph"> </div>
 
@@ -1500,9 +1512,6 @@ suppose a is false
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 Take a look at the state after "case a.".  There's two subgoals!  I
 said before that "case" creates subgoals for every possible
 construction of its argument.  So far, we've only used "case" with
@@ -1514,7 +1523,7 @@ generates no subgoals and ends our proofs.
 Hypotheses of type "bool" have two possible constructors "true" and
 "false".  Thus, "case a" creates two new subgoals - one where "a" has
 been replaced by "true" and a second where "a" has been replaced by
-"false".  
+"false".
 
 <div class="paragraph"> </div>
 
@@ -1534,7 +1543,7 @@ where "a" is "false" will become the current subgoal.
 
 <i>RULE</i>: If there is a hypothesis "&lt;name&gt;" of a created type
      AND that hypothesis is used in the subgoal,
-     Then you can try the tactic "case &lt;name&gt;"
+     Then you can try the tactic "case &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -1574,11 +1583,8 @@ suppose a is false
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 In this example, I had to control the location of "a" when using the
-tactic "case".  
+tactic "case".
 
 <div class="paragraph"> </div>
 
@@ -1593,7 +1599,7 @@ only changes the subgoal.)  And we'd be unable to prove the theorem.
 Instead, I left "a" in the subgoal and delayed the second "intros"
 until after the "case" command.  (In fact, after the "simpl" too.)  As
 a result, all usages of "a" were replaced by "true" or "false" and the
-theorem was provable.  
+theorem was provable.
 
 <div class="paragraph"> </div>
 
@@ -1612,7 +1618,7 @@ Before showing you the definition for "or", I want you to see some
 examples so that the definition will make sense.  In the examples
 below, imagine you have a hypothesis with a natural number "x".
 <ul class="doclist">
-<li> (or (x &lt; 5) (x = 7))    
+<li> (or (x &lt; 5) (x = 7))
 
 </li>
 <li> (or True False)
@@ -1625,15 +1631,15 @@ below, imagine you have a hypothesis with a natural number "x".
 As you can see, "or" is a function.  Each of its arguments are
 propositions - each of them are things that could be proved.  And we
 know that the "or" itself can be proved, so the result of call to "or"
-must be a proposition.  Since a proposition has type "Prop", the type 
-of "or" is: 
+must be a proposition.  Since a proposition has type "Prop", the type
+of "or" is:
 <ul class="doclist">
 <li> or (A B:Prop) : Prop
 
 </li>
 </ul>
 That is, a function that it takes two propositions, A and B, and
-returns a proposition.  
+returns a proposition.
 
 <div class="paragraph"> </div>
 
@@ -1728,14 +1734,11 @@ Right now, we want to play with "or", so let's get proving!
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 This proof should have gone pretty much as you expected.  The only
 complication is that the "pose" command could not infer the type of B
 from "or_introl proof_of_A", so the type had to be given explicitly by
 putting ": A \/ B" at the end.  "or_introl proof_of_A" by itself is a
-proof of "A \/ anything".  
+proof of "A \/ anything".
 
 <div class="paragraph"> </div>
 
@@ -1766,7 +1769,7 @@ is a fine approach.
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the subgoal's top-most term is a created type,
-     Then use "refine (&lt;name_of_constructor&gt; _  ...)".
+     Then use "refine (&lt;name_of_constructor&gt; _  ...).".
 
 <div class="paragraph"> </div>
 
@@ -1811,9 +1814,6 @@ suppose A_or_B is (or_intror proof_of_B)
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 This proof uses the tactic "case" to consider the two different ways
 we might have constructed the hypothesis "A \/ B".  One possibility
 was using "(or_introl proof_of_A)", which would have meant there was a
@@ -1892,9 +1892,6 @@ Let's go straight to a proof!
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 Pretty simple proof.  There is only one constructor for things of type
 "(and A B)", which is "conj".  It takes two arguments, which after
 "refine", become two subgoals.  The proofs of each are trivial.
@@ -1932,9 +1929,6 @@ suppose A_and_B is (conj proof_of_A proof_of_B)
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 The "case" tactic looked at all the different ways to construct an
 "and" in the hypothesis and found there was only one: "(conj
 proof_of_A proof_of_B)".  So, the tactic created one subgoal with both
@@ -1981,7 +1975,7 @@ single constructor.  The format is:
 <div class="paragraph"> </div>
 
 I put a comment with the name of the constructor inside the square
-braces.  
+braces.
 
 <div class="paragraph"> </div>
 
@@ -2008,7 +2002,7 @@ The result is a much shorter and cleaner proof.
 
 <div class="doc">
 <i>RULE</i>: If a hypothesis "&lt;name&gt;" is a created type with only one constructor,
-      Then use "destruct &lt;name&gt; as <span class="inlinecode"></span> <span class="inlinecode">&lt;<span class="id" title="var">arg1</span>&gt;</span> <span class="inlinecode">&lt;<span class="id" title="var">arg2</span>&gt;</span> <span class="inlinecode">...</span> <span class="inlinecode"></span>" to extract its arguments
+      Then use "destruct &lt;name&gt; as <span class="inlinecode"></span> <span class="inlinecode">&lt;<span class="id" title="var">arg1</span>&gt;</span> <span class="inlinecode">&lt;<span class="id" title="var">arg2</span>&gt;</span> <span class="inlinecode">...</span> <span class="inlinecode"></span>" to extract its arguments.
 
 <div class="paragraph"> </div>
 
@@ -2212,10 +2206,7 @@ suppose H is (or_intror B)
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
-Wow!  We're not in Kansas any more!  
+Wow!  We're not in Kansas any more!
 
 <div class="paragraph"> </div>
 
@@ -2260,7 +2251,7 @@ That was a real proof.  Welcome to the big leagues.
 <div class="paragraph"> </div>
 
 <i>RULE</i> If a hypothesis "&lt;name&gt;" contain a function call with all its arguments,
-      Then use the tactic "simpl in &lt;name&gt;"
+      Then use the tactic "simpl in &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -2388,25 +2379,28 @@ if you think you can.
 
 <div class="paragraph"> </div>
 
+I did not include a proof, so where you would normally see a proof,
+you'll see the tactic "admit" and the vernacular command "Admitted".
 The tactic "admit" is a cheat.  It ends a subgoal without solving it.
-A proof with an an "admit" is not a real proof, so it ends with
-"Admitted" instead of "Qed".  I use these below to let Coq's parser
-bypass this unproven theorem.
+A proof containing an "admit" is not a real proof, so Coq forces you
+to end it with "Admitted" instead of "Qed".  I use these commands
+below so that Coq's parser won't get hung up because I didn't include
+a proof of the theorem.
 
 <div class="paragraph"> </div>
 
-The "admit" tactic has its uses, though.  When there are multiple
-subgoals and you want to skip over the easy ones to work on the hard
-one first, the "admit" tactic can be used to get the easy subgoals out
-of the way.  Or, if you are only part way done a proof but you want
-send someone a Coq file that parses, "admit" can be used to fill in
-your blanks.
+The "admit" tactic has real uses.  When there are multiple subgoals
+and you want to skip over the easy ones to work on the hard one first,
+the "admit" tactic can be used to get the easy subgoals out of the
+way.  Or, if you are only part way done a proof but you want send
+someone a Coq file that parses, "admit" can be used to fill in your
+blanks.
 
 <div class="paragraph"> </div>
 
-So, take a swing at proving this theorem.  
+So, take a swing at proving this theorem.
 <ul class="doclist">
-<li> HINT: Remember "~A" is "A -&gt; False".  
+<li> HINT: Remember "~A" is "A -&gt; False".
 
 </li>
 <li> HINT: You can make use of the proof "False_cannot_be_proven"
@@ -2439,7 +2433,7 @@ when done, replace "Admitted." with "Qed."
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If you have a subgoal that you want to ignore for a while,
-      Then use the tactic "admit"
+      Then use the tactic "admit.".
 
 <div class="paragraph"> </div>
 
@@ -2464,7 +2458,7 @@ it.
 <div class="paragraph"> </div>
 
 For example, we might want to prove that "there exists a bool 'a' such
-that (Is_true (andb a true))".  We could not just state that the
+that (Is_true (andb a true))".  We cannot just state that the
 "bool" exists.  You need to produce a value for "a" - called the
 witness - and then prove that the statement holds for the witness.
 
@@ -2506,7 +2500,7 @@ Let's test this out with the easy theorem I already mentioned.
 
 <br/>
 <span class="id" title="keyword">Definition</span> <span class="id" title="var">basic_predicate</span><br/>
-:= <br/>
+:=<br/>
 &nbsp;&nbsp;(<span class="id" title="keyword">fun</span> <span class="id" title="var">a</span> =&gt; <span class="id" title="var">Is_true</span> (<span class="id" title="var">andb</span> <span class="id" title="var">a</span> <span class="id" title="var">true</span>))<br/>
 .<br/>
 
@@ -2529,12 +2523,12 @@ Let's test this out with the easy theorem I already mentioned.
 I start by defining the predicate: a function that takes a single
 argument "a" (which Coq can determine is a "bool").  The key part of
 the proof is the tactic "refine (ex_intro ...)". The arguments to
-"ex_intro" are: 
+"ex_intro" are:
 <ul class="doclist">
-<li> the predicate 
+<li> the predicate
 
 </li>
-<li> the witness 
+<li> the witness
 
 </li>
 <li> a proof of the predicated called with the witness
@@ -2712,7 +2706,7 @@ The proof requires some explanation.
 <li> we use intros and unfold until we have everything in the context.
 
 </li>
-<li> we use "destruct" to extract the witness and the proof of "P witness".  
+<li> we use "destruct" to extract the witness and the proof of "P witness".
 
 </li>
 <li> we call "(forall x, ~(P x))" with the witness, to generate "(P witness) -&gt; False"
@@ -2778,7 +2772,7 @@ Again, this isn't a very readable proof.  It goes by:
 
 For some predicates, the witness is a single value or is easy to
 generate.  Other times, it isn't.  In those cases, we can write a
-function to calculate the witness.  
+function to calculate the witness.
 
 <div class="paragraph"> </div>
 
@@ -2834,21 +2828,21 @@ prevents Coq from inferring values, like the type "A".)  The name
 Lastly, comes two operators.  The less commonly used one is "x = y :&gt;
 A" which let's you say that "x" and "y" are equal and both have type
 "A".  The one you'll use most of the time, "x = y", does the same but
-let's Coq infer the type "A" instead of forcing you to type it.  
+let's Coq infer the type "A" instead of forcing you to type it.
 
 <div class="paragraph"> </div>
 
 Now, if you we paying attention, you saw that "eq_refl" is the only
 constructor.  We can only create proofs of "x = x"!  That doesn't seem
-useful at all!  
+useful at all!
 
 <div class="paragraph"> </div>
 
-What you don't see is that Coq allows you to execute a function call 
-and substitute the result for the function call.  For example, if we had 
-a function "plus" that added natural numbers (which have type "nat"), 
-we could use "eq_refl (plus 1 1)" to create a proof of 
-"eq nat (plus 1 1) (plus 1 1)".  Then, if we execute the second function 
+What you don't see is that Coq allows you to execute a function call
+and substitute the result for the function call.  For example, if we had
+a function "plus" that added natural numbers (which have type "nat"),
+we could use "eq_refl (plus 1 1)" to create a proof of
+"eq nat (plus 1 1) (plus 1 1)".  Then, if we execute the second function
 call, we get "eq nat (plus 1 1) 2", that is, "1 + 1 = 2"!
 
 <div class="paragraph"> </div>
@@ -2856,7 +2850,7 @@ call, we get "eq nat (plus 1 1) 2", that is, "1 + 1 = 2"!
 The concept of substituting a function call with its result or
 substituting the result with the function call is called
 "convertibility".  One tactic we've seen, "simpl", replaces
-convertibile values.  We'll see more tactics in the future.
+convertible values.  We'll see more tactics in the future.
 
 <div class="paragraph"> </div>
 
@@ -2980,13 +2974,13 @@ That is much cleaner.
 
 <i>RULE</i>: If you have a hypothesis "&lt;name&gt; : &lt;a&gt; = &lt;b&gt;"
      AND "&lt;a&gt;" in your current subgoal
-     Then use the tactic "rewrite &lt;name&gt;"
+     Then use the tactic "rewrite &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If you have a hypothesis "&lt;name&gt; : &lt;a&gt; = &lt;b&gt;"
      AND "&lt;b&gt;" in your current subgoal
-     Then use the tactic "rewrite &lt;- &lt;name&gt;"
+     Then use the tactic "rewrite &lt;- &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -3063,7 +3057,7 @@ I should do an example with inequality too.
 <div class="paragraph"> </div>
 
 Coq uses the operator "&lt;&gt;" for inequality, which really means
-"equality is unprovable" or "equality implies False".  
+"equality is unprovable" or "equality implies False".
 
 <div class="paragraph"> </div>
 
@@ -3074,7 +3068,7 @@ Notation "x &lt;&gt; y" := (x &lt;&gt; y :&gt;_) : type_scope.
 
 <div class="paragraph"> </div>
 
-Let's start with a simple example.  Recall that "negb" is the 
+Let's start with a simple example.  Recall that "negb" is the
 "not" operation for bools.
 
 </div>
@@ -3096,9 +3090,6 @@ Let's start with a simple example.  Recall that "negb" is the
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 To prove this, once again I had to delay calling "intros" until after
 "case".  If I did not, "a" in "a_eq_neg_a" would not get replaced
 "true" or "false".  I also used a new tactic: "discriminate".
@@ -3118,10 +3109,10 @@ eliminate a lot of cases that can never happen.
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If you have a hypothesis 
+<i>RULE</i>: If you have a hypothesis
           "&lt;name&gt; : (&lt;constructor1&gt; ...) = (&lt;constructor2&gt; ...)
      OR "&lt;name&gt; : &lt;constant1&gt; = &lt;constant2&gt;
-     Then use the tactic "discriminate &lt;name&gt;"
+     Then use the tactic "discriminate &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -3173,13 +3164,13 @@ Peano's definition of natural numbers is:
 it as "1 + n".  If we were to list the first few of Peano's natural
 numbers, they would be:
 <ul class="doclist">
-<li> 0 is 0 
+<li> 0 is 0
 
 </li>
 <li> 1 is (S 0) = (1 + 0)
 
 </li>
-<li> 2 is (S (S 0)) = (1+ (1 + 0)) 
+<li> 2 is (S (S 0)) = (1+ (1 + 0))
 
 </li>
 <li> 3 is (S (S (S 0)) = (1 + (1 + (1 + 0)))
@@ -3204,7 +3195,7 @@ Inductive nat : Set :=
 
 <div class="paragraph"> </div>
 
-<i>WARNING</i>: The "O" here is the capital-letter O, <i>not</i> the number zero.  
+<i>WARNING</i>: The "O" here is the capital-letter O, <i>not</i> the number zero.
 
 <div class="paragraph"> </div>
 
@@ -3291,9 +3282,6 @@ the canonical form.
 </div>
 
 <div class="doc">
-
-<div class="paragraph"> </div>
-
 As you can see by "eq_refl 5", Coq will translate decimal numbers into
 terms of "nat" automatically.  This means capital-letter "O" and the
 digit "0" are really the same term, which prevents a lot of mistakes.
@@ -3370,11 +3358,9 @@ nat_ind
 
 <div class="paragraph"> </div>
 
-Now, we <i>could</i> 
+Now, we <i>could</i>
+  - define a function "P n" that represents "O + n = n"
 <ul class="doclist">
-<li> define a function "P n" that represents "O + n = n" 
-
-</li>
 <li> prove that the function holds for "P O"
 
 </li>
@@ -3394,7 +3380,7 @@ predicate P, and then generates child subgoals for the other pieces.
 
 <div class="paragraph"> </div>
 
-One tactic, "elim" works very similarly to "case".  
+One tactic, "elim" works very similarly to "case".
 
 </div>
 <div class="code">
@@ -3448,7 +3434,7 @@ you should use the "case" tactic instead of "elim".
 <i>RULE</i>: If there is a hypothesis "&lt;name&gt;" of a created type
      AND that hypothesis is used in the subgoal,
      AND the type has a recursive definition,
-     Then you can try the tactic "elim &lt;name&gt;"
+     Then you can try the tactic "elim &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
@@ -3608,7 +3594,7 @@ Along with:
 The dangerous one in this group is "minus".  The natural numbers don't
 go lower than 0, so "(1 - 2)" cannot return a negative number.  Since
 Coq must return something of type "nat", it returns "O" instead.  So
-you can do crazy proofs like this without intending!  
+you can do crazy proofs like this without intending!
 
 </div>
 <div class="code">
@@ -3682,7 +3668,7 @@ questions is that "Type(1)" has type "Type(2)".  "Type(2)" has type
 
 <div class="paragraph"> </div>
 
-Similarly, "true" had type "bool".  "bool" had type "Set".  And "Set" has 
+Similarly, "true" had type "bool".  "bool" had type "Set".  And "Set" has
 type "Type(1)" (just like "Prop").
 
 <div class="paragraph"> </div>
@@ -3719,9 +3705,9 @@ increases it's length by 1.
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Theorem</span> <span class="id" title="var">cons_adds_one_to_length</span> : <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>, <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>), <br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">cons_adds_one_to_length</span> :<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>,<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>),<br/>
 &nbsp;&nbsp;&nbsp;<span class="id" title="var">length</span> (<span class="id" title="var">x</span> :: <span class="id" title="var">lst</span>) = (<span class="id" title="var">S</span> (<span class="id" title="var">length</span> <span class="id" title="var">lst</span>)))).<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span>.<br/>
@@ -3746,7 +3732,7 @@ increases its length by 1.
 
 Now, the simplest function you can imagine for a linked list is "hd",
 which returns the first value in the list.  But there's a problem:
-what should we return if the list is empty? 
+what should we return if the list is empty?
 
 <div class="paragraph"> </div>
 
@@ -3772,7 +3758,7 @@ There are choices you can make:
 
 <div class="paragraph"> </div>
 
-You didn't think of that last one, did you?!  I'll show you each of these 
+You didn't think of that last one, did you?!  I'll show you each of these
 approaches so that you can see what they look like.
 <a name="lab52"></a><h4 class="section">hd with additional parameter</h4>
 
@@ -3780,7 +3766,7 @@ approaches so that you can see what they look like.
 <div class="code">
 
 <br/>
-<span class="id" title="keyword">Definition</span> <span class="id" title="var">hd</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">default</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">l</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>) <br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">hd</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">default</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">l</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>)<br/>
 :=<br/>
 &nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">l</span> <span class="id" title="keyword">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">nil</span> =&gt; <span class="id" title="var">default</span><br/>
@@ -3809,7 +3795,7 @@ Thus, we can do:
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Definition</span> <span class="id" title="var">my_hd_for_nat_lists</span> <br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">my_hd_for_nat_lists</span><br/>
 :=<br/>
 &nbsp;&nbsp;<span class="id" title="var">hd</span> <span class="id" title="var">nat</span> 0.<br/>
 </div>
@@ -3846,9 +3832,9 @@ We can also prove it correct.
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Theorem</span> <span class="id" title="var">correctness_of_hd</span> : <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>, <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">default</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>), <br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">correctness_of_hd</span> :<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>,<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">default</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>),<br/>
 &nbsp;&nbsp;&nbsp;(<span class="id" title="var">hd</span> <span class="id" title="var">A</span> <span class="id" title="var">default</span> <span class="id" title="var">nil</span>) = <span class="id" title="var">default</span> /\ (<span class="id" title="var">hd</span> <span class="id" title="var">A</span> <span class="id" title="var">default</span> (<span class="id" title="var">x</span> :: <span class="id" title="var">lst</span>)) = <span class="id" title="var">x</span>)).<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span>.<br/>
@@ -3897,7 +3883,7 @@ Coq includes a version of "hd" that returns an "option".  It's called
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Definition</span> <span class="id" title="var">hd_error</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">l</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>) <br/>
+<span class="id" title="keyword">Definition</span> <span class="id" title="var">hd_error</span> (<span class="id" title="var">A</span> : <span class="id" title="keyword">Type</span>) (<span class="id" title="var">l</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>)<br/>
 :=<br/>
 &nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">l</span> <span class="id" title="keyword">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">nil</span> =&gt; <span class="id" title="var">None</span><br/>
@@ -3930,9 +3916,9 @@ We can also prove it correct.
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Theorem</span> <span class="id" title="var">correctness_of_hd_error</span> : <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>, <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>), <br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">correctness_of_hd_error</span> :<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>,<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>),<br/>
 &nbsp;&nbsp;&nbsp;(<span class="id" title="var">hd_error</span> <span class="id" title="var">A</span> <span class="id" title="var">nil</span>) = <span class="id" title="var">None</span> /\ (<span class="id" title="var">hd_error</span> <span class="id" title="var">A</span> (<span class="id" title="var">x</span> :: <span class="id" title="var">lst</span>)) = <span class="id" title="var">Some</span> <span class="id" title="var">x</span>)).<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span>.<br/>
@@ -3964,11 +3950,11 @@ empty, so "hd" can never fail.
 &nbsp;&nbsp;: <span class="id" title="var">A</span><br/>
 :=<br/>
 &nbsp;&nbsp;(<span class="id" title="keyword">match</span> <span class="id" title="var">lst</span> <span class="id" title="keyword">as</span> <span class="id" title="var">b</span> <span class="id" title="keyword">return</span> (<span class="id" title="var">lst</span> = <span class="id" title="var">b</span> -&gt; <span class="id" title="var">A</span>) <span class="id" title="keyword">with</span><br/>
-&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">nil</span> =&gt;    (<span class="id" title="keyword">fun</span> <span class="id" title="var">foo</span> : <span class="id" title="var">lst</span> = <span class="id" title="var">nil</span> =&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">nil</span> =&gt;    (<span class="id" title="keyword">fun</span> <span class="id" title="var">foo</span> : <span class="id" title="var">lst</span> = <span class="id" title="var">nil</span> =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">match</span> (<span class="id" title="var">safety_proof</span> <span class="id" title="var">foo</span>) <span class="id" title="keyword">return</span> <span class="id" title="var">A</span> <span class="id" title="keyword">with</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">end</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">x</span> :: <span class="id" title="var">_</span> =&gt; (<span class="id" title="keyword">fun</span> <span class="id" title="var">foo</span> : <span class="id" title="var">lst</span> = <span class="id" title="var">x</span> :: <span class="id" title="var">_</span> =&gt; <br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" title="var">x</span> :: <span class="id" title="var">_</span> =&gt; (<span class="id" title="keyword">fun</span> <span class="id" title="var">foo</span> : <span class="id" title="var">lst</span> = <span class="id" title="var">x</span> :: <span class="id" title="var">_</span> =&gt;<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">x</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;)<br/>
 &nbsp;&nbsp;<span class="id" title="keyword">end</span>) <span class="id" title="var">eq_refl</span>.<br/>
@@ -3984,15 +3970,15 @@ printed using "Show Proof." from the complicated proofs above.
 <div class="paragraph"> </div>
 
 But I do expect you to understand that it <i>can</i> be written in Coq.
-And, I expect you to be able to read a prove that the function does
-what I said it does.  
+And, I expect you to be able to read a proof that the function does
+what I said it does.
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Theorem</span> <span class="id" title="var">correctness_of_hd_never_fail</span> : <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>, <br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">correctness_of_hd_never_fail</span> :<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>,<br/>
 &nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">rest</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>),<br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">exists</span> <span class="id" title="var">safety_proof</span> : ((<span class="id" title="var">x</span> :: <span class="id" title="var">rest</span>) &lt;&gt; <span class="id" title="var">nil</span>), <br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="tactic">exists</span> <span class="id" title="var">safety_proof</span> : ((<span class="id" title="var">x</span> :: <span class="id" title="var">rest</span>) &lt;&gt; <span class="id" title="var">nil</span>),<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">hd_never_fail</span>  <span class="id" title="var">A</span> (<span class="id" title="var">x</span> :: <span class="id" title="var">rest</span>) <span class="id" title="var">safety_proof</span>) = <span class="id" title="var">x</span>))).<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span>.<br/>
@@ -4047,13 +4033,13 @@ If you want to test your skills, it would be good practice to write
 three different versions of "tl", just like I did for "hd", and prove
 them correct.
 <pre>
-Definition tl_error (A : Type) (l : list A) 
-  : option list A 
-:= 
+Definition tl_error (A : Type) (l : list A)
+  : option list A
+:=
   ...
-Definition tl_never_fail (A : Type) (lst : list A) (safety_proof : lst &lt;&gt; nil) 
-  : list A 
-:= 
+Definition tl_never_fail (A : Type) (lst : list A) (safety_proof : lst &lt;&gt; nil)
+  : list A
+:=
   ...
 </pre>
 
@@ -4064,9 +4050,9 @@ can be used to reconstruct the list.
 
 </div>
 <div class="code">
-<span class="id" title="keyword">Theorem</span> <span class="id" title="var">hd_tl</span> : <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>, <br/>
-&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">default</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>), <br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">hd_tl</span> :<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span>:<span class="id" title="keyword">Type</span>,<br/>
+&nbsp;&nbsp;&nbsp;(<span class="id" title="keyword">forall</span> (<span class="id" title="var">default</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">x</span> : <span class="id" title="var">A</span>) (<span class="id" title="var">lst</span> : <span class="id" title="var">list</span> <span class="id" title="var">A</span>),<br/>
 &nbsp;&nbsp;&nbsp;(<span class="id" title="var">hd</span> <span class="id" title="var">A</span> <span class="id" title="var">default</span> (<span class="id" title="var">x</span>::<span class="id" title="var">lst</span>)) :: (<span class="id" title="var">tl</span> <span class="id" title="var">A</span> (<span class="id" title="var">x</span>::<span class="id" title="var">lst</span>)) = (<span class="id" title="var">x</span> :: <span class="id" title="var">lst</span>))).<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
 &nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span>.<br/>
@@ -4218,7 +4204,28 @@ solving your puzzles!
 
 <div class="paragraph"> </div>
 
-<a name="lab59"></a><h2 class="section">Further Reading</h2>
+<a name="lab59"></a><h2 class="section">Contact</h2>
+
+<div class="paragraph"> </div>
+
+A Coq version of the tutorial ships with Coq.  It is available in their git repo on Github: https://github.com/coq/coq
+
+<div class="paragraph"> </div>
+
+HTML and Coq versions of the tutorial are hosted on the author's professional website.
+
+<div class="paragraph"> </div>
+
+https://mdnahas.github.io/doc/nahas_tutorial.html
+https://mdnahas.github.io/doc/nahas_tutorial.v
+
+<div class="paragraph"> </div>
+
+The author, Michael Nahas, can be reached at michael@nahas.com
+
+<div class="paragraph"> </div>
+
+<a name="lab60"></a><h2 class="section">Further Reading</h2>
 
 <div class="paragraph"> </div>
 
@@ -4257,17 +4264,19 @@ but it is a beautiful paper.
 
 <div class="paragraph"> </div>
 
-If you need to learn a programming language, OCaML is the one that
-would help you with Coq the most.  Coq is written in OCaML and it
-borrows a lot of OCaML's syntax and style.
+If you need to learn a programming language, OCaml is the one that
+would help you with Coq the most.  Coq is written in OCaml and it
+borrows a lot of OCaml's syntax and style.
 
 <div class="paragraph"> </div>
 
-http://caml.inria.fr/
+https://ocaml.org
 
 <div class="paragraph"> </div>
 
-To learn more about Coq, I found the textbook "Software Foundations" readable.  It focuses on proving programs correct.  You can also look at Coq's documentation webpage.
+To learn more about Coq, I found the textbook "Software Foundations"
+readable.  It focuses on proving programs correct.  You can also look
+at Coq's documentation webpage.
 
 <div class="paragraph"> </div>
 
@@ -4279,7 +4288,7 @@ https://coq.inria.fr/documentation
 
 <div class="paragraph"> </div>
 
-<a name="lab60"></a><h2 class="section">Vernacular commands</h2>
+<a name="lab61"></a><h2 class="section">Vernacular commands</h2>
 
 <div class="paragraph"> </div>
 
@@ -4299,10 +4308,10 @@ https://coq.inria.fr/documentation
 <li> "Fixpoint" declares a recursive function.
 
 </li>
-<li> "Inductive" declares data types.  
+<li> "Inductive" declares data types.
 
 </li>
-<li> "Notation" creates new operators.  
+<li> "Notation" creates new operators.
 
 </li>
 <li> "Infix" also creates new operators.
@@ -4324,31 +4333,31 @@ https://coq.inria.fr/documentation
 
 <div class="paragraph"> </div>
 
-<a name="lab61"></a><h2 class="section">The tactic guide</h2>
+<a name="lab62"></a><h2 class="section">The tactic guide</h2>
 
 <div class="paragraph"> </div>
 
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If the subgoal starts with "(forall &lt;name&gt; : &lt;type&gt;, ..." 
-      Then use tactic "intros &lt;name&gt;."
+<i>RULE</i>: If the subgoal starts with "(forall &lt;name&gt; : &lt;type&gt;, ..."
+      Then use tactic "intros &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If the subgoal starts with "&lt;type&gt; -&gt; ..." 
-      Then use tactic "intros &lt;name&gt;."
+<i>RULE</i>: If the subgoal starts with "&lt;type&gt; -&gt; ..."
+      Then use tactic "intros &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the subgoal matches an hypothesis,
-      Then use tactic "exact &lt;hyp_name&gt;."
+      Then use tactic "exact &lt;hyp_name&gt;.".
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If you have an hypothesis 
-          "&lt;hyp_name&gt;: &lt;type1&gt; -&gt; &lt;type2&gt; -&gt; ... -&gt; &lt;result_type&gt;" 
-     OR an hypothesis 
+<i>RULE</i>: If you have an hypothesis
+          "&lt;hyp_name&gt;: &lt;type1&gt; -&gt; &lt;type2&gt; -&gt; ... -&gt; &lt;result_type&gt;"
+     OR an hypothesis
             "&lt;hyp_name&gt;: (forall &lt;obj1&gt;:&lt;type1&gt;, (forall &lt;obj2&gt;:&lt;type2&gt;, ... &lt;result_type&gt; ...))"
      OR any combination of "-&gt;" and "forall",
      AND you have hypotheses of type "type1", "type2"...,
@@ -4356,7 +4365,7 @@ https://coq.inria.fr/documentation
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If you have subgoal "&lt;goal_type&gt;" 
+<i>RULE</i>: If you have subgoal "&lt;goal_type&gt;"
      AND have hypothesis
           "&lt;hyp_name&gt;: &lt;type1&gt; -&gt; &lt;type2&gt; -&gt; ... -&gt; &lt;typeN&gt; -&gt; &lt;goal_type&gt;",
      Then use tactic "refine (&lt;hyp_name&gt; _  ...)." with N underscores.
@@ -4364,7 +4373,7 @@ https://coq.inria.fr/documentation
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If your subgoal is "True",
-     Then use tactic "exact I".
+     Then use tactic "exact I.".
 
 <div class="paragraph"> </div>
 
@@ -4374,70 +4383,70 @@ https://coq.inria.fr/documentation
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If any hypothesis is "&lt;name&gt; : False",
-     Then use tactic "case &lt;name&gt;."
+     Then use tactic "case &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the current subgoal contains a function call with all its arguments,
-     Then use the tactic "simpl".
+     Then use the tactic "simpl.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If there is a hypothesis "&lt;name&gt;" of a created type
      AND that hypothesis is used in the subgoal,
-     Then you can try the tactic "case &lt;name&gt;"
+     Then you can try the tactic "case &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the subgoal's top-most term is a created type,
-      Then use "refine (&lt;name_of_constructor&gt; _  ...)".
+      Then use "refine (&lt;name_of_constructor&gt; _  ...).".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If a hypothesis "&lt;name&gt;" is a created type with only one
 constructor,
-     Then use "destruct &lt;name&gt; as <span class="inlinecode"></span> <span class="inlinecode">&lt;<span class="id" title="var">arg1</span>&gt;</span> <span class="inlinecode">&lt;<span class="id" title="var">arg2</span>&gt;</span> <span class="inlinecode">...</span> <span class="inlinecode"></span>" to extract its arguments
+     Then use "destruct &lt;name&gt; as <span class="inlinecode"></span> <span class="inlinecode">&lt;<span class="id" title="var">arg1</span>&gt;</span> <span class="inlinecode">&lt;<span class="id" title="var">arg2</span>&gt;</span> <span class="inlinecode">...</span> <span class="inlinecode"></span>." to extract its arguments.
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If a hypothesis "&lt;name&gt;" contain a function call with all its arguments,
-     Then use the tactic "simpl in &lt;name&gt;"
+     Then use the tactic "simpl in &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If you have a subgoal that you want to ignore for a while,
-     Then use the tactic "admit"
+     Then use the tactic "admit.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If the current subgoal starts "exists &lt;name&gt;, ..."
-     Then create a witness and use "refine (ex_intro _ witness _)"
+     Then create a witness and use "refine (ex_intro _ witness _).".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If you have a hypothesis "&lt;name&gt; : &lt;a&gt; = &lt;b&gt;"
      AND "&lt;a&gt;" in your current subgoal
-     Then use the tactic "rewrite &lt;name&gt;"
+     Then use the tactic "rewrite &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If you have a hypothesis "&lt;name&gt; : &lt;a&gt; = &lt;b&gt;"
      AND "&lt;b&gt;" in your current subgoal
-     Then use the tactic "rewrite &lt;- &lt;name&gt;"
+     Then use the tactic "rewrite &lt;- &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
-<i>RULE</i>: If you have a hypothesis 
+<i>RULE</i>: If you have a hypothesis
           "&lt;name&gt; : (&lt;constructor1&gt; ...) = (&lt;constructor2&gt; ...)
      OR "&lt;name&gt; : &lt;constant1&gt; = &lt;constant2&gt;
-     Then use the tactic "discriminate &lt;name&gt;"
+     Then use the tactic "discriminate &lt;name&gt;.".
 
 <div class="paragraph"> </div>
 
 <i>RULE</i>: If there is a hypothesis "&lt;name&gt;" of a created type
      AND that hypothesis is used in the subgoal,
      AND the type has a recursive definition
-     Then you can try the tactic "elim &lt;name&gt;"
+     Then you can try the tactic "elim &lt;name&gt;.".
 
 </div>
 <div class="code">
