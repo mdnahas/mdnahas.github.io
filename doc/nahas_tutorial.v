@@ -74,7 +74,7 @@ the command-line version of Coq.  It is also available at
 http://coq.inria.fr/download The Linux package is usually called
 "coq".  To use it in Emacs, you have to also download and install the
 "Proof General" Emacs mode.  Is is available at
-http://proofgeneral.inf.ed.ac.uk/ Linux package managers include some
+https://proofgeneral.github.io/ Linux package managers include some
 version of it.  (Debian/Ubuntu/Mint calls it "proofgeneral".
 Fedora/CentOS might call it "emacs-common-proofgeneral".  Arch might
 call it "proofgeneral".)
@@ -159,23 +159,23 @@ proof, which takes 3 steps.  Lastly, the "Qed" command ends the proof.
 
 (NOTE: Instead of "Theorem", you may also see proofs that start with
 "Lemma", "Remark", "Fact", "Corollary", and "Proposition", which all
-mean the _SAME_ thing.  I think it is good style to only use "Theorem".
-Instead of "Qed", you may also see proofs that end with "Admitted" or
+mean the _SAME_ thing.  In my proofs, I only use "Theorem".  Instead
+of "Qed", you may also see proofs that end with "Admitted" or
 "Defined", but these mean _DIFFERENT_ things.  Use "Qed" for now.)
 
 
 Coq uses 3 different "languages" and you can see them all here in this
 proof.
-  - The "vernacular" language manages definitions,
-    and each of its commands starts with a capital letter:
+  - The "vernacular" language manages definitions and top-level
+    interactions.  Each of its commands starts with a capital letter:
     "Theorem", "Proof", and "Qed".
-  - The "tactics" language is used to write proofs,
-    and its commands start with a lower-case letter:
-    "intros" and "exact".
-  - The "Gallina" language is used to express what you want to prove,
-    and its expressions use lots of operators and parentheses:
-     "(forall A : Prop, A -> A)".
-
+  - The "tactics" language is used to write proofs.  Its commands start
+    with a lower-case letter: "intros" and "exact".
+  - The unnamed language of Coq terms is used to express what you want
+    to prove.  Its expressions use lots of operators and
+    parentheses: "(forall A : Prop, A -> A)".  (Technically, this
+    language is a subset of the vernacular language, but it is useful to
+    think of it as its own thing.)
 
 Now, let's take a look inside this proof!  Since it probably has
 scrolled off the screen, I'll reproduce it.
@@ -333,8 +333,8 @@ need something of type A" or, because A is a proposition, "we need a
 proof of A".  Now, the previous command moved a proof of A into the
 context and called it "proof_of_A".  So, an hypothesis in our context
 (which are all things we know to exist) has a type that matches our
-subgoal (which is we want to create), so we have an exact match.  The
-tactic "exact proof_of_A" solves the subgoal (and the proof).
+subgoal (which is what we want to create), so we have an exact match.
+The tactic "exact proof_of_A" solves the subgoal (and the proof).
 
 Ta-da!  Your first proof!
 
@@ -568,8 +568,8 @@ function that takes two arguments, one of type A and one of type B,
 and returns a value of type C.  The type of the function is "A->B->C"
 and a call to it looks like "A_imp_B_imp_C something_of_type_A
 something_of_type_B".  Notice that there are no parentheses needed -
-you just put the arguments next to the name of the function.
-E.g. "function arg1 arg2" This is a style common in functional
+you just put the arguments next to the name of the function.  For
+example, "function arg1 arg2". This is a style common in functional
 programming languages.  For those familiar with imperative languages,
 like C, C++, and Java, it will feel odd not to have parentheses and
 commas to denote the arguments.
@@ -645,6 +645,21 @@ we go, you'll see the tight relationship in Coq between proofs and
 code.
 
 
+At this point, I want to emphasize that Coq proofs are not normally
+this tedious or verbose.  The proofs I've shown and the proofs I will
+show are demonstrating the mechanics of how Coq works.  I'm using
+simple familiar types to make the mechanics' operations clear to you.
+Coq's tactic language contains commands for automatic theorem proving
+and for defining macros.  Almost all the proofs in this tutorial are
+simple enough to dispatch with a single Coq tactic.  But when you
+prove more complicated statements, you'll need all the commands I'm
+teaching in this tutorial.
+
+This helps explain why most Coq proofs are backwards.  Once a
+goal has been transformed into simple enough subgoals, those
+subgoals can each be proved by automation.
+
+
 So far, we've only worked with proofs, propositions, and Prop.  Let's
 add some more types!
 *)
@@ -683,10 +698,9 @@ have been named "Provable" and "Unprovable" (or "AlwaysProvable"
 and "NeverProvable").  The lower-case ones act like what you're
 accustomed to.
 
-Since we've been playing with Props, let's do some proofs with (the badly
-named) "True" and "False" and we'll come back to the lower-case "true"
-and "false" later.
-*)
+Since we've been playing with Props, let's do some proofs with (the
+imperfectly named) "True" and "False" and we'll come back to the
+lower-case "true" and "false" later.  *)
 
 (** ** Capital-T True and Capital-F False *)
 (** *** True is provable *)
@@ -778,7 +792,7 @@ familiar with using the tactic "intros" to remove "->" at the front of
 the subgoal.  The command "intros proof_of_False" does just that.
 
 
-After that, it's goes as usual.  "intros"s at the start and "exact" at
+After that, it goes as usual.  "intros"s at the start and "exact" at
 the end.  It feels weird to have an hypothesis labeled
 "proof_of_False" doesn't it?  It's weird because we know False has no
 proofs, so that hypothesis can never exist.  Wouldn't it be better if
@@ -2200,12 +2214,86 @@ _RULE_: If there is a hypothesis "<name>" of a created type
      AND that hypothesis is used in the subgoal,
      AND the type has a recursive definition,
      Then you can try the tactic "elim <name>.".
-
-
-Now that we know how to use induction, let's do a difficult proof.
-Let's prove that "n + m = m + n".
 *)
 
+*)
+(** *** Induction tactic *)
+(**
+Just as the "case" tactic has a similar "destruct" tactic, the "elim"
+tactic has a similar "induction" tactic.  Let's look at the previous
+proof, but using this new tactic.
+*)
+Theorem plus_n_O__again : (forall n, n + O = n).
+Proof.
+  intros n.
+  induction n as [|n' inductive_hypothesis].
+    (** base case *)
+    simpl.
+    exact (eq_refl O).
+
+    (** inductive case *)
+    simpl.
+    rewrite inductive_hypothesis.
+    exact (eq_refl (S n')).
+Qed.
+(**
+So, the "induction" tactic does the same thing as "elim.", except the
+names of the created variables are listed in the tactic, rather than
+being assigned later using "intros" in the inductive case of the proof.
+
+The "induction" command creates 2 subgoals, one for the base case and
+another for the inductive case, and after the "as" keyword, there are
+2 lists of variable names, one for the base case and one for the
+inductive case.  Those lists are separated by verical bars ('|')
+inside the square brackets.  The base case doesn't create any
+variables, so its list is empty.  The inductive case creates two
+variables, and they are named "n'" and "inductive_hypothesis".
+
+I said the "induction" command was similar to "destruct" and, if the
+type "destruct"ed has more than one constructor, the "destruct"
+command will create a subgoals for each constructor and the command
+needs a list of variable names for each constructor.  For example, the
+type "or" has two constructors.  Recall that something of type "or A
+B" can be created by "or_introl proof_of_A" or "or_intror proof_of_B".
+If I "destruct" an "or A B", it will create two subgoals and the
+"destruct" needs to have a list of variables for each.  To
+demonstrate this, I'll redo the proof that or commutes.
+
+*)
+
+Theorem or_commutes__again : (forall A B, A \/ B -> B \/ A).
+Proof.
+  intros A B.
+  intros A_or_B.
+  destruct A_or_B as [proof_of_A | proof_of_B].
+    (** suppose A_or_B is (or_introl proof_of_A) *)
+    refine (or_intror _).
+      exact proof_of_A.
+
+    (** suppose A_or_B is (or_intror proof_of_B) *)
+    refine (or_introl _).
+      exact proof_of_B.
+Qed.
+
+(**
+In my proofs, I like to use "case" and "elim" and only use "destruct"
+for types with a single constructor.  However, some people prefer to
+use "destruct" and "induction" for every proof.  The writers of Coq
+are talking about removing this duplication and may remove "case" and
+"elim" in the future.
+
+If you want to use "destruct" and "induction", it is helpful to use
+the Vernacular command "Print", which prints out a definition and
+shows you how many constructors there are and which variables you need
+to name for each one.
+*)
+Print or.
+Print nat_ind.
+(**
+
+Now we return to proofs on induction using "nat".  And let's do a
+difficult proof.  Let's prove that "n + m = m + n".
+*)
 (** *** Addition is Symmetric *)
 Theorem plus_sym: (forall n m, n + m = m + n).
 Proof.

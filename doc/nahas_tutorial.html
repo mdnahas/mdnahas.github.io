@@ -120,7 +120,7 @@ the command-line version of Coq.  It is also available at
 http://coq.inria.fr/download The Linux package is usually called
 "coq".  To use it in Emacs, you have to also download and install the
 "Proof General" Emacs mode.  Is is available at
-http://proofgeneral.inf.ed.ac.uk/ Linux package managers include some
+https://proofgeneral.github.io/ Linux package managers include some
 version of it.  (Debian/Ubuntu/Mint calls it "proofgeneral".
 Fedora/CentOS might call it "emacs-common-proofgeneral".  Arch might
 call it "proofgeneral".)
@@ -243,8 +243,8 @@ proof, which takes 3 steps.  Lastly, the "Qed" command ends the proof.
 
 (NOTE: Instead of "Theorem", you may also see proofs that start with
 "Lemma", "Remark", "Fact", "Corollary", and "Proposition", which all
-mean the <i>SAME</i> thing.  I think it is good style to only use "Theorem".
-Instead of "Qed", you may also see proofs that end with "Admitted" or
+mean the <i>SAME</i> thing.  In my proofs, I only use "Theorem".  Instead
+of "Qed", you may also see proofs that end with "Admitted" or
 "Defined", but these mean <i>DIFFERENT</i> things.  Use "Qed" for now.)
 
 <div class="paragraph"> </div>
@@ -252,25 +252,23 @@ Instead of "Qed", you may also see proofs that end with "Admitted" or
 Coq uses 3 different "languages" and you can see them all here in this
 proof.
 <ul class="doclist">
-<li> The "vernacular" language manages definitions,
-    and each of its commands starts with a capital letter:
+<li> The "vernacular" language manages definitions and top-level
+    interactions.  Each of its commands starts with a capital letter:
     "Theorem", "Proof", and "Qed".
 
 </li>
-<li> The "tactics" language is used to write proofs,
-    and its commands start with a lower-case letter:
-    "intros" and "exact".
+<li> The "tactics" language is used to write proofs.  Its commands start
+    with a lower-case letter: "intros" and "exact".
 
 </li>
-<li> The "Gallina" language is used to express what you want to prove,
-    and its expressions use lots of operators and parentheses:
-     "(forall A : Prop, A -&gt; A)".
+<li> The unnamed language of Coq terms is used to express what you want
+    to prove.  Its expressions use lots of operators and
+    parentheses: "(forall A : Prop, A -&gt; A)".  (Technically, this
+    language is a subset of the vernacular language, but it is useful to
+    think of it as its own thing.)
 
 </li>
 </ul>
-
-<div class="paragraph"> </div>
-
 
 <div class="paragraph"> </div>
 
@@ -504,8 +502,8 @@ need something of type A" or, because A is a proposition, "we need a
 proof of A".  Now, the previous command moved a proof of A into the
 context and called it "proof_of_A".  So, an hypothesis in our context
 (which are all things we know to exist) has a type that matches our
-subgoal (which is we want to create), so we have an exact match.  The
-tactic "exact proof_of_A" solves the subgoal (and the proof).
+subgoal (which is what we want to create), so we have an exact match.
+The tactic "exact proof_of_A" solves the subgoal (and the proof).
 
 <div class="paragraph"> </div>
 
@@ -833,8 +831,8 @@ function that takes two arguments, one of type A and one of type B,
 and returns a value of type C.  The type of the function is "A-&gt;B-&gt;C"
 and a call to it looks like "A_imp_B_imp_C something_of_type_A
 something_of_type_B".  Notice that there are no parentheses needed -
-you just put the arguments next to the name of the function.
-E.g. "function arg1 arg2" This is a style common in functional
+you just put the arguments next to the name of the function.  For
+example, "function arg1 arg2". This is a style common in functional
 programming languages.  For those familiar with imperative languages,
 like C, C++, and Java, it will feel odd not to have parentheses and
 commas to denote the arguments.
@@ -938,6 +936,24 @@ code.
 
 <div class="paragraph"> </div>
 
+At this point, I want to emphasize that Coq proofs are not normally
+this tedious or verbose.  The proofs I've shown and the proofs I will
+show are demonstrating the mechanics of how Coq works.  I'm using
+simple familiar types to make the mechanics' operations clear to you.
+Coq's tactic language contains commands for automatic theorem proving
+and for defining macros.  Almost all the proofs in this tutorial are
+simple enough to dispatch with a single Coq tactic.  But when you
+prove more complicated statements, you'll need all the commands I'm
+teaching in this tutorial.
+
+<div class="paragraph"> </div>
+
+This helps explain why most Coq proofs are backwards.  Once a
+goal has been transformed into simple enough subgoals, those
+subgoals can each be proved by automation.
+
+<div class="paragraph"> </div>
+
 So far, we've only worked with proofs, propositions, and Prop.  Let's
 add some more types!
 
@@ -993,10 +1009,9 @@ accustomed to.
 
 <div class="paragraph"> </div>
 
-Since we've been playing with Props, let's do some proofs with (the badly
-named) "True" and "False" and we'll come back to the lower-case "true"
-and "false" later.
-
+Since we've been playing with Props, let's do some proofs with (the
+imperfectly named) "True" and "False" and we'll come back to the
+lower-case "true" and "false" later.  
 <div class="paragraph"> </div>
 
 <a name="lab17"></a><h2 class="section">Capital-T True and Capital-F False</h2>
@@ -1140,7 +1155,7 @@ the subgoal.  The command "intros proof_of_False" does just that.
 
 <div class="paragraph"> </div>
 
-After that, it's goes as usual.  "intros"s at the start and "exact" at
+After that, it goes as usual.  "intros"s at the start and "exact" at
 the end.  It feels weird to have an hypothesis labeled
 "proof_of_False" doesn't it?  It's weird because we know False has no
 proofs, so that hypothesis can never exist.  Wouldn't it be better if
@@ -3436,14 +3451,139 @@ you should use the "case" tactic instead of "elim".
      AND the type has a recursive definition,
      Then you can try the tactic "elim &lt;name&gt;.".
 
+</div>
+<div class="code">
+
+<br/>
+*)<br/>
+</div>
+
+<div class="doc">
+<a name="lab47"></a><h3 class="section">Induction tactic</h3>
+
 <div class="paragraph"> </div>
 
-Now that we know how to use induction, let's do a difficult proof.
-Let's prove that "n + m = m + n".
+Just as the "case" tactic has a similar "destruct" tactic, the "elim"
+tactic has a similar "induction" tactic.  Let's look at the previous
+proof, but using this new tactic.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_n_O__again</span> : (<span class="id" title="keyword">forall</span> <span class="id" title="var">n</span>, <span class="id" title="var">n</span> + <span class="id" title="var">O</span> = <span class="id" title="var">n</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [|<span class="id" title="var">n'</span> <span class="id" title="var">inductive_hypothesis</span>].<br/>
+</div>
+
+<div class="doc">
+base case 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">eq_refl</span> <span class="id" title="var">O</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+inductive case 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> <span class="id" title="var">inductive_hypothesis</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> (<span class="id" title="var">eq_refl</span> (<span class="id" title="var">S</span> <span class="id" title="var">n'</span>)).<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+</div>
+
+<div class="doc">
+So, the "induction" tactic does the same thing as "elim.", except the
+names of the created variables are listed in the tactic, rather than
+being assigned later using "intros" in the inductive case of the proof.
 
 <div class="paragraph"> </div>
 
-<a name="lab47"></a><h3 class="section">Addition is Symmetric</h3>
+The "induction" command creates 2 subgoals, one for the base case and
+another for the inductive case, and after the "as" keyword, there are
+2 lists of variable names, one for the base case and one for the
+inductive case.  Those lists are separated by verical bars ('|')
+inside the square brackets.  The base case doesn't create any
+variables, so its list is empty.  The inductive case creates two
+variables, and they are named "n'" and "inductive_hypothesis".
+
+<div class="paragraph"> </div>
+
+I said the "induction" command was similar to "destruct" and, if the
+type "destruct"ed has more than one constructor, the "destruct"
+command will create a subgoals for each constructor and the command
+needs a list of variable names for each constructor.  For example, the
+type "or" has two constructors.  Recall that something of type "or A
+B" can be created by "or_introl proof_of_A" or "or_intror proof_of_B".
+If I "destruct" an "or A B", it will create two subgoals and the
+"destruct" needs to have a list of variables for each.  To
+demonstrate this, I'll redo the proof that or commutes.
+
+<div class="paragraph"> </div>
+
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">or_commutes__again</span> : (<span class="id" title="keyword">forall</span> <span class="id" title="var">A</span> <span class="id" title="var">B</span>, <span class="id" title="var">A</span> \/ <span class="id" title="var">B</span> -&gt; <span class="id" title="var">B</span> \/ <span class="id" title="var">A</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A</span> <span class="id" title="var">B</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">A_or_B</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">destruct</span> <span class="id" title="var">A_or_B</span> <span class="id" title="keyword">as</span> [<span class="id" title="var">proof_of_A</span> | <span class="id" title="var">proof_of_B</span>].<br/>
+</div>
+
+<div class="doc">
+suppose A_or_B is (or_introl proof_of_A) 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">or_intror</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">proof_of_A</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+suppose A_or_B is (or_intror proof_of_B) 
+</div>
+<div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">refine</span> (<span class="id" title="var">or_introl</span> <span class="id" title="var">_</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">exact</span> <span class="id" title="var">proof_of_B</span>.<br/>
+<span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+In my proofs, I like to use "case" and "elim" and only use "destruct"
+for types with a single constructor.  However, some people prefer to
+use "destruct" and "induction" for every proof.  The writers of Coq
+are talking about removing this duplication and may remove "case" and
+"elim" in the future.
+
+<div class="paragraph"> </div>
+
+If you want to use "destruct" and "induction", it is helpful to use
+the Vernacular command "Print", which prints out a definition and
+shows you how many constructors there are and which variables you need
+to name for each one.
+
+</div>
+<div class="code">
+<span class="id" title="keyword">Print</span> <span class="id" title="var">or</span>.<br/>
+<span class="id" title="keyword">Print</span> <span class="id" title="var">nat_ind</span>.<br/>
+</div>
+
+<div class="doc">
+
+<div class="paragraph"> </div>
+
+Now we return to proofs on induction using "nat".  And let's do a
+difficult proof.  Let's prove that "n + m = m + n".
+<a name="lab48"></a><h3 class="section">Addition is Symmetric</h3>
 
 </div>
 <div class="code">
@@ -3524,7 +3664,7 @@ on that proof until you can do it automatically.
 
 <div class="paragraph"> </div>
 
-<a name="lab48"></a><h3 class="section">Common nat operators</h3>
+<a name="lab49"></a><h3 class="section">Common nat operators</h3>
 
 <div class="paragraph"> </div>
 
@@ -3615,7 +3755,7 @@ without this flaw.
 
 <div class="paragraph"> </div>
 
-<a name="lab49"></a><h1 class="section">Data types</h1>
+<a name="lab50"></a><h1 class="section">Data types</h1>
 
 <div class="paragraph"> </div>
 
@@ -3633,7 +3773,7 @@ more experience reading proofs.
 </div>
 
 <div class="doc">
-<a name="lab50"></a><h2 class="section">Lists and Option</h2>
+<a name="lab51"></a><h2 class="section">Lists and Option</h2>
 
 <div class="paragraph"> </div>
 
@@ -3726,7 +3866,7 @@ increases its length by 1.
 
 <div class="paragraph"> </div>
 
-<a name="lab51"></a><h3 class="section">The three forms of hd</h3>
+<a name="lab52"></a><h3 class="section">The three forms of hd</h3>
 
 <div class="paragraph"> </div>
 
@@ -3760,7 +3900,7 @@ There are choices you can make:
 
 You didn't think of that last one, did you?!  I'll show you each of these
 approaches so that you can see what they look like.
-<a name="lab52"></a><h4 class="section">hd with additional parameter</h4>
+<a name="lab53"></a><h4 class="section">hd with additional parameter</h4>
 
 </div>
 <div class="code">
@@ -3852,7 +3992,7 @@ We can also prove it correct.
 </div>
 
 <div class="doc">
-<a name="lab53"></a><h4 class="section">hd returns option</h4>
+<a name="lab54"></a><h4 class="section">hd returns option</h4>
 
 <div class="paragraph"> </div>
 
@@ -3936,7 +4076,7 @@ We can also prove it correct.
 </div>
 
 <div class="doc">
-<a name="lab54"></a><h4 class="section">hd with a proof that the list is non-empty</h4>
+<a name="lab55"></a><h4 class="section">hd with a proof that the list is non-empty</h4>
 
 <div class="paragraph"> </div>
 
@@ -4012,7 +4152,7 @@ pose, you have to use the tactic "assert".
 
 <div class="paragraph"> </div>
 
-<a name="lab55"></a><h3 class="section">Tail of lists</h3>
+<a name="lab56"></a><h3 class="section">Tail of lists</h3>
 
 <div class="paragraph"> </div>
 
@@ -4065,7 +4205,7 @@ can be used to reconstruct the list.
 </div>
 
 <div class="doc">
-<a name="lab56"></a><h3 class="section">Appending lists</h3>
+<a name="lab57"></a><h3 class="section">Appending lists</h3>
 
 <div class="paragraph"> </div>
 
@@ -4174,7 +4314,7 @@ delete "admit" and put your proof here.
 when done, replace "Admitted." with "Qed." 
 <div class="paragraph"> </div>
 
-<a name="lab57"></a><h1 class="section">Conclusion</h1>
+<a name="lab58"></a><h1 class="section">Conclusion</h1>
 
 <div class="paragraph"> </div>
 
@@ -4200,11 +4340,11 @@ solving your puzzles!
 
 <div class="paragraph"> </div>
 
-<a name="lab58"></a><h1 class="section">Postscripts</h1>
+<a name="lab59"></a><h1 class="section">Postscripts</h1>
 
 <div class="paragraph"> </div>
 
-<a name="lab59"></a><h2 class="section">Contact</h2>
+<a name="lab60"></a><h2 class="section">Contact</h2>
 
 <div class="paragraph"> </div>
 
@@ -4225,7 +4365,7 @@ The author, Michael Nahas, can be reached at michael@nahas.com
 
 <div class="paragraph"> </div>
 
-<a name="lab60"></a><h2 class="section">Further Reading</h2>
+<a name="lab61"></a><h2 class="section">Further Reading</h2>
 
 <div class="paragraph"> </div>
 
@@ -4288,7 +4428,7 @@ https://coq.inria.fr/documentation
 
 <div class="paragraph"> </div>
 
-<a name="lab61"></a><h2 class="section">Vernacular commands</h2>
+<a name="lab62"></a><h2 class="section">Vernacular commands</h2>
 
 <div class="paragraph"> </div>
 
@@ -4333,7 +4473,7 @@ https://coq.inria.fr/documentation
 
 <div class="paragraph"> </div>
 
-<a name="lab62"></a><h2 class="section">The tactic guide</h2>
+<a name="lab63"></a><h2 class="section">The tactic guide</h2>
 
 <div class="paragraph"> </div>
 
