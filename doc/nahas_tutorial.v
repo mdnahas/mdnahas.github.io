@@ -57,10 +57,6 @@ useful links.
 (** ** Installing Coq *)
 (**
 
-This tutorial now ships with CoqIDE, so if you're reading this in
-CoqIDE, you can skip this section and the next one.  If you don't yet
-have Coq installed, keep reading.
-
 The easiest thing is to install "CoqIDE", the graphical version of
 Coq.  Windows and MacOS installers and the latest source code are
 available at http://coq.inria.fr/download If you're running Linux,
@@ -85,12 +81,6 @@ call it "proofgeneral".)
 (** ** Loading this file *)
 (**
 
-This tutorial now ships with CoqIDE, so if you're running a recent
-version of CoqIDE, you can load the tutorial by going to the "Help"
-menu and selecting "Tutorial".  If the "Help" menu doesn't have a
-"Tutorial" button, you're running an older version of CoqIDE, which is
-fine, but keep reading to learn how to load this file.
-
 This file (yes, the one you're reading right now) is a Coq file.  Coq
 file's names usually end in ".v".  If this file's name currently ends
 in ".txt", you'll want to change it to ".v" before loading it into
@@ -109,9 +99,9 @@ occasionally make small changes to its file format, so it is possible
 that this file is for a different version of Coq.  As you progress
 through the tutorial, you may find a proof that your version of Coq
 doesn't like.  You can probably make it work, but if you can't, you
-can always install a version of CoqIDE that ships with the tutorial
-(version 8.10 and higher) and that version of the tutorial will be
-sure to be compatible with that version of Coq.
+can try installing the latest version of CoqIDE and downloading the
+latest version of the tutorial from the author's website.
+(https://mdnahas.github.io/doc/nahas_tutorial.v)
 
 *)
 
@@ -699,8 +689,8 @@ and "NeverProvable").  The lower-case ones act like what you're
 accustomed to.
 
 Since we've been playing with Props, let's do some proofs with (the
-imperfectly named) "True" and "False" and we'll come back to the
-lower-case "true" and "false" later.  *)
+badly named) "True" and "False" and we'll come back to the lower-case
+"true" and "false" later.  *)
 
 (** ** Capital-T True and Capital-F False *)
 (** *** True is provable *)
@@ -2773,8 +2763,6 @@ solving your puzzles!
 
 (** ** Contact *)
 (**
-A Coq version of the tutorial ships with Coq.  It is available in their git repo on Github: https://github.com/coq/coq
-
 HTML and Coq versions of the tutorial are hosted on the author's professional website.
 
 https://mdnahas.github.io/doc/nahas_tutorial.html
