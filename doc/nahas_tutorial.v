@@ -2206,7 +2206,7 @@ _RULE_: If there is a hypothesis "<name>" of a created type
      Then you can try the tactic "elim <name>.".
 *)
 
-*)
+
 (** *** Induction tactic *)
 (**
 Just as the "case" tactic has a similar "destruct" tactic, the "elim"
