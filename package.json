@@ -1,0 +1,19 @@
+{
+  "name": "mdnahas.github.io",
+  "version": "1.0.0",
+  "description": "This is the professional website of Michael Nahas",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdnahas/mdnahas.github.io.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mdnahas/mdnahas.github.io/issues"
+  },
+  "homepage": "https://mdnahas.github.io",
+  "dependencies": {
+    "jscoq": "https://github.com/corwin-of-amber/jscoq/releases/download/private%2Fv0.11.0-alpha1/jscoq-0.11.0-alpha1-npm.tar.gz"
+  }
+}
