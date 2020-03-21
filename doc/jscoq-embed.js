@@ -4,8 +4,16 @@
  * the page DOM has loaded.
  */
 
+var RealWorker = window.Worker;
+
+var Worker = function(url) {
+    var blob = new Blob([`importScripts('${url}');`],
+        { "type": 'application/javascript' });
+    return new RealWorker(URL.createObjectURL(blob));
+}
+
 function jsCoqInject() {
-    document.body.classList.add('toggled');
+    document.body.classList.add('hands-off', 'toggled');
     document.body.id = 'ide-wrapper';
 }
 
@@ -16,7 +24,7 @@ var jscoq_opts = {
     show:      jsCoqShow,
     focus:     false,
     replace:   true,
-    base_path: '../node_modules/jscoq/',
+    pkg_path:  'https://jscoq.github.io/node_modules/jscoq/coq-pkgs/',
     editor:    { mode: { 'company-coq': true }, keyMap: 'default' },
     all_pkgs:  ['init',
                 'coq-base', 'coq-collections', 'coq-arith', 'coq-reals'],
@@ -36,7 +44,7 @@ function jsCoqLoad() {
         }
     }
 
-    JsCoq.start(jscoq_opts.base_path, '../node_modules', jscoq_ids, jscoq_opts)
+    JsCoq.start(/*jscoq_opts.base_path, '../../node_modules/', */jscoq_ids, jscoq_opts)
         .then(coq => {
             window.coq = coq;
             window.addEventListener('beforeunload', () => { localStorage.jsCoqShow = coq.layout.isVisible(); });
