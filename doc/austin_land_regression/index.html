@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Land Price Regression for Austin</title>
+</head>
+<body>
+<h1>Land Price Regression for Austin</h1>
+
+<p> The prices for houses in Austin, Texas are extremely high.  I wanted to understand why.  It took me a while to understand the data and measure exactly how screwed up Austin's property market is.  This document describes what I did, so others can repeat it with other city's data.</p>
+
+<p> I have a Masters in Economics from University of Texas at Austin.  I am on the Board of <a href="https://aura-atx.org/">AURA</a>, a YIMBY group in Austin.
+
+<p> <i>TL;DR: The price to build a house hasn't gone up much, but the price of land has gone up dramatically, some over 200%.  Downtown property has gone up in price, probably due to worsening traffic.  The price of smaller lots has gone up more than large lots, probably due to Austin's zoning rules.  I recommend removing Austin's minimum lot size, making it easier to split lots, and changing single-family zones to multi-family zones.  </i> </p>
+
+
+<h2>The Data</h2>
+<h3>Data Source</h3>
+
+<p>  Obviously, to analyze the high price of housing, I needed price data.   <a href="https://pubs.aeaweb.org/doi/pdfplus/10.1257/jep.32.1.3">Glaeser and Gyourko</a> worked with the price of homes and the land they sit on.  Unfortunately, Texas doesn't require real estate sales data to be made public.  I can get a lot of data on the <i>asking</i> price for housing, but I found that hard to work with.  The asking price is not the sale price.  Moreover, buildings have a lot of parameters that affect price: square footage, quality of build, age, number of rooms, parking, etc..</p>
+
+<p>Glaeser and Gyourko found that the price of building the house in a growing city doesn't change much, so I decided to focus on the price of land.  An empty lot still has a lot of parameters (location, square footage, zoning, school district, soil quality, etc.) but it is fewer. </p>
+
+<p>An "angel" delivered me data on about 500 lots sold in Austin from Feb. 2019 to Feb. 2020, which I'll refer to as "2019" data.  They also gave me data for another roughly 500 lots sold in 2014.  The data included the address, acreage, and actual sale price.  </p>
+
+<p>I'm a big fan of making everything public about research, but I cannot do it for the data in this case.  Sorry.</p>
+
+<p>The data is neither a complete nor random sample of data.  It is not every lot sold in Austin during the time period.  The incomes of buyers may not be evenly distributed.  My analysis focuses on individual lots and ignores ones part of large developments.  Lastly, and possibly most importantly, the best land may already have houses on it &mdash; these empty lots might be lower quality than the average lot.  Despite all those caveats, I think the trends seen in the data are useful, as well as the comparison of 2014 to 2019.
+
+<h3>Adding Drive Times</h3>
+
+<p> When it comes to location, a major component of the land's value is the travel time to the center of the city.  Whether for work, shopping, or entertainment, it is better to be near the center of the city.  Since 90% of trips in Austin are by car, I decided to use Google Maps to measure the driving time to the center of Austin, 6th Street and Congress Ave. </p>
+
+<p> I used Google's Geocode and Distance Matrix API's to look up driving distance and driving time from the center of Austin to each lot's address.  I ran the script at night.  I would prefer rush-hour drive times, but I couldn't get rush-hour drive times for 2014, so I used non-rush-hour drive times for both.</p>
+
+<p> The script that I used to get the drive times, modified to hide the data source, is <a href="drive_distance_from_google.py">here</a>.</p>
+
+<h3>Cleaning</h3>
+
+<p>If you have any experience with data, you know it is never perfect.  I dropped lots with 0 or less acres.  I only used data from individual lots, not ones adjacent to each other.  I removed two records with addresses that were unknown to Google's API.</p>
+
+<p>The data that I used may include addresses misinterpreted by Google's API.</p>
+
+<p>After cleaning, there were about 400 lots for each year.</p>
+
+<h2>Exploration</h2>
+<h3>The effect of Drive Time</h3>
+
+<p> Initially, I tried to regress the price for each lot based only on its size.  Many economists studying housing, like Gyourko and Glaeser, believe that the land isn't getting expensive, it's the right to build a house that is getting expensive.  With my regression, I expected to see a constant price-per-sqft with a large jump when the lot was bigger than the the minimum lot allowed by Austin's law (5750 sqft.).  The jump would be the price of the right to build a house on the land.   </p>
+
+<p> I didn't get clear numbers with that approach.  In response, I started to play with the 2019 data.  One economics paper suggested that price-per-acre was based on distance to the center of the city.  I retrieved drive times from Google and when I graphed price-per-acre vs. drive time, I got this:</p>
+
+<img src="Austin_land_regression_price_time.svg" alt="Graph of price-per-acre vs. drive time to center of Austin" class="center"/> 
+
+<p> There is clearly a trend, with some outliers.  The expensive outliers are lake-front property.  The cheap outliers are near creeks and probably inside a flood zone.</p>
+
+<p> The paper had actually suggested the proper target of the regression is the logarithm of price-per-acre.  Given what I know about the nature of prices, that made sense.  Here is the same graph, with price-per-acre on a log scale.</p>
+
+<img src="Austin_land_regression_logprice_time.svg" alt="Graph of log price-per-acre vs. drive time to center of Austin" class="center"/> 
+
+<p> It took me a while to figure this out, but I think the best way to view the data is with <i>two</i> cities.  Austin's effect is on the left.  The other "city" is Lake Travis.  (The actual lake; not the high school.)  As you get close to the lake (the 40 minute drive time data), the price-per-acre increases.  Thus, the land inbetween (about 30 minute drive time) seems to have the lowest prices. </p>
+
+<p> If we pull out just the data with a drive time less than 30 minutes, we see a clear trend.</p>
+
+<img src="Austin_land_regression_logprice_time_trend.svg" alt="Graph of log price-per-acre vs. drive time to center of Austin" class="center"/> 
+
+<h3>The Effect of Lot Size</h3>
+
+<p> Given the previous graphs, I knew that distance to downtown accounted for a major portion of the price.  But my goal was still to figure out if the size of a lot affected the price.  Here is the previous plot, except showing small, medium, and larger lot sizes. </p>
+
+<img src="Austin_land_regression_size.svg" alt="Graph of price-per-acre vs. drive time for lots of 3 different sizes" class="center"/> 
+
+<p> The smaller lots are closer to the city center.  That makes sense, since land is more expensive there.  What is interesting is the trend in prices for small lots vs. large lots.</p>
+
+<img src="Austin_land_regression_size_trend.svg" alt="Graph of price-per-acre vs. drive time for lots of 3 different sizes.  Trend lines for smallest and largest lots." class="center"/> 
+
+<p> The trend line for smaller lots is above that for larger lots.  That means smaller lots are more expensive per acre than larger lots.  That's exactly what economists had predicted.  But to see the relationship of size-to-price, let's compare the size to the price-per-acre after adjusting for drive time.</p>
+
+<img src="Austin_land_regression_price_size.svg" alt="Graph of price (adjusted for drive time) vs. lot size" class="center"/> 
+
+<p> That isn't very helpful.  So, let's put lot size on a log-scale.</p>
+
+<!--
+<img src="Austin_land_regression_price_logsize.svg" alt="Graph of price (adjusted for drive time) vs. log of lot size" class="center"/> 
+
+<p> And add a trend line.</p>
+-->
+
+<img src="Austin_land_regression_price_logsize_trend.svg" alt="Graph of price (adjusted for drive time) vs. log of lot size" class="center"/> 
+
+<p>  As you can see from the trend line, it seems to fit.  So, it looks appropriate to regress the log price-per-acre on the drive time and the log lot size.</p>
+
+<h2> Analysis </h2>
+<h3> Regression in Python </h3>
+
+<p> The regression was coded up in python.  The important line is: </p>
+
+<p> <code>
+fit = ols('LogPricePerAcres ~ TimeSecs + LogAcres + 1', data=df).fit()
+</code> </p>
+
+<p> Where "TimeSecs" is the drive time in seconds.</p>
+
+<p> The script is <a href="regression_code.py">here</a>.  </p>
+
+<h3> Results </h3>
+
+<p> The output of the script is:</p>
+
+<code>
+<p>Filename, Param, Value</p>
+<p>Sale2019dist.csv, Intercept, 5.964031884391964</p>
+<p>Sale2019dist.csv, TimeSecs, -0.0003500648590715251</p>
+<p>Sale2019dist.csv, LogAcres, -0.6847304872426945</p>
+<p>Sale2019dist.csv, EdgeOfCity, 2280</p>
+</code></p>
+
+<p> "Intercept" is the log price of a 1-acre lot at the city center.  The script uses log base 10, so that makes the price $920,517.</p>
+
+<p> "TimeSecs" is the coefficient for drive time in seconds.  The factor means that prices are cut in half for every 14 minutes of driving.  So, a 1-acre lot that is 28 minutes from the city center would be $230,129.  (That is, 1/4th the price at the city center.) </p>
+
+<p> "LogAcres" is the coefficient for the logarithm of the lot size in acres.  Cutting the lot size in half increases the price-per-acre by 61%.  So, a 1/4 acre lot that is 28 minutes from the city center would be $148,333.  (The price-per-acre increases 159%, but you only buy 1/4th of an acre.)  </p>
+
+<p> "EdgeOfTheCity" is actually an input to the script, not an output.  In the discussion above, I arbitrarily chose "30 minutes" as the dividing line between the price dominated by Austin vs. Lake Travis.  For the regression in python, I allowed that to be an input to the script.  I chose the value such that the R-squared value was maximized.  That happened when the value was 2280 seconds, or 38 minutes.  Using all the lots within 38 minutes of the city center, the R-squared value was .738.  <p>
+
+<h3> Results for 2014 </h3>
+
+<p> Using the data from 2014, the output of the script is:</p>
+
+<code>
+<p>Filename, Param, Value</p>
+<p>Sale2014dist.csv, Intercept, 5.741510629101998</p>
+<p>Sale2014dist.csv, TimeSecs, -0.00027587226211389887</p>
+<p>Sale2014dist.csv, LogAcres, -0.5514938401405486</p>
+<p>Sale2014dist.csv, EdgeOfCity, 2280</p>
+</code>
+
+<p> The price of a 1-acre lot at the center of the city was $551,455.  The price in 2019 was 67% higher than in 2014. </p>
+
+<p> In 2014, it took driving 19 minutes to cut the price of a lot in half.  The 1-acre lot that is 28 minutes from the city center would be $189,690.  The price in 2019 is 21% higher than in 2014.  
+
+<p> In 2014, cutting the lot size in half increased the price-per-acre by 47%, versus 61% in 2019.  The 1/4 acre lot that is 28 minutes from the city center would be $101,863.  The price in 2019 is 46% higher than in 2014. </p>
+
+<p> The regression in 2014 did not fit as well as the one in 2019.  Its R-squared value was .526 (versus .738). </p>
+
+<!--
+<h2> Lot Size vs Drive Time </h2>
+
+<p>While I am mostly concerned about price as a function of lot size and drive time, I thought it was worth taking a peek at lot size as a function of drive time.  As seen above, as drive time increased, so did lot size.</p>
+
+<p>One curious fact was that there were about an equal number of lots sold at every drive time.  That is, if we looked an integer increments in drive time, there were between 9 and 26 lots sold for drive times from 7 minutes up to 25 minutes.  And the 26 was a spike, from 13 lots being sold in the same division. </p>
+
+<p>The relationship <i> for this data set </i> seems to be between the log of the lot size and drive time.</p>
+
+<img src="Austin_land_regression_logsize_time.svg" alt="Graph of log of lot size vs. time" class="center"/> 
+
+<p>I put "<i>for this data set</i>" in italics to emphasize that I don't trust that this result will hold for other data sets.  This data is neither complete nor a random sample.  I believe that the trends for price are correct, because all lot buyers &mdash; even the ones not in this sample &mdash; compete on price.  There is no such relationship for lot size.</p>
+
+<p>Computing this relationship doesn't require a private data set.  I'd be interested to hear the results with public datasets covering Austin.</p>
+-->
+
+
+<h2> Commentary </h2>
+
+<p> I wanted to know why Austin's housing prices are high.  When comparing prices to 2014, it's worth knowing some numbers.  They are from the mid-point of each data sample. </p>
+
+<table>
+  <tr>
+    <th> Stat </th>
+    <th> 2014 </th>
+    <th> 2019 </th>
+    <th> % increase </th>
+  </tr>
+  <tr>
+    <td> Stock Price (Wilshire 5000) </td>
+    <td align="right"> $20,862.84 </td>
+    <td align="right"> $29,841.35 </td>
+    <td align="right"> +43.0% </td>
+  </tr>
+  <tr>
+    <td> 30-year Mortgage Rate </td>
+    <td align="right"> 4.29% </td>
+    <td align="right"> 3.49% </td>
+    <td align="right"> -18.6% </td>
+  </tr>
+  <tr>
+    <td> Mean Hourly Earnings (USA, private employees) </td>
+    <td align="right"> $24.48 </td>
+    <td align="right"> $28.16 </td>
+    <td align="right"> +15.0% </td>
+  </tr>
+  <tr>
+    <td> Consumer Price Index </td>
+    <td align="right"> 237.498 </td>
+    <td align="right"> 256.593 </td>
+    <td align="right"> +8.0% </td>
+  </tr>
+  <tr>
+    <td> RS Means Construction Cost Index  </td>
+    <td align="right"> 232.2 </td>
+    <td align="right"> 204.9 </td>
+    <td align="right"> +13.3% </td>
+  </tr>
+</table>
+
+<p> Let's start by looking at the maximum price of a house that the mean household can afford.  I'll assume they spend 30% of their income and only pay off the interest of their mortgage.  In 2014, that price was $342,377 and, in 2019, it was $484,126.  That's an increase of 42%, which is pretty close to the increase in stock prices.  </p>
+
+<p> But the construction cost index from RSMeans says that the cost of building the house has only increased 13.3%.  Austin's Property tax in 2019 is less than 2.15% and hasn't changed dramatically.  It seems that the average family has had plenty of money to bid up the price of land. </p>
+
+<p> And the data from the price of empty lots shows that the price has gone up.  While land prices have increased in Austin, the increase hasn't been the same for all land.  The prices for lots closer to the city center have increased more than those farther out.  The model says that 1-acre lots inside a 17-minute drive have increased more than 42%.  </p>
+
+<img src="Austin_land_regression_predprice_time.svg" alt="Graph of predicted price vs. time for 1 acre lots" class="center"/> 
+
+<p> Austin has a minimum lot size of 5750 sq. ft., which is 0.132 acres.  (Slightly more than 1/8th of an acre.)   The model says that all of these have increased more than 42%.  For minimum-sized lots with less than a 10-minute drive to city center, the price has more than doubled. </p>
+
+<img src="Austin_land_regression_predprice_time_minimum.svg" alt="Graph of predicted price vs. time for minimal size lots" class="center"/> 
+
+<p> What has caused these price increases?  The most likely cause is lack of competition.</p>
+
+<p> One way that land faces competition is by the ability to drive to cheaper land.  Land is usually cheaper farther from the city.  A city worker can usually outbid a rancher or farmer for the land.  But getting to that land requires a longer drive to/from the city center.  As cities get larger, it is a farther drive to find a rancher/farmer to outbid.</p>
+
+<p> Austin cannot change the distance to cheaper land, but it can change the time to drive there.  Austin's traffic has increased.  In 2018, INRIX measured its annual cost at $2.8 billion.  And that price does not include the extra money that people are willing to spend on land to avoid traffic.  By increasing transportation capacity, Austin can bring more land within reach of its workers and increase competition for land.  I think the best way to do this is to duplicate Singapore's <a href="https://en.wikipedia.org/wiki/Electronic_Road_Pricing">Electronic Road Pricing</a>.  This form of "congestion pricing" would cost less than road expansion, be ready sooner, and make roads more efficient.</p>
+
+<p> The other way that land faces competition is by creating new lots by subdividing.  It's simple to see that if a city only allows single family homes and has a minimum lot size, then there's a maximum capacity inside any radius.  As the number of families gets closer to that capacity, land prices have to go up.  Austin can increase competition by removing its minimum lot size and making it easier to split lots.  <a href="https://www.mercatus.org/system/files/gray-minimum-lot-size-mercatus-research-v3.pdf">This paper shows the effect of minimum lot sizes in 4 Texas towns, including Round Rock and Pflugerville near Austin.</a> </p>
+
+<p> There are other ways to lower prices without increasing competition.  Austin could get rid of single-family lots and allow multiple units per lot.  Minneapolis did this by allowing "triplexes everywhere".  The other way is to change taxes.  Increasing taxes will lower the price of housing, but not the cost to its resident.  A better policy is to compute the property tax on the price of the land and not include the price of house on it.  This will encourage families to use smaller lots and free up space for more families.</p>
+
+
+<h2> Future Work </h2>
+
+<p> I'd obviously love to get a representative, sharable data set. </p>
+
+<p> I'd love to augment the data with more factors that affect price.  This could be flood zones, school district, distance to a lake, distance to a grocery store, etc.</p>
+
+<p> I'd love to compare the results to other cities.  For example, is the coefficient for drive time correlated with INRIX's measure of traffic in cities.  Likewise, is the coefficient for log lot size correlated with the Wharton Residential Land Use Regulatory Index or the minimum lot size. </p>
+
+<h2> Conclusion </h2>
+
+<p> The price of housing has gone up because the price of land has gone up in Austin.  While other asset prices, like the stock market, have also gone up, Austin's land has not gone up equally for all lots.  The price has risen higher closer to the center of the city, most likely because traffic has gotten worse.  The price has risen higher for small lots &mdash; some over 200% &mdash; most likely because of Austin's zoning laws.  If Austin's government wants to lower housing prices, which are the biggest expense for most households, it should remove the minimum lot size, make it easier to split lots, and switch from single-family zoning to multi-family zoning.   </p>
+
+</body>
+</html>
