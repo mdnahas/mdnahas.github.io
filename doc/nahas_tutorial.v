@@ -1606,7 +1606,7 @@ constructor for "ex P" takes the predicate "P" , the witness (called
 "ex P".
 
 "exists ..., ..." is an operator to provide a friendly notation.  For
-"and" and "or", we did the same with "/\" and "/\".  For existence,
+"and" and "or", we did the same with "/\" and "\/".  For existence,
 the usually operator is a capital E written backwards, but that's
 difficult to type, so Coq uses the word "exists".
 
@@ -2234,14 +2234,14 @@ being assigned later using "intros" in the inductive case of the proof.
 The "induction" command creates 2 subgoals, one for the base case and
 another for the inductive case, and after the "as" keyword, there are
 2 lists of variable names, one for the base case and one for the
-inductive case.  Those lists are separated by verical bars ('|')
+inductive case.  Those lists are separated by vertical bars ('|')
 inside the square brackets.  The base case doesn't create any
 variables, so its list is empty.  The inductive case creates two
 variables, and they are named "n'" and "inductive_hypothesis".
 
 I said the "induction" command was similar to "destruct" and, if the
 type "destruct"ed has more than one constructor, the "destruct"
-command will create a subgoals for each constructor and the command
+command will create subgoals for each constructor and the command
 needs a list of variable names for each constructor.  For example, the
 type "or" has two constructors.  Recall that something of type "or A
 B" can be created by "or_introl proof_of_A" or "or_intror proof_of_B".
@@ -2454,7 +2454,7 @@ Qed.
 (**
 The proof is pretty simple, but the statement of what we want to prove
 is not!  First, we need "A", which is the type stored in our lists.
-Then we need an instance of A and a instance of a list of A.  Only
+Then we need an instance of A and an instance of a list of A.  Only
 then can we state that putting an element on the front of a list
 increases its length by 1.
 *)
@@ -2467,7 +2467,7 @@ what should we return if the list is empty?
 
 In some programming languages, you might throw an exception - either
 explicitly or through a memory violation.  In others, you might assume
-the program crashes.  But if you to prove a program correct, these
+the program crashes.  But if you want to prove a program correct, these
 aren't choices you can make.  The program needs to be predictable.
 
 There are choices you can make:
