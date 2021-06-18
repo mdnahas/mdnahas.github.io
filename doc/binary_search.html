@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html> <head>
+<title>Binary Search and Exclusive Upper Bounds </title>
+</head>
+
+<body>
+<h1>Binary Search and Exclusive Upper Bounds</h1>
+
+<p> Years ago, I was reading "Programming Pearls" and the author, Jon Bentley, said that most production implementations of binary search had bugs.  I thought that was absurd!  It is a simple algorithm and one of very first one taught in any suitably advanced programming class.  Surely, Bentley was mistaken. </p> 
+
+<p> But I decided to test his premise.  I was interviewing job candidates at the time and started asking them to implement binary search.  And those candidates failed more time than they succeeded!  These were good candidates --- most had a Masters degree --- and they couldn't write an algorithm taught in an introductory programming class! </p>
+
+<p> There were lots of mistakes, but the most common was an infinite loop.  The algorithm would work fine with 3 or more elements in the array, but with 2 elements, there was often a case where the loop would keep looping with 2 elements! </p> 
+
+<p> I've thought hard about why these experienced programmers were making this mistake.  And the big conclusion I came with was that they were taught to write the algorithm with an inclusive upper bound.  And, when interviewed, they repeated that and used an inclusive upper bound.  And because an inclusive upper bound is harder to reason about, they made mistakes.  I think we need to start teaching binary search with an exclusive upper bound. </p> 
+
+<h2>Ranges and the Exclusive Upper Bound</h2>
+					 
+<p> The binary search algorithm maintains a continuous section of the array where the item might be location.  At the start, the continuous section is the entire array.  If A is the array and N is the number of items in the array, the item could be anywhere from A[0] to A[N-1].  And most textbooks teach binary search using two variables, the lower bound and upper bound, for that range of indices.  And they use L=0 and U=N-1.  The upper bound, U, is an inclusive upper bound because N-1 is a valid element.</p> 
+
+<p> The inclusive upper bound makes sense to a new programmer.  And to inexperienced programmers in 1940's and 1950's when binary search was first published.  But programmers since then have learned to denote ranges with an exclusive upper bound.  That is, using U=N.  It is "exclusive" because U is not a valid index into A[]. </p> 
+
+<p> Why have programmers come to denote ranges with an inclusive lower bound (L is a valid index, if the array isn't empty) and an exclusive upper bound?  Because it is easier to reason about.  It has the following properties. </p> 
+
+<ul>
+  <li>The length of the range is U-L.</li>
+  <li>An empty list has U=L.</li>
+  <li>A non-empty list has L&lt;U </li>
+  <li>If you want to split a range, you can choose any M such that L&le;M&le;U and create two ranges with exclusive upper bounds: one from L to M and another from M to U.  
+</ul> 
+
+<p> These are all good properties.  They make code easy to write and easier to reason about.  As a result, almost all code that deals with ranges now uses an inclusive lower bound and an exclusive upper bound. </p> 
+
+<h2>Binary Search</h2>
+<p> When you use the exclusive upper bound, the code for binary search becomes pretty natural: </p> 
+
+<code><pre>
+function binary_search_exclusive_upper_bound(A[], N, V):
+    L := 0
+    U := N
+    while U-L &gt; 0 do
+       M := L + floor((U-L)/ 2)
+       if A[M] = V then
+         return M
+       else if V < A[M] then
+            U := M
+        else:
+            L := M+1
+    return <i>unsuccessful</i>
+</pre></code>
+		   
+<p> Because this code uses the exclusive upper bound, it is easier to verify the many conditions that lead to a correct implementation of binary search. </p> 
+
+<ul>
+  <li>The loop runs only when the range is non-empty.</li>
+  <li>M is a valid index.   (The use of floor() is correct.)</li>
+  <li>L, M, and U are used correctly and do not have off-by-one errors</li>
+  <li>The loop does not run forever.</li>  
+  <li>The code handles all cases, such as when N is zero</li>
+</ul> 
+
+<p> I believe code is not just about working but clearly communicating that it is correct.  And using exclusive upper bounds does exactly that. </p> 
+
+<h2>A Better Binary Search</h2>
+
+<p> Having sat through roughly 50 interviews, I've thought a lot about binary search and I would like to propose another improvement to our teaching of it.  I think the designers of Java's Arrays.binarySearch() library function got the right interface.  We should teach that interface. </p> 
+
+<p> Designing function interfaces is hard.  We need to think about all the inputs and outputs and come up with a good way to reason about the function.  For binary search, the sticking point is what to return when the item we are searching for is not in the array. </p> 
+
+<p> We could return a "sum type".  In C, that's known as a "union".  In C++ and Java, that's implemented as a class with 2 derived classes of different types.  But that's a complicated result. </p> 
+
+<p> We could also return a "sentinel", a special value with special meaning.  For example, choosing the value -1, which is not a valid index. </p>
+
+<p> Much simpler is what the Java designers chose: always return a valid location.  The Java function returns the location where the element would be inserted into the array to keep it sorted.  If the value is already in the array, the location will already hold a copy of the value!  </p> 
+
+<p> Moreover, that design allows the binary search function to be used for more than just lookup.  It can be used to insert.  </p> 
+
+<p> And when you are thinking with that interface in mind, you actually end up with a faster loop.  There is only one branch inside the loop.  </p> 
+
+<code><pre>
+function binary_search_better(A[], N, V)
+    L := 0
+    U := N
+    while U-L &gt; 0 do
+       M := L + floor((U-L)/ 2)
+       if A[M] &lt; V then
+         L := M+1
+       else:
+         U := M
+    return U
+</pre></code>
+		   
+<p> I think this is the version of binary search we should be teaching. </p> 
+
+<h2>Conclusion</h2>
+
+<p> I believe binary search is usually taught with an inclusive upper bound because it is such an old algorithm. When it was created, we didn't have the habit (which I learned with C in the early 80's) of using an exclusive upper bound. But almost all array code now uses the exclusive upper bound. Using the exclusive upper bound is easier to reason with. I believe strongly that students would benefit substantially by using exclusive upper bounds. </p> 
+
+<p> Michael Nahas </p> 
+
+<p> former Adjunct Faculty of University of Virginia </p> 
+<p> former Instructor at Johns Hopkins Center for Talented Youth </p> 
+
+<p> <a href="./BinarySearch.java">Sample source code</a>
+
+
+</body> </html>
