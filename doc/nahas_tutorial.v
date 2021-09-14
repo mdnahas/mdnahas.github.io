@@ -2717,7 +2717,7 @@ Proof.
   admit.  (** delete "admit" and put your proof here. *)
 Admitted. (** when done, replace "Admitted." with "Qed." *)
 
-Theorem app_nil_r : (forall A:Type, (forall l:list A, forall l:list A, l ++ nil = l)).
+Theorem app_nil_r : (forall A:Type, (forall l:list A, l ++ nil = l)).
 Proof.
   admit.  (** delete "admit" and put your proof here. *)
 Admitted. (** when done, replace "Admitted." with "Qed." *)
