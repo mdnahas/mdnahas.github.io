@@ -182,10 +182,10 @@ Here, the proof takes a proposition "A" and a proof of that
 proposition, and returns the proof of the proposition.
 
 If you enter
-<br>`myfirstproof A proofofA = ?`<br>
+<br>`myFirstProof A proofofA = ?`<br>
 And do "C-c C-l"
 you'll get a hole.
-<br>`myfirstproof A proofofA = {!!}0`<br>
+<br>`myFirstProof A proofofA = {!!}0`<br>
 and, with the cursor in the hole, "C-c C-e" will show the context
 ("e" is meant to mean "environment").
 Since the hole is type "A" and you have "proofofA" in the environment,
@@ -193,9 +193,9 @@ typing "proofofA" and "C-c C-spacebar" will solve the proof.
 
 
 If instead you started with
-<br>`myfirstproofagain = ?`<br>
+<br>`myFirstProofAgain = ?`<br>
 You can do "C-c C-c enter" and Agda will automatically change it to
-<br>`myfirstproofagain A x = ?`<br>
+<br>`myFirstProofAgain A x = ?`<br>
 And then you can follow the proof as above.
 
 Coq: If you want "intros", do "C-c C-c enter"
@@ -258,13 +258,12 @@ the type of each.
 
 ## Unit and Empty types 
 
-The Unit type has only one constructor.  
+### Unit Type
 
-The Empty type has none.
-
-Using the BHK interpretation, we can use the Unit type in place
-of "true" and "Empty" in place of "false" in many logic statements.
-We need to replace "implication" with the function type →.
+The Unit type has only one constructor.  In Agda, they use the symbol
+'⊤', known as "top".  The '⊤' symbol looks like a capital 'T'.  This is
+because, in the [BHK Interpretation](https://en.wikipedia.org/wiki/Brouwer%E2%80%93Heyting%E2%80%93Kolmogorov_interpretation),
+we can use the Unit type to represent "true" in many logic statements. 
 
 ```agda
 
@@ -293,6 +292,12 @@ higher universe to contain Sets in the lower universe.  I found the
 indices added a lot of confusion to types and didn't add much, so for
 this file I've deleted them.  
 
+### Empty type
+
+The Empty type has no constructors.  In Agda, they use the symbol '⊥',
+known as "bottom".  It is the opposite of '⊤' and, as the Empty type,
+can represent "false" in many logic statements.
+
 ```agda
 
 
@@ -303,6 +308,11 @@ data ⊥ : Set where
 Enter '⊥' with "\bot".
 
 This type has no constructors.
+
+### Logic Proofs using the Unit and Empty type
+
+To make the BHK interpretation work, we use '⊤' for true, '⊥' for
+false, and replace "implication" with the function type →.
 
 ```agda
 
@@ -318,7 +328,7 @@ DELETED the line "`trueCanBeProven = ?`"!
 
 I was able to use the automatic solver, "C-c C-a".
 
-Definition of "not" for types 
+Definition of "not" for types.
 
 ```agda
 
@@ -587,28 +597,29 @@ instances of ⊥.
 
 ```agda
 
+open import Data.Product using (Σ; _,_; ∃; Σ-syntax; ∃-syntax)
+
+```
+
+The definition for a dependently-typed pair is:
+
 record Σ (A : Set) (B : A → Set) : Set where
   constructor _,_
   field
     fst : A
     snd : B fst
 
-```
-
-Enter 'Σ' with "\Sigma".
-
-```agda
+Which comes with an alias, which is just slightly different.
 
 ∃ : ∀ {A : Set} → (A → Set) → Set
 ∃ = Σ _
 
-```
-
+Enter 'Σ' with "\Sigma".
 Enter '∃' with "\ex".
 
-Notice the curly braces in "{A : Set}".  That makes the argument
-implicit.  The compiler can determine it from the type of the next
-argument "A → Set".
+Notice the curly braces in "{A : Set}" for the type ∃.  That makes the
+argument implicit.  The compiler can determine it from the type of the
+next argument "A → Set".
 
 ```agda
 
@@ -687,13 +698,12 @@ existsForallSet A P notexistxPx x Px = notexistxPx (x , Px)
 
 This was actually pretty easy.
 
-Agda has an alternative syntax for Sigma types, declared with the syntax keyword.
+Agda has an alternative syntax for Sigma types, declared with the syntax keyword
+.
 
-```agda
+syntax Σ-syntax A (λ x → B) = Σ[ x ∈ A ] B
+syntax ∃-syntax (λ x → B) = ∃[ x ] B
 
-syntax Σ A (λ x → B) = [ x ∈ A ] B
-
-```
 
 ## Equality
 
@@ -958,29 +968,32 @@ We're going to be playing with Lists, so let's import Agda's list type.
 
 ```agda
 
---open import Data.List using (List ; []; _∷_)
-
---!!! I could not get official version to work.  I had to rename
--- "_::_" as "cons" to get it to work.
-data List (A : Set) : Set where
-  []  : List A
-  cons : (x : A) (xs : List A) → List A
+open import Data.List using (List ; []; _∷_)
 
 ```
 
-The official version has the definition:
+It has the definition:
 
 data List (A : Set) : Set where
   []  : List A
   _∷_ : (x : A) (xs : List A) → List A
 
-So an instance of (List ℕ) might be "3 :: 2 :: 1 :: []".
+<FONT COLOR="#ff0000"> 
+WARNING: I initially could not get official version to work. My problem was that I was typing "::" and the official version used "∷".  See the difference?  I didn't!  The first is two colon characters '::'.  The second is a single Unicode character #x2237.
+</FONT>
+
+Enter '∷' with "\::".
+
+So an instance of (List ℕ) might be "3 ∷ 2 ∷ 1 ∷ []".
 
 ```agda
 
 length : {A : Set} → List A → ℕ
 length [] = zero
-length (cons a as) = suc (length as)
+length (a ∷ as) = suc (length as)
+
+lengthThree : (length (3 ∷ 2 ∷ 1 ∷ []) ≡ 3)
+lengthThree = refl
 
 ```
 
@@ -988,8 +1001,7 @@ And the proof that adding an element increases a list's length by 1.
 
 ```agda
 
--- TODO: I only got Agda to accept the following by renaming "_::_" as "cons"
-consAddsOneToLength : {A : Set} → (a : A) → (as : (List A)) → ((length (cons a as)) ≡ (suc (length as)))
+consAddsOneToLength : {A : Set} → (a : A) → (as : (List A)) → ((length (a ∷ as)) ≡ (suc (length as)))
 consAddsOneToLength a as = refl
 
 ```
@@ -998,11 +1010,11 @@ Now the three versions of head.
 
 ```agda
 
-head1 : {A : Set} → (default : A) → (as : List A) → A
+head1 : {A : Set} → (default : A) → List A → A
 head1 default [] = default
-head1 default (cons a as) = a
+head1 default (a ∷ as) = a
 
-head1Correct : {A : Set} → (default : A) → (a : A) → (as : List A) → (((head1 default []) ≡ default) × ((head1 default (cons a as)) ≡ a))
+head1Correct : {A : Set} → (default : A) → (a : A) → (as : List A) → (((head1 default []) ≡ default) × ((head1 default (a ∷ as)) ≡ a))
 head1Correct default a as = refl ,′ refl
 
 
@@ -1011,11 +1023,11 @@ data Maybe (A : Set) : Set where
   nothing : Maybe A
   just    : A → Maybe A
 
-head2 : {A : Set} → (as : List A) → Maybe A
+head2 : {A : Set} → List A → Maybe A
 head2 [] = nothing
-head2 (cons x as) = just x
+head2 (a ∷ as) = just a
 
-head2Correct : {A : Set} → (a : A) → (as : List A) → (((head2 {A} []) ≡ nothing ) × ((head2 (cons a as)) ≡ just a))
+head2Correct : {A : Set} → (a : A) → (as : List A) → (((head2 {A} []) ≡ nothing ) × ((head2 (a ∷ as)) ≡ just a))
 head2Correct a as = refl ,′ refl
 
 ```
@@ -1026,19 +1038,17 @@ NOTE: Needed to pass Set A to head2 on an empty list to determine the type of th
 
 head3 : {A : Set} → (as : List A) → (as : (as ≢ [])) → A
 head3 {A} [] as≢empty = absurdHelper A (as≢empty refl)
-head3 {A} (cons a as′) as≢empty = a
+head3 {A} (a ∷ as′) as≢empty = a
 
-consNeverEmpty : {A : Set} → (a : A) → (as : List A) → ((cons a as) ≢ [])
+consNeverEmpty : {A : Set} → (a : A) → (as : List A) → ((a ∷ as) ≢ [])
 consNeverEmpty a as ()
 
---head3Correct : {A : Set} → (a : A) → (as : List A) → ∃ (\ (safetyproof : ((cons a as) ≢ [])) → ((head3 (cons a as) safetyproof) ≡ a))
---head3Correct : {A : Set} → (a : A) → (as : List A) → ( Σ ((cons a as) ≢ []) (\ safetyproof → ((head3 (cons a as) safetyproof) ≡ a)) )
-head3Correct : {A : Set} → (a : A) → (as : List A) → [ safetyproof ∈ ( (cons a as ) ≢ ( [] {A} ) ) ]  ((head3 (cons a as) safetyproof) ≡ a)
+head3Correct : {A : Set} → (a : A) → (as : List A) → Σ[ safetyproof ∈ ( (a ∷ as ) ≢ []  ) ]  ((head3 (a ∷ as) safetyproof) ≡ a)
 head3Correct a as = consNeverEmpty a as , refl
                        
 ```
 
-I had trouble understanding the error messages from Agda.  I forgot to add the argument "safetyproof" to the call to head3 and spent about 20 minutes trying to figure out what the problem was.   That's why there are 3 different version of exist here!
+I had trouble understanding the error messages from Agda.  I forgot to add the argument "safetyproof" to the call to head3 and spent about 20 minutes trying to figure out what the problem was!  
 
 A final proof that cons-ing the head and tail of a list gets you back to the original list.
 
@@ -1046,9 +1056,9 @@ A final proof that cons-ing the head and tail of a list gets you back to the ori
 
 tail1 : {A : Set} → (as : List A) → List A
 tail1 [] = []
-tail1 (cons x as) = as
+tail1 (a ∷ as) = as
 
-headTail : {A : Set} → (default : A) → (a : A) → (as : List A) → (cons (head1 default (cons a as)) (tail1 (cons a as))) ≡ (cons a as)
+headTail : {A : Set} → (default : A) → (a : A) → (as : List A) → ((_∷_) (head1 default (a ∷ as)) (tail1 (a ∷ as))) ≡ (a ∷ as)
 headTail default a as = refl
 
 ```
@@ -1069,7 +1079,9 @@ It was much harder to write a "forward proof" in Agda.  The let expression exist
 
 Coq's rewrite tactic is probably easier to use than Agda's sequence-of-transitive-equalities.  Agda can do the same things.  You just need to use "cong" every time you want to change a value inside an expression.  And that's got to be awkward to read and very awkward to write.  Coq's rewrite seems much simpler.
 
-On a much lighter issue, I'm not sure where I stand with being able to type Unicode operators in Agda, vs. being stuck with plain text in Coq.  The biggest problem was that I could read some examples of Agda on the web, but not know how to type them in.  Eventually, I got used to it.  It saved screen real estate and it looked very mathy.  But I did have to memorize a lot of strange things like \'1 for "prime".  I will say that it was strange that Agda accepted both "->" and "→" as the same operator.  I would have just chosen one.  My problems with it could be fixed in the user interface, which might make it easier to search for and enter a symbol that you don't know.    (Although I wouldn't know where to search for '⊎'!)
+On a much lighter issue, I was on the fence about using Unicode operators in Agda, vs. being stuck with plain text in Coq.  But then I wasn't.  I had some initial problems where I could read some examples of Agda on the web, but not know how to type them in.  Eventually, I got used to it.  The Unicode symbols saved screen real estate and it looked very mathy.  But I did have to memorize a lot of strange things like \'1 for "prime".  I will say that it was strange that Agda accepted both "->" and "→" as the same operator.  I would have just chosen one.  Those problems could be fixed in the user interface, which might make it easier to search for and enter a symbol that you don't know.    (Although I wouldn't know where to search for '⊎'!)  But then I ran into a bigger problem.
+
+I spent 30+ minutes struggling with getting Lists to work.  I didn't get them to work and filed a bug report.  The Agda people told me I was importing the operator "∷", which is a single Unicode symbol, but trying to use it with two colons ":".  That's fucking nuts.  Other users have to run into this problem all the damn time.  First, why did Agda's standard library developers choose that Unicode symbol??  Second, any language using Unicode --- and this include Agda --- needs to deal with this "look alike character" problem.  Either by (1) banning look alike characters or (2) very very good error messages to identify the problem quickly.  Unless the language designers have a plan for this and have a plan for the "how do I type this?" problem, I would avoid Unicode in a programming language.  I would probably recommend not using Unicode in the official language, but let editors have the option of rendering certain text as symbols.  That is, have "\top" in the file but allow the editor to render "⊤" if they user chooses it.  
 
 The ",′" operator is just weird.  And I've never seen "⊎" before.  They seem like odd choice by the Agda library developers.
 
@@ -1080,13 +1092,14 @@ I did run into more issues with Agda.  They're listed below.  I filed bug report
 ## Agda bugs 
 
 
-The statement:
-<br>`syntax Σ A (λ x → B) = [ x ∈ A ] × B`<br>
-on this page of the documentation:
-<br> https://agda.readthedocs.io/en/v2.6.2/language/syntax-declarations.html <br>
-is not accepted by Agda.
+BUG IN UBUNTU PACKAGE:
+When I ran this file in Emacs mode, it was able to find the libraries just fine.
+When I compiled the file on the command-line, I got
+`Failed to find source of module`
+`Relation.Binary.PropositionalEquality in any of the following`
 
 
+ACTUAL BUG.  It had been fixed in the latest version.
 If you enter:
 <br>`trueCanBeProven : ⊤`
 <br>`trueCanBeProven = ?`<br>
@@ -1095,6 +1108,15 @@ since there is only 1 constructor for ⊤.  But that didn't work.
 It actually DELETED the line "`trueCanBeProven = ?`"!
 
 
+NOT A BUG: This was in the documentation for Agda 2.6.2 and I was running 2.6.0.1
+The statement:
+<br>`syntax Σ A (λ x → B) = [ x ∈ A ] × B`<br>
+on this page of the documentation:
+<br> https://agda.readthedocs.io/en/v2.6.2/language/syntax-declarations.html <br>
+is not accepted by Agda.
+
+
+UNICODE SUCKS: The import used the (single) Unicode symbol '∷' and I was using two colon characters ':'.  While this is technically "user error", it seems like a common problem that can be fixed by better error messages.
 I could not get Agda to accept this function type:
 <br>`open import Data.List using (List ; []; _∷_)`
 <br>`consAddsOneToLength : {A : Set} → (a : A) → (as : (List A)) → ((length (a :: as)) ≡ (suc (length as)))`<br>
@@ -1102,14 +1124,11 @@ It said "Not in scope:  ::"
 It did not work when I used (_::_ a as).
 It DID work when I defined a new list with "cons" instead of "_::_".
 
-When I ran this file in Emacs mode, it was able to find the libraries just fine.
-When I compiled the file on the command-line, I got
-`Failed to find source of module`
-`Relation.Binary.PropositionalEquality in any of the following`
 
-UNABLE TO REPRODUCE:  Agda Emacs Mode does not handle empty agda code blocks in a literal Agda Markdown file.
+UNABLE TO REPRODUCE:
+Agda Emacs Mode does not handle empty agda code blocks in a literal Agda Markdown file.
 
-UNABLE TO REPRODUCE
+UNABLE TO REPRODUCE:
 If you enter:
 <br>`equality-is-symmetric : (A : Set) → (x : A) → (y : A) → x ≡ y → y ≡ x`
 <br>`equality-is-symmetric A x y x-equals-y = ?`<br>
