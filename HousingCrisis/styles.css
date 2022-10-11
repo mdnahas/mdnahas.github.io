@@ -1,7 +1,8 @@
 body, html {
-/*    max-width:18cm;
+/* margin: auto; = center the text */
+    
+    max-width:18cm;
     margin: auto;
-*/
     
     line-height: 1.6;
 }
