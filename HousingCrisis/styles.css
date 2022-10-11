@@ -1,0 +1,25 @@
+body, html {
+/*    margin-left:1%;
+    margin-right:1%;
+    margin-bottom:1%;
+    margin-top:1%;*/
+
+    max-width:18cm;
+    margin: auto;
+
+    line-height: 1.6;
+}
+
+h3 {
+    padding-top: 20px
+}
+
+th {
+    font-size: 120%;
+    padding: 5px
+}
+
+td {
+    font-size: 120%;
+    padding: 5px
+}
