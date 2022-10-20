@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+  <title>Austin's Housing Crisis Big Spreadsheet</title>
+  <meta name="viewport" content="initial-scale=1.0">  <!-- fix iOS display -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <h1>Austin's Housing Crisis Big Spreadsheet</h1>
+
+<p>I am an economist studying the housing crisis in Austin, Texas.  Part of my process is comparing Austin to other cities.  I collected data from the 50 largest cities in America (by metro population) and put it into a big spreadsheet. </p>  
+  
+  <p> The <a href="city_dataset.csv">big spreadsheet</a> includes: </p>
+
+    <ul>
+      <li> Metro area population (US Census 2021 est., 2020, 2010)</li>
+      <li> City population (US Census 2021 est., 2020, 2010)</li>
+      <li> City's area</li>
+      <li> Price of a cheap lot in City (Zillow, 1%ile in Sept. 2021)</li>
+      <li> Price of a cheap apartment in City (1bed+1bath, Zillow 1%ile in Sept. 2021)</li>
+      <li> Median rent (HUD FY2023 and FY2013) </li>
+      <li> Metro GDP (2018, 2017) </li>
+      <li> Median lot size (Angi.com)</li>
+      <li> Median lot price per sqft (Angi.com)</li>
+      <li> Overall homeless and unsheltered homeless (HUD 2019)</li>
+    </ul>
+
+  <p> <i> Warning: Be aware that the data comes from regions with different boundaries.   HUD's rents and homeless numbers are not consistently aligned with metro areas nor cities.  The data has little correlation with the cities' areas, but ratios may matter.</i></p>
+
+  <h2>High rent causes homelessness</h2>
+
+<p> It is pretty easy to see that high rent causes more of the population to be homeless. </p>
+  
+ <img src="rent_to_overall_homeless.svg" alt="Graph of median rent to percent of population that is homeless.  There is a clear correlation." class="center">   
+
+ <ul>
+   <li> Austin is in <span style="color:yellow">yellow</span></li>
+   <li> Texas cities (Dallas, Houston, and San Antonio) are in <span style="color:green">green</span></li>
+   <li> California cities (Los Angeles, San Francisco, San Diego, San Jose, Riverside, and Sacramento) are in <span style="color:red">red</span></li>
+   <li> All other cities are <span style="color:blue">blue</span></li>
+ </ul>
+ 
+	
+<p> It is also easy to see that high rent causes more homeless to go unsheltered</p>
+  
+ <img src="rent_to_percent_unsheltered.svg" alt="Graph of median rent to percent of homeless that are unsheltered.  There is a clear correlation." class="center">   
+  
+
+ <h2>High rent is correlated with a high land price</h2>
+
+<p>Economists have traced the high cost of housing to cities' zoning laws.  This is visible in the data as a high land price is correlated with high rent.</p>
+  
+<img src="log_rent_to_log_land_price.svg" alt="Graph of median rent to the price of a cheap lot on Zillow.  There is a correlation." class="center">
+
+<p> In the above graph, the "logarithm" function has been applied to the rents and land prices.  It makes the cheaper priced lots visible along side the expensive ones.  This is common practice in economics.</p>
+
+ <h2>Other results</h2>
+
+These are some other results you can see in the spreadsheet.
+ 
+ <ul>
+   <li><a href="rent_to_covid_reversal.svg">Cities with high rent reversed their growth during COVID.<a>  That is, their growth in 2021 was much lower than their growth over the last decade.</li>
+   <li><a href="gdp_to_growth.svg">Growth of a city is no longer tied to its GDP.</a>  Economists would expect richer cities to grow, but something is stopping that process.  The best explanation is zoning laws.</li>
+ </ul>
+ 
+<br/>
+<hr/>
+
+<i><a href="index.html">Return to main page<a></i>
+
+</body>
+
+</html> 
+
+
+
+
+

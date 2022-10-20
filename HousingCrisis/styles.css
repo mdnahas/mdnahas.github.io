@@ -1,10 +1,26 @@
-body, html {
-/* margin: auto; = center the text */
-    
+@media (max-width:800px) {
+  body, html {
+    margin: 10px;
+  }
+}
+
+
+@media (min-width:800px) {
+  body, html {
+    /* margin: auto; = center the text */
     max-width:18cm;
     margin: auto;
-    
+  }
+}
+
+
+
+body, html {
     line-height: 1.6;
+}
+
+h2 {
+    padding-top: 20px
 }
 
 h3 {
