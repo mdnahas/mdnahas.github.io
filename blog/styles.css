@@ -1,6 +1,9 @@
 @media (max-width:800px) {
-  body, html, img {
+  body, html {
     margin: 10px;
+  }
+  img {
+      max-width: 100%;
   }
 }
 
