@@ -305,9 +305,8 @@ Prop is an important concept, so let's see some propositions:
   - (forall x y : nat, x + y = y + x)
   - (forall A : Prop, A -> A)
 
-All of these have type "Prop".  They can all can have proofs.  That
-last Prop should look familiar - it's what we're trying to prove right
-now!
+All of these have type "Prop".  They can all have proofs.  That last
+Prop should look familiar - it's what we're trying to prove right now!
 
 IT IS VITALLY IMPORTANT THAT YOU DO NOT THINK OF A Prop AS BEING
 EITHER "TRUE" OR "FALSE".  A Prop either has a proof or it does not
@@ -395,7 +394,7 @@ _RULE_: If you have an hypothesis
 
 The proof ends with the "exact" command.  We could have ended with
 "exact (A_implies_B proof_of_A)", but I think it is easier to read
-when it ends with with "exact proof_of_B."
+when it ends with "exact proof_of_B."
 
 This was a forward proof.  Let's see a backward one.
 *)
