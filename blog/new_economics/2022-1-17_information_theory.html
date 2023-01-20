@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+  <title>Information Theory</title>
+  <meta name="viewport" content="initial-scale=1.0">  <!-- fix iOS display -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+  <h1>Information Theory</h1>
+
+  <p> Economists talk about information <i>all the time</i>.  We have all sorts of phrases with it: perfect information, assymetric information, fully-informed markets, etc..  But we never measure it or manipulate it.  Economics needs to use Information Theory. </p>
+
+  <h2> What I've done </h2>
+
+  <p> This has been a topic in my brain for a while.  In 2022, I got to take some first steps with Joey Hirsh, an Math PhD from MIT. </p>
+
+  <p> We played around with a very basic economic model, that was patterned after Vernon Smith's early experimental economics games.  In the game, players were either buyers or sellers.  Each had a reserve price.  In multiple rounds, the buyers and sellers would propose bids and offers and trade when they accepted a price.  Smith found that price often stabilized to near the equilibrium price, but not always. </p>
+
+  <p> So, players started with their own private information, their reserve price.  By interacting in the market, players reveal some of their information.  By the end of the interactions, we have some derived information that is calculate by the market: the equilibrium price (maybe). </p>
+
+  <p> Eventually, I turned up a paper by Robert Wilson, "On Equilbria of Bid-Ask Markets". that contained a game-theory solution to Vernon Smith's game.  I <i>loved</i> this paper.  Given the prevalence of bid-ask markets in finance, I'm shocked that this result wasn't shown to me in graduate school.  </p>
+
+  <p> Wilson's result was that buyers and sellers learn about each other's values as time goes by.  The ones with the most extreme reserve prices make the first bid or ask.  As time gets closer to running out, more and more players make a bid or offer and the prices get closer together.  Unless there are some very weird random reserve prices, most capable parties trade near the equilibrium price right before time runs out. </p>
+
+  <p> Wilson's model uses continuous time.  As each infinitesimal of time goes by, players learn.  If nothing happens, the players learn there is no buyer or seller with a particular reserve price.  If a bid or offer occurs, they know the exact value of the reserve price.  So the market is drawing information into the public over time.  But not all of it; reserve prices on the other side of the equilibrium price are not revealed because their holder do not bid or offer. </p>
+
+  <p>Wilson's version of Smith's game used continuous time and had all information being made public.  I tried to make a new game with discrete time and less public information.  It had the same players, with their reserve prices, but rather than public bids and offers, a matchmaker selected two players at random and said "Would you sell/buy for price X?", where the price X was also random.  If both players agreed, the trade happen publicly.  Otherwise, no information was shared.</p>
+
+  <p> The game was interesting to think about, but hard to solve.  And eventually, I decided it wouldn't answer the questions I wanted to ask.   Those were things like: </p>
+
+  <ul>
+    <li>If information appears in a market, such as an oil well is found to have twice as much oil, how do prices change? </li>
+    <li>Can we predict any different effects if traders trade at 2 different stock exchanges vs. a single stock exchange? </li>
+    <li>How do traders behave differently from retail customers at a stock exchange?  That is, if traders have more memory and information, how does that affect their profits?</li>
+    <li> Is trading more about information than physical goods?  After all, most commodity traders never receive the commodity. </li>
+  </ul>
+
+    <p> I tried to come up with a more general model.  Where the world had many possible initial states and that players had partial information about the world.  That is, each knew that some states were not the real initial state.  For example, if player 1 had an orange orchard and player 2 had an apple orchard and they knew how large their own harvest was, but not the harvest of the other player . Players also had preference for final states, which would equate to a utility function for apples and oranges.<p>
+
+    <p> I didn't spend much time on this idea and never made it  work.  I tried to have players propose conditional contracts, like "I'll reveal some of the information I know and, in exchange, if the initial state is X then I want the final state to be Y."  But proposing a condition contract revealed information.</p>
+
+    <p> My one insight from this work was a new view of contract negotiations.  Each side in a contract negotiation has 2 things, their private information and their preferences.  During the negotiation, each side takes turns revealing a little more of their private information and preferences.  If a side doesn't reveal information, then in a tit-for-tat manner, the other side stops revealing.  Negotiations break down until the first side reveals more information.  Eventually, a deal is reached or they discover that no deal is possible.</p>
+
+    <p> I do think this area needs more work.  Information Theory is hard to work with, but it had great possibilities.  Game Theory has discreate states and is probably a better fit for appling Information Theory.  Joey Hirsh was of the opinion that machine learning was useful.  The models got complicated quickly and machine learning might reveal some patterns that might help in discovering a theory. </p>  
+  
+
+<br/>
+<hr/>
+
+<i><a href="index.html">Return to New Directions in Economics<a></i>
+
+</body>
+
+</html> 
+  
