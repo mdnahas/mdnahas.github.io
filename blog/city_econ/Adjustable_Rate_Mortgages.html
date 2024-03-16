@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+  <title>City Econ: Adjustable-rate Mortgages Have a Billion Dollar Problem</title>
+  <meta name="viewport" content="initial-scale=1.0">  <!-- fix iOS display -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+  <h1>Adjustable-rate Mortgages Have a Billion Dollar Problem</h1>
+
+  I was learning about adjustable-rate mortgages (ARMs) and noticed a problem.  Adjustable-rate mortgages can never go below 2.75%, even though the average fixed-rate mortgages fell below that from Nov. 2020 to Feb. 2021.  Lenders profited from that extra interest, to the tune of billions of dollars.
+  <p>
+    
+<img src="2023-2-24_arms_and_the_zlb__image.png" alt="A graph of the interest rates for the 30-year fixed rate mortgage and adjustable-rate mortgage.  The fixed-rate mortgage goes below 2.75%, but the adjustable-rate mortgage does not." class="center">
+
+<font size="-1">Blue: Adjustable-rate mortgage rate. Green: Fixed-rate mortgage rate. The adjustable-rate mortgages cannot go below 2.75% because the index is hitting the zero-lower bound. The fixed-rate mortgage does go below 2.75%, in late 2020 and early 2021.</font>
+  <p>
+
+    This can occur because of how the interest rate for ARMs is calculated.  For the unfamiliar, the interest rate of an ARM comes from adding an "index" and a "margin".  The index is a nominal short-term interest rate, like SOFR or a US Treasury rate.  It goes up and down and "adjusts" the adjustable-rate mortgage.  The margin is a fixed number.  The margin is added to the index because average people are more risky borrowers than banks or the government.
+      <p>
+	If you need an example, a common index is the 1-year constant-maturity Treasury (1Y CMT) and a common margin is 2.75%.  The 1Y CMT is currently at 5.07%, so a borrower with an adjustable-rate mortgage is paying 5.07% + 2.75% = 7.82%.
+	  <p>
+	    This is a bad way to calculate the interest because the index has a problem: the zero lower-bound (ZLB).  Nominal interest rates can (almost) never go negative.  If they did, people would receive less money in the future than they loaned out.  People with money would rather hold on to their cash and get, effectively, 0% interest.  Thus, nominal short-term interest rates will never go below zero.  There's a zero lower-bound.
+	      <p>
+		So, even if fixed-rate mortgages go below 2.75%, adjustable-rate mortgages cannot, because the index can never go below zero and the margin, usually 2.75%, gets added to the index.
+		  <p>
+		    How much did this cost borrowers?  For that, we'd have to know how low the index would go if there wasn't the zero lower bound.  Interest rates without the zero lower bound are known as "shadow rates".  They were invented by the famous Fischer Black in <a href="https://www.jstor.org/stable/2329320">my favorite Finance paper</a>.
+		      <p>
+We cannot directly measure shadow rates, but economists use mathematical models to estimate them.  <a href="https://www.atlantafed.org/cqer/research/wu-xia-shadow-federal-funds-rate">A model by Cynthia Wu and Fan Dora Xia, hosted at the Federal Reserve Bank of Atlanta,</a> shows that the shadow rate was negative after the Financial Crisis and during the COVID Pandemic.  It has been negative for most of the time between 2009 and 2022.
+
+  <p>
+
+<img src="2023-2-24_arms_and_the_zlb__image2.png" alt="A graph of the FedFunds interest rate and Wu-Xia's estimate of the shadow rate. The rates are almost the same, except when the non-shadow rate hits the zero lower-bound during the Financial Crisis and during the COVID Pandemic. The shadow rate goes negative then." class="center">
+
+<font size="-1">The FedFunds interest rate and Wu-Xia's estimate of the shadow rate. The non-shadow rate hits the zero lower-bound during the Financial Crisis and during the COVID Pandemic. The shadow rate is able to go negative and does then.</font>
+  <p>
+
+    To estimate how much money was taken from borrowers, I used the following numbers.  Lately, ARMs have been about 10% of new mortgages (measured by dollars loaned).  I assumed that's the rate for all mortgages.  The size of the mortgage market is $11.92 trillion in loans in 2023.  I assumed that is the amount currently borrowed (not the value originally borrowed) and it has been steady at that value.  I assumed 1/6th of the adjustable-rate mortgage was spent at a fixed introductory rate.  Wu and Xia's model computed the shadow rate for Fed Funds, not the 1Y CMT.  I estimated the 1Y CMT by adding 0.20%, which was the average between the Fed Funds rate and 1Y CMT from Jan 2016 to Dec 2019 (when it was far from the zero lower bound).
+      <p>
+
+	Using those numbers, I estimate that over the last 13 years, the amount "transferred" was $88 billion.  I don't have a good per-mortgage estimate.  But the average interest rate would have been 2.63% instead of 3.44%, so interest payments would have been 24% lower.
+	  <p>
+
+	    $88 billion is a lot of money.  And these borrowers tend to be <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2248832">"lower income, less wealthy, less credit worthy, and single-headed households"</a>.  And some economists think that <a href="https://www.brookings.edu/blog/ben-bernanke/2017/04/12/how-big-a-problem-is-the-zero-lower-bound-on-interest-rates/">interest rates will commonly hit the zero lower-bound in the future</a>.
+	      <p>
+
+We need to fix this.
+
+
+  <br/>
+<hr/>
+
+<i><a href="index.html">Return to City Econ<a></i>
+
+</body>
+
+</html> 

@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+  <title>City Econ: How to Measure a Housing Market</title>
+  <meta name="viewport" content="initial-scale=1.0">  <!-- fix iOS display -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+  <h1>How to Measure a Housing Market</h1>
+
+I recently got asked what data sources to use to measure how a city's real estate market is doing.  I decided to make my answer into a blog post, so others can benefit.
+
+  <h2>Rent</h2>
+  
+  First, if you want to measure how a real estate market is doing right now, you should use rent.  The rent is cost of housing for the next year.  Most people want to talk about the price of a house, but, if you use that, you would be measuring the cost of housing over the next 40 to 100 years.  Moreover, the price is affected by interest rates and inflation expectations.  So, rent is a purer measure of how the market is doing now.
+
+
+  Second, you should use a "repeated sales index".  The average rent for apartments leased this month might be the same as the average last month, but the apartments that were leased may change.  A repeated sales index only looks at the change in rent of the same apartment.  It is much more accurate.
+    <p>    
+      Lastly, research using hedonic regression models shows economists that the rent usually goes up or down by a percentage everywhere in a city each month.  So, you don't want to look at a specific price, like $1,000, but the percentage change since some time in the past.
+        <p>    
+	  The most studied repeated-sales rent index is <a href="https://www.zillow.com/research/data/">Zillow's ZORI</a>.  Zillow does an odd thing and puts a dollar figure on its ZORI index.  That means that, depending on when the data was published, the value for a given month might change.  You need to ignore that and just use the percentage change between each month in a particular city.
+	    <p>    
+  It is important to keep in mind that Zillow's ZORI index is the rent for 1-year leases that started that month.  If you care about how much people in your city are paying for rent right now, only about 1-in-12 renters started their leases this month.  You need to account for the 1-in-12 that started last month, the 1-in-12 that started the month before, etc.  In summer of 2021, there was a huge jump in rent, but most people didn't start paying that higher rate until the next year.
+
+  <h2>Home Prices</h2>
+
+  If you talk to an audience that wants to hear about home prices, the most famous repeated-sales price index is called Case-Shiller, after the people who popularized the technique.  The Federal Reserve Bank of St. Louis runs a wonderful data website called "FRED" that hosts a lot of data, including the <a href="https://fred.stlouisfed.org/series/CSUSHPINSA">Case-Shiller indices for 20 cities</a>.  US Federal Housing Finance Agency publishes a similar index for more metro areas ("MSAs"), including my own of <a href="https://fred.stlouisfed.org/series/ATNHPIUS12420Q">Austin-Round-Rock-Georgetown</a>.
+
+  <h2>Comparing Cities</h2>
+
+  Repeated sales indexes are good for comparing rents in a single city over time, but not for comparing rents between cities.  I actually don't have a good measure for that.  The best thing available is Regional Price Parities (RPPs).
+    <p>    
+      RPPs compare the price of the same products in different cities.  One product they compare is housing.  But houses are identified by only a few characteristics: number of bedrooms, total number of rooms, and age.  RPPs are imperfect because they  doesn't include some important factors in the price of housing, like the time to commute downtown.  Also, RPPs are not published on a timely basis.  It is currently September 2023 and the most recently published data for Austin is from 2021.
+        <p>    
+  RPPs are reported as percentages of the national average.  <a href="https://fred.stlouisfed.org/series/RPPSERVERENT12420">Austin's RPP for housing is 122</a>, which means it is 22% above the national average.  That's high compared to Houston (105), but low compared to Los Angeles (181), San Francisco (213), and San Jose (241).
+
+  <h2>Looking Inside Cities</h2>
+
+  If you want to look at intra-city details, there is useful data based on ZIP codes.  For each ZIP code, you can get a median rent (from <a href="https://www.zillow.com/research/data/">Zillow</a> or <a href="https://www.hud.gov/sites/dfiles/Housing/documents/2022MedianGrossRentbyZipCode.xlsx">HUD</a>) and income (from <a href="https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi">IRS</a> or <a href="https://www.census.gov/topics/income-poverty/income/data/tables.html">Census Bureau</a>).  The ratio of rent to income gives you a rough estimate of how affordable the area is to the people who live there.  A clear sign of a problem in a city is when people in low-rent areas start spending a very high percentage of their income on rent.  To get an accurate picture of this effect on the whole city, this ZIP-code level data should be weighed by the number of people who live in each ZIP code.
+    <p>    
+      There is also useful information to be gathered from the price of the median house in each ZIP code.  That data is available from <a href="https://www.zillow.com/research/data/">Zillow</a>.  The price of a house includes future rents, so the prices are higher where rents are expected to increase and/or the houses for sale are newer than the houses for rent.  So, a high price-to-rent ratio is indicative of gentrification and construction.  Again, weighing that data by the population in the ZIP code will give a more accurate picture of what is happening in the city.
+        <p>    
+This ZIP code data can be used to comparing between cities, too.     
+
+  <h2>Finance</h2>
+  The last major data source I use is the 30-year fixed-rate mortgage rate.  While rent is the best measure of the market, home buying is an important part of the market and this interest rate is the basis for most mortgages.  If you multiply the rate times the home price, you get a rough estimate of the owner's annual payment.  Currently, Zillow says the average home price in Austin is $554,500.  <a href="https://fred.stlouisfed.org/series/MORTGAGE30US">FRED says the mortgage rate is 7.18%.</a>  Some simple math: $544,500 * .0718 / 12 = $3,258 gets you a quick estimate of the monthly payment.
+  <p>  
+Keep in mind that housing costs are more than just the mortgage.  There is taxes, maintenance, insurance, and other expenses too.
+  <h2>Conclusion</h2>
+  These data sources are helpful, but I wish we had much better public data.  Housing is a huge part of the economy: it is the largest item in every household's budget and about 1/6th of all spending.  We should do a better job of measuring it.  We need more advanced rent indices, with hedonic regression weights.  We need proper and timely RPPs.  We need intra-city data based on neighborhoods, not just ZIP codes.
+  <p>
+Traditionally, the economic data has been gathered at the federal level.  They're not doing a great job.  States or cities need to step up and fill that role. 
+
+
+
+  <br/>
+<hr/>
+
+<i><a href="index.html">Return to City Econ<a></i>
+
+</body>
+
+</html> 

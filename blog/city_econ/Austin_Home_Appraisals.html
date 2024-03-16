@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+
+<head>
+  <title>City Econ: Austin's Home Appraisals Match Zillow's</title>
+  <meta name="viewport" content="initial-scale=1.0">  <!-- fix iOS display -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+  <h1>Austin's Home Appraisals Match Zillow's</h1>
+
+  Property taxes are based on a house's appraised value.  The rich can avoid taxes by manipulating their appraisals.  They can do that by hiding information, hiring experts to challenge appraisals, and more.  So, I've wanted to evaluate the appraisals around my hometown of Austin, TX.  The appraisals for 2023 were just released, so it's the perfect time to check their values.
+  <p>  
+    My appraisal data comes from the <a href="https://traviscad.org/publicinformation">Travis County Appraisal District</a>, known as "TCAD".  The appraisals are the estimated price of property on January 1st, 2023.  I used data for the whole county.
+  <p>    
+    I need something to compare those prices against, so I'm using <a href="https://www.zillow.com/how-much-is-my-home-worth/">Zillow's ZEstimates</a>.  Zillow claims that its data is accurate in the Austin metro area: half of home sales are within 6.69% of the ZEstimate.
+  <p>    
+    Zillow is accurate for houses, so I restricted the TCAD data to real property in Travis County that had state code "A1", which means "single-family house".  That was 58% of the data.
+      <p>
+	I wanted to know how TCAD did over the full range of house prices.  The minimum appraisal was $600 and the maximum was $28.2 million.  So, I took a sample of 100 houses spread evenly over the logarithm of appraisals.  House prices usually follow a log-normal distribution, so taking the log(arithm) was appropriate.
+	  <p>
+I looked up the ZEstimate for each of the 100 houses by hand.  Some properties didn't have a ZEstimate.  For others, I couldn't find the ZEstimate because the address from TCAD was missing the house number.  I gathered this data on May 4th, while TCAD's appraisal prices are from January 1st.  Zillow estimates that prices have <a href="https://www.zillow.com/home-values/1440/travis-county-tx/">decreased by about 4.4% since then</a>, so, for the ZEstimates I did get, I scaled them down by 4.4%.  (NOTE: This scaling could introduce error.  That 4.4% may have fallen more on one end of the market than the other.)  
+  <p>
+    The result was this graph:  
+  <p>
+    
+    
+<img src="2023-5-4_TCAD_vs_Zillow__image.png" alt="A graph comparing TCAD's appraised values and Zillow's ZEstimates.  They align for most values." class="center">
+
+<font size="-1">I wanted the full range of prices and went too far. The pink squares are in the top and bottom 0.1% of prices. The red diamonds represent the 99.8% most common appraised values.</font>
+
+<p>
+  The pink squares and red diamonds are Zillow's ZEstimates.  The blue dots are TCAD's appraised values.  When the blue dot is below the pink/red, TCAD is underappraising the property.  When the blue dot is above the pink/red, TCAD is overappraising the property.
+<p>  
+  What's with the pink vs. red?  My range of prices was too wide.  I had 7 samples in the top 0.1% and 43 samples in the bottom 0.1%.  I thought their results were interesting, so I included them in the graph.  Those extreme values are colored pink.  The commonly occurring prices are colored red.  The black solid trend line is the trend for the (red) common values.
+  <p>
+    For expensive houses, TCAD's appraisal is higher than Zillow's estimate.  That is true for both the trend line and the extreme values.  So, expensive homes are not being underappraised (compared to Zillow).  The rich have to find <a href="https://stage.travis.prodigycad.com/property-detail/563526,30.26396976,-97.839864,18353.0,SF-1-CO-NP,SF,563526.0,R,,,,SOTER">other ways</a> to avoid property taxes.
+    <p>
+      For lower-priced homes, it is the opposite.  The appraised value is below Zillow's estimate.  These are being underappraised.  We are losing taxes here, but these homes are worth less, so the loss in revenue is small.
+      <p>
+	(Note: Don't assume cheap houses are owned by "poor" families, who deserve lower taxes.  <a href="https://www.census.gov/quickfacts/fact/table/traviscountytexas,austincitytexas/LND110210">47% of Travis County households don't own their home.</a>  So, owners of cheap houses are probably in the upper half of wealth.)
+	<p>
+	  Bravo, TCAD!  You seem to be valuing residential property well.   As for commercial property, I don't have a good way to measure TCAD's appraisals.  Commercial property is important because that is where <a href="http://assets.austintexas.gov/austincouncilforum/40-20150519105406.pdf">TCAD has a history of underappraising</a>.  The State of Texas makes it hard for them, because we're a <a href="https://www.propstream.com/news/what-are-disclosure-and-non-disclosure-states">non-disclosure state</a>: when a property is sold, the price isn't made public.  So, the rich may still be exploiting property tax on their companies, but not under their homes.
+	  
+
+  <br/>
+<hr/>
+
+<i><a href="index.html">Return to City Econ<a></i>
+
+</body>
+
+</html> 

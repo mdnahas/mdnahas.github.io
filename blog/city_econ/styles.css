@@ -1,0 +1,41 @@
+@media (max-width:800px) {
+  body, html {
+    margin: 10px;
+  }
+  img {
+      max-width: 100%;
+  }
+}
+
+
+@media (min-width:800px) {
+  body, html, img {
+    /* margin: auto; = center the text */
+    max-width:18cm;
+    margin: auto;
+  }
+}
+
+
+
+body, html {
+    line-height: 1.6;
+}
+
+h2 {
+    padding-top: 20px
+}
+
+h3 {
+    padding-top: 20px
+}
+
+th {
+    font-size: 120%;
+    padding: 5px
+}
+
+td {
+    font-size: 120%;
+    padding: 5px
+}
