@@ -1,0 +1,158 @@
+# Packing Checklist
+
+I made this after reading the [Checklist Manifesto](https://www.abebooks.com/book-search/title/the-checklist-manifesto/).  Everything in *italics*, I've forgotten at least once on a trip.  
+
+- Pre-travel actions
+  - [ ] *Check weather*
+  - [ ] *Download movies/TV for travel entertainment*
+  - [ ] *Download / print itinerary*
+  - [ ] *Haircut*
+  - [ ] Do laundry
+  - [ ] Pay bills early
+  - [ ] Backup phone
+  - [ ] Backup iPad
+  - [ ] Backup computer
+  - [ ] Polish dress shoes
+
+- Papers
+  - [ ] ID/wallet
+  - [ ] Tickets
+  - [ ] Itinerary
+  - [ ] Passport
+
+- Clothes
+  - Plain Clothes
+    - [ ] *Underwear*
+    - [ ] *Socks*
+    - [ ] *Belt*
+    - [ ] *Baseball cap (or sunglasses)*
+    - [ ] Shorts/pants
+    - [ ] Shirts
+    - [ ] Shoes
+  - Workout clothes
+    - [ ] Gym shorts
+    - [ ] Gym shirts
+    - [ ] Gym shoes
+    - [ ] Sweatshirt + sweatpants
+  - Night clothes
+    - [ ] Pajamas
+    - [ ] Sleeping mask
+    - [ ] Socks (if cold)
+  - Cold weather clothes
+    - [ ] *Warm socks*
+    - [ ] Sweater/sweatshirt + sweatpants
+    - [ ] Coat/jacket
+    - [ ] Hat
+    - [ ] Gloves
+    - [ ] Boots
+    - [ ] Long underwear
+  - New clothing
+    - [ ] Spare bag or space in suitcase for purchases
+
+- Toiletries
+  - [ ] CPAP
+  - [ ] Toothpaste
+  - [ ] Toothbrush
+  - [ ] Razor
+  - [ ] Shaving cream
+  - [ ] Anti-perspirant
+  - [ ] Daily medicine
+  - [ ] Shampoo
+  - Occasionally needed
+    - [ ] Soap in soapbox
+    - [ ] Painkillers
+    - [ ] Amodium
+    - [ ] Vasaline
+    - [ ] Backup eyeglasses
+
+- Technology
+  - [ ] *Phone charger*
+  - [ ] Phone
+  - [ ] iPad charger
+  - [ ] iPad
+  - [ ] Computer charger
+  - [ ] Computer
+  - [ ] Travel surge protector
+  - Occasionally needed
+    - [ ] Dongle + HDMI cord (to connect to TV)
+    - [ ] USB Drive
+    - [ ] Router + Ethernet cable (to extend coverage)
+    - [ ] Larger surge protector / power strip
+    - [ ] Extension cord
+  
+- Other
+  - [ ] Book/Magazine/Papers for reading
+  - [ ] Paper or notebook for writing
+  - [ ] Food for travel
+  - [ ] Water bottle
+  
+- Options:
+  - Rain gear    
+    - [ ] Umbrella
+    - [ ] Rain jacket
+    - [ ] Waterproof sandals or hiking boots
+  - Event
+    - [ ] Present for bride/groom/graduate/birthday
+  - Driving
+    - [ ] *Car mount for phone*
+  - Fun
+    - [ ] Deck of cards (especially, SIGBeer cards)
+    - [ ] Bluetooth speaker (+ charger) (+ inner tube for floating speaker) 
+    - [ ] Frisbee
+  - Swimming
+    - [ ] *Goggles*
+    - [ ] *Sunscreen*
+    - [ ] Swimsuits
+    - [ ] Sandals
+    - [ ] Towel
+    - [ ] Shirts (gym shirts or sunshirts)
+  - Fancy Clothes  
+    - [ ] *Cuff links*
+    - [ ] *Dress shoes*
+    - [ ] *Dress socks*
+    - [ ] *Jacket (don't pack - wear on plane)*
+    - [ ] Tie
+    - [ ] Pocket square
+    - [ ] Dress shirt
+    - [ ] Dress pants
+  - Hiking
+    - [ ] Waterproof sandals or hiking boots
+    - [ ] Long-sleeve shirts
+    - [ ] Hat
+    - [ ] Water bottle
+  - Sailing
+    - [ ] Sunglasses
+    - [ ] "Croakies" (strap for sunglasses)
+    - [ ] Boat shoes
+    - [ ] Rain jacket
+    - [ ] Hat
+    - [ ] Sailing knife
+    - [ ] Waterproof case for iPad
+  - Workout equipment
+    - [ ] Jump rope
+    - [ ] Boxing wraps
+    - [ ] Cleats
+  - Snorkling
+    - [ ] Snorkle & dive mask
+    - [ ] Flippers  
+  
+
+- Long trip
+  - Actions
+    - [ ] Raise A/C temperature, lower heater temperature
+    - [ ] Turn off most lights
+    - [ ] Put a light on a timer so it looks like I'm home
+    - [ ] Take out trash
+    - [ ] Run and empty dishwasher
+    - [ ] Unplug everything
+    - [ ] Turn off fridge AND prop door open with sponge
+  - Items
+    - [ ] Social Security Number card (for work paperwork)
+    - [ ] Sewing kit
+    - [ ] Leatherman / Swiss Army knife
+    - [ ] Bedsheets
+    - [ ] Blanket
+    - [ ] Fan
+    - [ ] Hangers
+    - [ ] Shower flip-flops
+    - [ ] Baseball glove
