@@ -1,9 +1,9 @@
 (**
-Mike Nahas's Coq Tutorial
+Mike Nahas's Rocq (formerly known as Coq) Tutorial
 
 Started 2012-Nov-06
 Version 1.2, 2019-Jan-22
-Tested with Coq version 8.10+alpha
+Tested with Rocq version 8.18.0
 
 ------------------------
 Dedicated to Kernighan and Ritchie,
@@ -13,10 +13,10 @@ who wrote a magnificent introduction to a programming language.
 
 (** * Introduction *)
 (**
-Coq is a proof assistant.  Coq helps you write formal proofs.
+Rocq is a proof assistant.  Rocq helps you write formal proofs.
 
 A "formal proof" is a mathematical proof that is written in a language
-similar to a programming language.  (Actually, Coq's language _is_ a
+similar to a programming language.  (Actually, Rocq's language _is_ a
 programming language, but we'll get to that later.)  Formal proofs are
 harder for a human to read, but easier for a program to read.  The
 advantage is that a formal proof can be verified by a program,
@@ -29,18 +29,18 @@ As for the other parts, checking a proof on multiple systems make it
 much more likely that any errors are in the proofs rather than in the
 verification of the proof.)
 
-This tutorial will teach you the basics of using Coq to write formal
-proofs.  My aim is to teach you a powerful subset of Coq's commands by
+This tutorial will teach you the basics of using Rocq to write formal
+proofs.  My aim is to teach you a powerful subset of Rocq's commands by
 showing you lots of actual proofs.  This tutorial will not teach you
-all of the Coq commands, but you will learn enough to get started
-using Coq.
+all of the Rocq commands, but you will learn enough to get started
+using Rocq.
 
 *)
 
 
 (** ** Prerequisites *)
 (**
-This tutorial will teach you how to use Coq to write formal proofs.  I
+This tutorial will teach you how to use Rocq to write formal proofs.  I
 assume you already know how to write a proof and know about formal
 logic.  I tried to make this tutorial easy to read, so if you don't
 know those things, keep reading and you _might_ be able to pick them
@@ -54,20 +54,23 @@ useful links.
 *)
 
 
-(** ** Installing Coq *)
+(** ** Installing Rocq *)
 (**
 
-The easiest thing is to install "CoqIDE", the graphical version of
-Coq.  Windows and MacOS installers and the latest source code are
-available at http://coq.inria.fr/download If you're running Linux,
-your package manager probably has a recent-ish version.
+Rocq was previously known as Coq, so some packages and programs are
+still named with "Coq".  
+ 
+The easiest way to get started is to install "RocqIDE", the graphical
+version of Rocq.  Windows and MacOS installers and the latest source
+code are available at https://rocq-prover.org/ If you're running
+Linux, your package manager probably has a recent-ish version.
 (Debian/Ubuntu/Mint: "sudo apt install coqide", Fedora/CentOS might be
 'su -c "yum install coq-coqide"'.  Arch might be "sudo pacman -S
 coqide")
 
 If you like the Emacs text editor, the alternative is to run "coqtop",
-the command-line version of Coq.  It is also available at
-http://coq.inria.fr/download The Linux package is usually called
+the command-line version of Rocq.  It is also available at
+https://rocq-prover.org/  The Linux package is usually called
 "coq".  To use it in Emacs, you have to also download and install the
 "Proof General" Emacs mode.  Is is available at
 https://proofgeneral.github.io/ Linux package managers include some
@@ -75,31 +78,34 @@ version of it.  (Debian/Ubuntu/Mint calls it "proofgeneral".
 Fedora/CentOS might call it "emacs-common-proofgeneral".  Arch might
 call it "proofgeneral".)
 
+If you like VIM or VSCode, there are packages available.  See
+https://rocq-prover.org/ 
+
 *)
 
 
 (** ** Loading this file *)
 (**
 
-This file (yes, the one you're reading right now) is a Coq file.  Coq
+This file (yes, the one you're reading right now) is a Rocq file.  Rocq
 file's names usually end in ".v".  If this file's name currently ends
 in ".txt", you'll want to change it to ".v" before loading it into
-CoqIDE or Emacs.  (If this file's name ends in ".html" or ".pdf",
-someone used Coq to generate this document, in which case you need to
+RocqIDE or Emacs.  (If this file's name ends in ".html" or ".pdf",
+someone used Rocq to generate this document, in which case you need to
 find the original ".v" file they used.  If you can't find it, the
 author hosts a recent version at
 https://mdnahas.github.io/doc/nahas_tutorial.v)
 
-Once you've made sure the file's name ends in ".v", start CoqIDE or
+Once you've made sure the file's name ends in ".v", start RocqIDE or
 Emacs and load the file.
 
 You need to know that this file was designed to work in a specific
-version of Coq.  Coq is a research tool and the developers
+version of Rocq.  Rocq is a research tool and the developers
 occasionally make small changes to its file format, so it is possible
-that this file is for a different version of Coq.  As you progress
-through the tutorial, you may find a proof that your version of Coq
+that this file is for a different version of Rocq.  As you progress
+through the tutorial, you may find a proof that your version of Rocq
 doesn't like.  You can probably make it work, but if you can't, you
-can try installing the latest version of CoqIDE and downloading the
+can try installing the latest version of RocqIDE and downloading the
 latest version of the tutorial from the author's website.
 (https://mdnahas.github.io/doc/nahas_tutorial.v)
 
@@ -107,7 +113,7 @@ latest version of the tutorial from the author's website.
 
 (** * Comments *)
 (**
-Coq will ignore everything that starts with a '(' followed by a '*'
+Rocq will ignore everything that starts with a '(' followed by a '*'
 and end with a '*' followed by a ')'.  These are called comments.
 *)
 
@@ -121,7 +127,7 @@ We'll begin by proving the proposition:
    if you have a proof of it, then you have a proof of it."
 >>
 
-Okay, that's not that exciting but we can't print "Hello, World" in Coq...
+Okay, that's not that exciting but we can't print "Hello, World" in Rocq...
 *)
 
 Theorem my_first_proof : (forall A : Prop, A -> A).
@@ -134,13 +140,13 @@ Qed.
 (** ** Dissection of your first proof *)
 (**
 
-A Coq proof starts by stating what you're trying to prove.  That is
+A Rocq proof starts by stating what you're trying to prove.  That is
 done by the command "Theorem".  After the word "Theorem" comes the
 name of the theorem: "my_first_proof".  If you want use this theorem
 later, you'll refer to it by that name.  Then comes a colon, the
 statement of what you're trying to prove, and a period ('.').
 
-As you can see, every Coq command ends with a period.
+As you can see, every Rocq command ends with a period.
 
 Let's skip over how we express what you want to prove and go on to the
 actual proof itself.  That starts, unsurprisingly, with the command
@@ -154,14 +160,14 @@ of "Qed", you may also see proofs that end with "Admitted" or
 "Defined", but these mean _DIFFERENT_ things.  Use "Qed" for now.)
 
 
-Coq uses 3 different "languages" and you can see them all here in this
+Rocq uses 3 different "languages" and you can see them all here in this
 proof.
   - The "vernacular" language manages definitions and top-level
     interactions.  Each of its commands starts with a capital letter:
     "Theorem", "Proof", and "Qed".
   - The "tactics" language is used to write proofs.  Its commands start
     with a lower-case letter: "intros" and "exact".
-  - The unnamed language of Coq terms is used to express what you want
+  - The unnamed language of Rocq terms is used to express what you want
     to prove.  Its expressions use lots of operators and
     parentheses: "(forall A : Prop, A -> A)".  (Technically, this
     language is a subset of the vernacular language, but it is useful to
@@ -181,7 +187,7 @@ Qed.
 (** ** Seeing where you are in a proof *)
 (**
 
-CoqIDE and Proof General are valuable because they show you the state
+RocqIDE and Proof General are valuable because they show you the state
 in the middle of your proof.  They show what you have proven and what
 you still need to prove.
 
@@ -189,7 +195,7 @@ Let's see the different states inside your first proof.  Move your
 cursor (by clicking your mouse or using the arrow keys) over any line
 between "Proof." and "Qed.".  Now let's see the state at that point.
 
-In CoqIDE, there are three ways to do it:
+In RocqIDE, there are three ways to do it:
   1. From the menu bar, open the "Navigation" menu and select "go to"
   2. In the tool bar, click on the 5th icon (a green arrow pointing at a yellow ball)
   3. Use a keyboard combo.  On my Mac, it's control-option-rightarrow.
@@ -267,7 +273,7 @@ The state after "intros A." is:
    A -> A
 >>
 
-In Coq, "A : Prop" means you have something named "A" of type "Prop".
+In Rocq, "A : Prop" means you have something named "A" of type "Prop".
 In the future you will see "0 : nat" which means "0" of type "nat"
 (natural numbers) and you will see "true : bool" which means "true" of
 type "bool" (boolean or true-false values).  In some places, you will
@@ -312,7 +318,7 @@ IT IS VITALLY IMPORTANT THAT YOU DO NOT THINK OF A Prop AS BEING
 EITHER "TRUE" OR "FALSE".  A Prop either has a proof or it does not
 have a proof.  Godel shattered mathematics by showing that some true
 propositions can never proven.  Tarski went further and showed that
-some propositions cannot even be said to be true or false!!!  Coq deals
+some propositions cannot even be said to be true or false!!!  Rocq deals
 with these obstacles in modern mathematics by restricting Prop to
 being either proven or unproven, rather than true or false.
 
@@ -563,7 +569,7 @@ programming languages.  For those familiar with imperative languages,
 like C, C++, and Java, it will feel odd not to have parentheses and
 commas to denote the arguments.
 
-The first "refine" created two subgoals.  CoqIDE and Proof General
+The first "refine" created two subgoals.  RocqIDE and Proof General
 will tell you that two subgoals exist, but they will only show you the
 context for the current subgoal.
 
@@ -614,7 +620,7 @@ becomes the hypothesis "proof_of_C".
 
 There is a new vernacular command at the end: "Show Proof".  If you
 put your cursor right after it and press "control-option-right_arrow"
-(in CoqIDE) or "C-C C-Enter" (in Proof General), you'll see the actual
+(in RocqIDE) or "C-C C-Enter" (in Proof General), you'll see the actual
 code for the proof.  It looks like this:
 
 <<
@@ -630,21 +636,21 @@ I formatted this version so that the correspondence to the proof is
 clearer.  The "intros" commands declare the parameters for the
 function.  "pose" declares constant values in the function.  Lastly,
 the "exact" command is used to return the result of the function.  As
-we go, you'll see the tight relationship in Coq between proofs and
+we go, you'll see the tight relationship in Rocq between proofs and
 code.
 
 
-At this point, I want to emphasize that Coq proofs are not normally
+At this point, I want to emphasize that Rocq proofs are not normally
 this tedious or verbose.  The proofs I've shown and the proofs I will
-show are demonstrating the mechanics of how Coq works.  I'm using
+show are demonstrating the mechanics of how Rocq works.  I'm using
 simple familiar types to make the mechanics' operations clear to you.
-Coq's tactic language contains commands for automatic theorem proving
+Rocq's tactic language contains commands for automatic theorem proving
 and for defining macros.  Almost all the proofs in this tutorial are
-simple enough to dispatch with a single Coq tactic.  But when you
+simple enough to dispatch with a single Rocq tactic.  But when you
 prove more complicated statements, you'll need all the commands I'm
 teaching in this tutorial.
 
-This helps explain why most Coq proofs are backwards.  Once a
+This helps explain why most Rocq proofs are backwards.  Once a
 goal has been transformed into simple enough subgoals, those
 subgoals can each be proved by automation.
 
@@ -659,7 +665,7 @@ add some more types!
 (**
 The vernacular command "Inductive" lets you create a new type.  I
 wanted to introduce the boolean type, which has two values: "true" and
-"false".  The problem is that in addition to "true" and "false", Coq
+"false".  The problem is that in addition to "true" and "false", Rocq
 has two other entities named "True" and "False", where the first
 letter is capitalized.  To keep the differences straight in your mind,
 I'm going to introduce them to you all at once.
@@ -817,7 +823,7 @@ _RULE_: If any hypothesis is "<name> : False",
 
 (** *** -> Examples *)
 (**
-We can use True and False to see that Coq's "->" operator really does
+We can use True and False to see that Rocq's "->" operator really does
 act like "implication" from logic.
 *)
 
@@ -969,7 +975,7 @@ If you have a function call and you have the definition of the
 function, the tactic "simpl" will execute the function on the
 arguments.  In this case, the function returns something of type Prop
 and that Prop happens to be "True".  (Yes, the function returned a
-type.  This is common in Coq.)
+type.  This is common in Rocq.)
 
 "True" becomes our new subgoal.  And we've seen how to prove a subgoal
 of "True" and that's "exact I" because "True" was defined to have a
@@ -1085,7 +1091,7 @@ theorem was provable.
 
 (** * And, Or *)
 (**
-One of the most amazing things about Coq is its fundamental rules are
+One of the most amazing things about Rocq is its fundamental rules are
 so simple that even things like "and" and "or" can be defined in terms
 of them.  I'll start with "or" because it shows some special features.
 *)
@@ -1173,7 +1179,7 @@ from "or_introl proof_of_A", so the type had to be given explicitly by
 putting ": A \/ B" at the end.  "or_introl proof_of_A" by itself is a
 proof of "A \/ anything".
 
-The proof is shorter without the "pose", since Coq knows the type from
+The proof is shorter without the "pose", since Rocq knows the type from
 the subgoal we're trying to prove.  You can see this in a similar proof
 using "or_intror" below.
 *)
@@ -1317,7 +1323,7 @@ So, we really didn't need to indent.  Nor should we waste a line with
 a comment saying "suppose".  And it'd be really nice if we didn't have
 to write the "intros" command.
 
-Luckily, Coq provides a tactic called "destruct" that is a little more
+Luckily, Rocq provides a tactic called "destruct" that is a little more
 versatile than "case".  I recommend using it for types that have a
 single constructor.  The format is:
 
@@ -1366,7 +1372,7 @@ arguments, so they are closer to constants than "opaque functions".
 
 To manipulate "bool"s, we could use an inductive type, but it's much
 easier just to define a function.  We've already seen one function on
-bools: "eqb", which did equality.  Some other functions that Coq defines are:
+bools: "eqb", which did equality.  Some other functions that Rocq defines are:
 
 - andb (b1 b2:bool) : bool
 - orb (b1 b2:bool) : bool
@@ -1538,16 +1544,16 @@ if you think you can.
 I did not include a proof, so where you would normally see a proof,
 you'll see the tactic "admit" and the vernacular command "Admitted".
 The tactic "admit" is a cheat.  It ends a subgoal without solving it.
-A proof containing an "admit" is not a real proof, so Coq forces you
+A proof containing an "admit" is not a real proof, so Rocq forces you
 to end it with "Admitted" instead of "Qed".  I use these commands
-below so that Coq's parser won't get hung up because I didn't include
+below so that Rocq's parser won't get hung up because I didn't include
 a proof of the theorem.
 
 The "admit" tactic has real uses.  When there are multiple subgoals
 and you want to skip over the easy ones to work on the hard one first,
 the "admit" tactic can be used to get the easy subgoals out of the
 way.  Or, if you are only part way done a proof but you want send
-someone a Coq file that parses, "admit" can be used to fill in your
+someone a Rocq file that parses, "admit" can be used to fill in your
 blanks.
 
 
@@ -1570,15 +1576,15 @@ _RULE_: If you have a subgoal that you want to ignore for a while,
 (** * Existence and Equality *)
 (**
 Like "and" and "or", the concepts of "there exists" and "equality" are
-not fundamental to Coq.  They are concepts defined inside of it. Only
+not fundamental to Rocq.  They are concepts defined inside of it. Only
 "forall" and the notion of creating a type with constructors is
-fundamental to Coq.
+fundamental to Rocq.
 *)
 
 (** ** Existence *)
 (**
 
-In Coq, you cannot just declare that something exists.  You must prove
+In Rocq, you cannot just declare that something exists.  You must prove
 it.
 
 For example, we might want to prove that "there exists a bool 'a' such
@@ -1607,7 +1613,7 @@ constructor for "ex P" takes the predicate "P" , the witness (called
 "exists ..., ..." is an operator to provide a friendly notation.  For
 "and" and "or", we did the same with "/\" and "\/".  For existence,
 the usually operator is a capital E written backwards, but that's
-difficult to type, so Coq uses the word "exists".
+difficult to type, so Rocq uses the word "exists".
 
 Let's test this out with the easy theorem I already mentioned.
 *)
@@ -1628,7 +1634,7 @@ Qed.
 (**
 
 I start by defining the predicate: a function that takes a single
-argument "a" (which Coq can determine is a "bool").  The key part of
+argument "a" (which Rocq can determine is a "bool").  The key part of
 the proof is the tactic "refine (ex_intro ...)". The arguments to
 "ex_intro" are:
   - the predicate
@@ -1646,7 +1652,7 @@ Theorem thm_exists_basics__again : (exists a, Is_true (andb a true)).
 Proof.
   pose (witness := true).
   refine (ex_intro _ witness _).
-    (** Coq automatically determines the predicate! *)
+    (** Rocq automatically determines the predicate! *)
     (** We're left to prove that the witness satisfies the function. *)
     simpl.
     exact I.
@@ -1747,7 +1753,7 @@ The proof requires some explanation.
   - we use the tactic "case" on "proof_of_False"
 
 This proof is hard to read.  If you have difficulty reading a proof,
-you can always use CoqIDE or Proof General to step through the proof
+you can always use RocqIDE or Proof General to step through the proof
 and look at the state after each tactic.
 
 Another good example of "exists" is proving that the implication goes
@@ -1788,7 +1794,7 @@ some examples.
 (** ** Equality *)
 (**
 Now we come to the big prize: equality!  Equality is a derived concept
-in Coq.  It's an inductive type, just like "and", "or", and "ex"
+in Rocq.  It's an inductive type, just like "and", "or", and "ex"
 ("exists").  When I found that out, I was shocked and fascinated!
 
 It's defined as:
@@ -1804,7 +1810,7 @@ Notation "x = y" := (x = y :>_) : type_scope.
 The "Inductive" statement creates a new type "eq" which is a function
 of a type A and 2 values of type A to Prop.  (NOTE: One value of type
 A is written (x:A) before the ":" and the other is written "A ->"
-after.  This is done so Coq infers the type "A" from the first
+after.  This is done so Rocq infers the type "A" from the first
 value and not the second.)  Calling "eq" with all its arguments
 returns a proposition (with type Prop).  A proof of "eq x y" means
 that "x" and "y" both have the same type and that "x" equals "y".
@@ -1812,19 +1818,19 @@ that "x" and "y" both have the same type and that "x" equals "y".
 The only way to create a proof of type "eq" is to use the only
 constructor "eq_refl".  It takes a value of "x" of type "A" and
 returns "@eq A x x", that is, that "x" is equal to itself.  (The "@"
-prevents Coq from inferring values, like the type "A".)  The name
+prevents Rocq from inferring values, like the type "A".)  The name
 "eq_refl" comes from the reflexive property of equality.
 
 Lastly, comes two operators.  The less commonly used one is "x = y :>
 A" which let's you say that "x" and "y" are equal and both have type
 "A".  The one you'll use most of the time, "x = y", does the same but
-let's Coq infer the type "A" instead of forcing you to type it.
+let's Rocq infer the type "A" instead of forcing you to type it.
 
 Now, if you we paying attention, you saw that "eq_refl" is the only
 constructor.  We can only create proofs of "x = x"!  That doesn't seem
 useful at all!
 
-What you don't see is that Coq allows you to execute a function call
+What you don't see is that Rocq allows you to execute a function call
 and substitute the result for the function call.  For example, if we had
 a function "plus" that added natural numbers (which have type "nat"),
 we could use "eq_refl (plus 1 1)" to create a proof of
@@ -1837,7 +1843,7 @@ substituting the result with the function call is called
 convertible values.  We'll see more tactics in the future.
 
 
-Now that we have a concept of what "=" means in Coq, let's use it!
+Now that we have a concept of what "=" means in Rocq, let's use it!
 *)
 
 (** *** Equality is symmetric *)
@@ -1870,7 +1876,7 @@ And after:
    x = x
 >>
 
-By destructing the "eq_refl", Coq realizes that "x" and "y" are
+By destructing the "eq_refl", Rocq realizes that "x" and "y" are
 convertible and wherever the second name is, it can be replaced by
 the first.  So, "y" disappears and is replaced by "x".  (NOTE:
 "destruct" unlike "case", does change the context, so the hypotheses
@@ -1961,7 +1967,7 @@ I should do an example with inequality too.
 (** *** Inequality with discriminate *)
 
 (**
-Coq uses the operator "<>" for inequality, which really means
+Rocq uses the operator "<>" for inequality, which really means
 "equality is unprovable" or "equality implies False".
 
 <<
@@ -1995,7 +2001,7 @@ To prove this, once again I had to delay calling "intros" until after
 "discriminate" operates on a hypothesis where values of inductive type
 are compared using equality.  If the constructors used to generate the
 type are the different, like here where we have "true = false", then
-Coq knows that situation can never happen.  It's like a proof of
+Rocq knows that situation can never happen.  It's like a proof of
 False.  In that case, "discriminate <hypname>." ends the subgoal.
 
 When working with inductive types, you will use "discriminate" to
@@ -2043,7 +2049,7 @@ numbers, they would be:
   - 3 is (S (S (S 0)) = (1 + (1 + (1 + 0)))
   - ...
 
-Peano's natural numbers are represented in Coq by the type "nat".
+Peano's natural numbers are represented in Rocq by the type "nat".
 
 <<
 Inductive nat : Set :=
@@ -2053,10 +2059,10 @@ Inductive nat : Set :=
 
 _WARNING_: The "O" here is the capital-letter O, _not_ the number zero.
 
-So, Coq's natural numbers exactly matches the definition of Peano.
+So, Rocq's natural numbers exactly matches the definition of Peano.
 
 If we want to do something with "nat"s, we need some functions.  Here
-is how Peano's definition of addition looks in Coq.
+is how Peano's definition of addition looks in Rocq.
 
 <<
 Fixpoint plus (n m:nat) : nat :=
@@ -2074,7 +2080,7 @@ any time you define a recursive function.  It's hard to see that
 "plus" calls itself because the recursive call is hidden by the "+" in
 "p + m".
 
-We know that (2 + 3) = 5, so let's see how that property holds in Coq.
+We know that (2 + 3) = 5, so let's see how that property holds in Rocq.
 Below, the difference between lines is one execution of a function
 call to "plus".
 
@@ -2104,10 +2110,10 @@ Proof.
 Qed.
 
 (**
-As you can see by "eq_refl 5", Coq will translate decimal numbers into
+As you can see by "eq_refl 5", Rocq will translate decimal numbers into
 terms of "nat" automatically.  This means capital-letter "O" and the
 digit "0" are really the same term, which prevents a lot of mistakes.
-There are ways to instruct Coq to treat decimals as other types, such
+There are ways to instruct Rocq to treat decimals as other types, such
 as integers, rationals, etc.
 
 We can convince ourselves that the function "plus" has all the
@@ -2145,7 +2151,7 @@ The proof of "(P O)" is known as the "base case".  The proof of
 "(forall n:nat, P n -> P (S n))" is known as the "inductive case" and,
 inside that case, "P n" is known as the "inductive hypothesis".
 
-When "nat" was declared, Coq created a function that exactly
+When "nat" was declared, Rocq created a function that exactly
 represents induction on "nat"s.  It is called "nat_ind" and you can
 see its type with the vernacular command "Check".
 *)
@@ -2164,7 +2170,7 @@ Now, we _could_
   - prove that the function holds for "P (S n)" assuming "P n"
   - and then call the function nat_ind with those 3 values.
 
-But that's a lot of work.  Luckily, Coq defines tactics that do most
+But that's a lot of work.  Luckily, Rocq defines tactics that do most
 of the work for us!  These tactics take a subgoal and infer the
 predicate P, and then generates child subgoals for the other pieces.
 
@@ -2267,7 +2273,7 @@ Qed.
 (**
 In my proofs, I like to use "case" and "elim" and only use "destruct"
 for types with a single constructor.  However, some people prefer to
-use "destruct" and "induction" for every proof.  The writers of Coq
+use "destruct" and "induction" for every proof.  The writers of Rocq
 are talking about removing this duplication and may remove "case" and
 "elim" in the future.
 
@@ -2320,7 +2326,7 @@ Proof.
 Qed.
 
 (**
-That is a _hard_ proof.  I've seen an expert in Coq get stuck on it
+That is a _hard_ proof.  I've seen an expert in Rocq get stuck on it
 for 10 minutes.  It uses a lot of the features that I've demonstrated
 in this tutorial.  I encourage you to open a new file and try to prove
 it yourself.  If you get stuck on part of it, you should use the "admit" tactic
@@ -2331,7 +2337,7 @@ on that proof until you can do it automatically.
 
 (** *** Common nat operators *)
 (**
-"nat" is a commonly used type in Coq and there are a lot of operators
+"nat" is a commonly used type in Rocq and there are a lot of operators
 defined for it.  Having seen how "plus" was defined, you can probably
 guess the definition for "mult".
 
@@ -2362,7 +2368,7 @@ Along with:
 
 The dangerous one in this group is "minus".  The natural numbers don't
 go lower than 0, so "(1 - 2)" cannot return a negative number.  Since
-Coq must return something of type "nat", it returns "O" instead.  So
+Rocq must return something of type "nat", it returns "O" instead.  So
 you can do crazy proofs like this without intending!
 *)
 
@@ -2380,7 +2386,7 @@ without this flaw.
 
 (** * Data types*)
 (**
-You've learned the basics of Coq.  This section introduces some
+You've learned the basics of Rocq.  This section introduces some
 commonly used data types, so that you get to see them and get some
 more experience reading proofs.
 *)
@@ -2392,7 +2398,7 @@ Require Import List.
 
 Lists are a common data structure in functional programming.
 (Imperative programs use more arrays.)  The definition of a
-singly-linked list in Coq is:
+singly-linked list in Rocq is:
 
 <<
 Inductive list (A : Type) : Type :=
@@ -2406,7 +2412,7 @@ a list takes a type called "A" and is either empty - constructed using
 list.
 
 In a number of earlier places, I've ignored the type "Type".  It hides
-some magic in Coq.  We saw early on that "proof_of_A" was a proof
+some magic in Rocq.  We saw early on that "proof_of_A" was a proof
 and had type "A", which was a proposition.  "A", since it was a
 proposition, had type "Prop".  But if types can have types, what type
 does "Prop" have?  The answer is "Type(1)".  The answer to your next N
@@ -2416,8 +2422,8 @@ questions is that "Type(1)" has type "Type(2)".  "Type(2)" has type
 Similarly, "true" had type "bool".  "bool" had type "Set".  And "Set" has
 type "Type(1)" (just like "Prop").
 
-Coq hides this infinite hierarchy from the user with the magic type
-"Type".  When you use "Type", Coq will determine if the value lies in
+Rocq hides this infinite hierarchy from the user with the magic type
+"Type".  When you use "Type", Rocq will determine if the value lies in
 "Prop", "Set", or any of the the "Type(...)" types.
 
 Going back to lists, there is an operator for building a list.
@@ -2487,12 +2493,12 @@ Definition hd (A : Type) (default : A) (l : list A)
   end.
 
 (**
-This is the default version of hd in Coq and it looks like you would
+This is the default version of hd in Rocq and it looks like you would
 expect.  This version is more useful than you might think thanks to
 "partial evaluation".
 
 "partial evaluation" is passing only _some_ of the arguments to a
-function.  In Coq, and many functional languages, the result is a new
+function.  In Rocq, and many functional languages, the result is a new
 function where the supplied arguments are now treated like constants
 in the function and the remaining parameters are can still be passed
 in.
@@ -2538,7 +2544,7 @@ Qed.
 (** **** hd returns option *)
 (**
 The second approach is to have "hd" return another data structure that
-either contains the first value in the list or contains nothing.  Coq
+either contains the first value in the list or contains nothing.  Rocq
 defines a generic data structure for that, called "option".
 
 <<
@@ -2553,7 +2559,7 @@ have to branch using "case" and look at the branch for the constructor
 "Some".  Likewise, a program will have to use "match" and look at the
 branch for "Some".
 
-Coq includes a version of "hd" that returns an "option".  It's called
+Rocq includes a version of "hd" that returns an "option".  It's called
 "hd_error".
 *)
 Definition hd_error (A : Type) (l : list A)
@@ -2614,7 +2620,7 @@ I don't expect you to understand this function, let alone write
 it.  It took me 30 minutes to write it, mostly by copying from code
 printed using "Show Proof." from the complicated proofs above.
 
-But I do expect you to understand that it _can_ be written in Coq.
+But I do expect you to understand that it _can_ be written in Rocq.
 And, I expect you to be able to read a proof that the function does
 what I said it does.
 *)
@@ -2645,7 +2651,7 @@ to write:
 <<
   pose (witness := _ : ((x :: rest) <> nil)).
 >>
-But Coq does not allow that for some reason.  "pose" cannot have "_"
+But Rocq does not allow that for some reason.  "pose" cannot have "_"
 for the complete value.  If you want to use "_" for the whole value of
 pose, you have to use the tactic "assert".
 *)
@@ -2653,7 +2659,7 @@ pose, you have to use the tactic "assert".
 (** *** Tail of lists *)
 (**
 "hd" extracts the first value in a list and its partner "tl" returns
-the list after that first element.  In Coq, it's definition is:
+the list after that first element.  In Rocq, it's definition is:
 *)
 Definition tl (A : Type) (l:list A) :=
   match l with
@@ -2692,7 +2698,7 @@ Qed.
 (** *** Appending lists *)
 (**
 We often want to do more than just add one element at the front of a
-list.  Coq includes the function "app", short for "append", to
+list.  Rocq includes the function "app", short for "append", to
 concatenate two lists.
 
 <<
@@ -2741,19 +2747,19 @@ Admitted. (** when done, replace "Admitted." with "Qed." *)
 (**
 
 I designed this tutorial to give you just enough to get started in
-Coq.  You know enough concepts to have an idea of how things work in
-Coq and how things relate.  You may only know a small number of simple
+Rocq.  You know enough concepts to have an idea of how things work in
+Rocq and how things relate.  You may only know a small number of simple
 tactics, but they're powerful enough that you can prove real theorems.
 
 As you get more experience, you'll see more complex concepts and use
 more tactics.  You may even get to use SSReflect, which is a separate
-tactics language!  As you read more Coq proofs, you'll also see
+tactics language!  As you read more Rocq proofs, you'll also see
 different styles for writing proofs.  (Any expert will tell you that
 this tutorial's simple style is strikingly different from that used in
 their proofs.)
 
-I hope you've seen some of the power and possibilities of Coq.  Many
-expert provers consider Coq proofs a puzzle and I wish you luck in
+I hope you've seen some of the power and possibilities of Rocq.  Many
+expert provers consider Rocq proofs a puzzle and I wish you luck in
 solving your puzzles!
 *)
 
@@ -2762,7 +2768,7 @@ solving your puzzles!
 
 (** ** Contact *)
 (**
-HTML and Coq versions of the tutorial are hosted on the author's professional website.
+HTML and Rocq versions of the tutorial are hosted on the author's professional website.
 
 https://mdnahas.github.io/doc/nahas_tutorial.html
 https://mdnahas.github.io/doc/nahas_tutorial.v
@@ -2772,7 +2778,7 @@ The author, Michael Nahas, can be reached at michael@nahas.com
 
 (** ** Further Reading *)
 (**
-Coq uses a lot of concepts that I didn't explain.  Below are some good
+Rocq uses a lot of concepts that I didn't explain.  Below are some good
 sources on those topic.
 
 For learning about proofs, I recommend the Pulitzer Prize winning book
@@ -2794,14 +2800,14 @@ If you have a deep interest in logic, I highly recommend Gentzen's
 but it is a beautiful paper.
 
 If you need to learn a programming language, OCaml is the one that
-would help you with Coq the most.  Coq is written in OCaml and it
+would help you with Rocq the most.  Rocq is written in OCaml and it
 borrows a lot of OCaml's syntax and style.
 
 https://ocaml.org
 
-To learn more about Coq, I found the textbook "Software Foundations"
+To learn more about Rocq, I found the textbook "Software Foundations"
 readable.  It focuses on proving programs correct.  You can also look
-at Coq's documentation webpage.
+at Rocq's documentation webpage.
 
 https://softwarefoundations.cis.upenn.edu/
 
