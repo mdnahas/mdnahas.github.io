@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Homeless Simulator</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      font-family: monospace;
+      font-size: 15px;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 1em;
+      background: #111;
+      color: #c8c090;
+    }
+
+    #status-bar {
+      display: flex;
+      gap: 2em;
+      padding-bottom: 0.6em;
+      border-bottom: 1px solid #333;
+      margin-bottom: 0.8em;
+      color: #888;
+      font-size: 0.9em;
+    }
+    #status-bar span { color: #e0d8a8; }
+
+    /* Fixed-height description area so buttons don't move */
+    #description {
+      height: 260px;
+      overflow-y: auto;
+      margin-bottom: 0.8em;
+    }
+
+    #location-name {
+      font-size: 1.1em;
+      color: #fff;
+      margin-bottom: 0.4em;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    #location-desc {
+      color: #a09870;
+      margin-bottom: 0.6em;
+    }
+
+    #desc-extra p {
+      margin: 0.3em 0;
+    }
+
+    #inventory {
+      margin-top: 0.8em;
+      color: #707060;
+      font-style: italic;
+    }
+
+    /* Action buttons area — always at the same vertical position */
+    #actions-area {
+      border-top: 1px solid #333;
+      padding-top: 0.8em;
+    }
+
+    #actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4em;
+    }
+
+    button {
+      background: #1e1e1e;
+      color: #c8c090;
+      border: 1px solid #484030;
+      padding: 0.3em 0.7em;
+      cursor: pointer;
+      font-family: monospace;
+      font-size: 0.85em;
+    }
+    button:hover:not(:disabled) {
+      background: #2a2a1e;
+      border-color: #908060;
+    }
+    button:disabled {
+      opacity: 0.25;
+      cursor: default;
+    }
+
+    #action-messages {
+      color: #c05050;
+      margin-bottom: 0.6em;
+    }
+    #action-messages p { margin: 0.2em 0; }
+
+    #done-screen {
+      display: none;
+      padding: 0.8em;
+      background: #1a2a1a;
+      color: #80c880;
+      margin-bottom: 0.8em;
+      border: 1px solid #406040;
+    }
+  </style>
+</head>
+<body>
+  <div id="status-bar">
+    <div>Time:&nbsp; <span id="time"></span></div>
+    <div>Money: <span id="money"></span></div>
+    <div>Score: <span id="score"></span></div>
+  </div>
+  <div id="done-screen"></div>
+  <div id="description">
+    <div id="action-messages"></div>
+    <div id="location-name"></div>
+    <div id="location-desc"></div>
+    <div id="inventory"></div>
+    <div id="desc-extra"></div>
+  </div>
+  <div id="actions-area">
+    <div id="actions"></div>
+  </div>
+  <script>
+// sim.js -- pure simulation core. No DOM. Ever.
+
+// --- Needs limits ---
+// Tick counts at which automatic actions fire (auto-sleep, auto-piss)
+// or trauma begins accumulating (hunger).
+const Limit = Object.freeze({
+  SLEEP:   144,  // 24h -- auto-sleep fires
+  HUNGER:   72,  // 12h -- hunger trauma begins
+  BLADDER:  96,  // 16h -- auto-piss fires
+});
+
+// --- Actions ---
+const Action = Object.freeze({
+  GO_TO_PARK:             0,
+  GO_TO_ALLMART:          1,
+  GO_TO_APARTMENT:        2,
+  GO_TO_MCDOWELLS:        3,
+  GO_TO_SHELTER:          4,
+  GO_TO_REPAIR_SHOP:      5,
+  GO_TO_JOB_SITE:         6,
+  BUY_FOOD_COLD:          7,
+  BUY_GASOLINE:           8,
+  BUY_TENT:               9,
+  BUY_BUS_PASS_1DAY:      10,
+  BUY_BUS_PASS_7DAY:      11,
+  BUY_FOOD_WARM:          12,
+  PITCH_TENT:             13,
+  UNPITCH_TENT:           14,
+  ACCEPT_JOB:             15,
+  DECLINE_JOB:            16,
+  RENT_APARTMENT:         17,
+  REPAIR_CAR:             18,
+  TOW_CAR_TO_ALLMART:     19,
+  TOW_CAR_TO_REPAIR_SHOP: 20,
+  SLEEP:                  21,
+  WAIT:                   22,
+  USE_BATHROOM:           23,
+  EAT_COLD_FOOD:          24,
+});
+
+// --- Locations ---
+const Location = Object.freeze({
+  PARK:        'park',
+  ALLMART:     'allmart',
+  APARTMENT:   'apartment',
+  MCDOWELLS:   'mcdowells',
+  SHELTER:     'shelter',
+  REPAIR_SHOP: 'repair_shop',
+  JOB_SITE:    'job_site',
+});
+
+// Linear map order. Action id GO_TO_* maps to LOCATION_ORDER[id].
+// Index difference between two locations = walking ticks between them.
+const LOCATION_ORDER = [
+  Location.PARK, Location.ALLMART, Location.APARTMENT, Location.MCDOWELLS,
+  Location.SHELTER, Location.REPAIR_SHOP, Location.JOB_SITE,
+];
+
+function walkingTicks(from, to) {
+  return Math.abs(LOCATION_ORDER.indexOf(from) - LOCATION_ORDER.indexOf(to));
+}
+
+function travelMode(state, to) {
+  const { inventory, car } = state;
+  if (inventory.car_keys && !car.broken && car.fuel > 0) return 'car';
+  if (inventory.ticks_remaining_bus_pass > 0 && walkingTicks(state.location, to) >= 4) return 'bus';
+  return 'walk';
+}
+
+// Trauma for sleeping, based on available shelter at current location.
+// Priority: car > tent > outside.
+function sleepTrauma(state) {
+  const { inventory, car, location, tent_pitched } = state;
+  if (inventory.car_keys && car.location === location) return 0.002;
+  if (tent_pitched && location === Location.PARK)      return 0.003;
+  return 0.010;
+}
+
+// Trauma for pissing, based on location.
+function pissingTrauma(location) {
+  if (location === Location.MCDOWELLS) return 0;      // indoors
+  if (location === Location.PARK)      return 0.001;  // park
+  return 0.010;                                       // elsewhere
+}
+
+// Check needs thresholds and apply automatic consequences.
+// Pushes human-readable event strings onto the events array.
+function checkNeeds(state, events) {
+  // Hunger trauma: 0.001 per in-game hour (every 6 ticks) once past Limit.HUNGER
+  if (state.ticks_since_ate >= Limit.HUNGER && state.ticks_since_ate % 6 === 0) {
+    state.trauma += 0.001;
+  }
+  // Auto-piss when bladder limit is reached
+  if (state.ticks_since_pissed >= Limit.BLADDER) {
+    state.trauma += pissingTrauma(state.location);
+    state.ticks_since_pissed = 0;
+    if (state.location === Location.MCDOWELLS) {
+      events.push("You slipped into the restroom just in time.");
+    } else if (state.location === Location.PARK) {
+      events.push("You couldn't hold it any longer. You relieved yourself in the park.");
+    } else {
+      events.push("You couldn't hold it any longer and wet yourself.");
+    }
+  }
+  // Auto-sleep when sleep limit is reached
+  if (state.ticks_since_slept >= Limit.SLEEP) {
+    state.trauma += sleepTrauma(state);
+    state.ticks_since_slept = 0;
+    events.push("You couldn't stay awake. You collapsed and fell asleep.");
+  }
+}
+
+// Advance time by one tick, updating all time-dependent state.
+function advanceTick(state, events) {
+  state.tick += 1;
+  state.inventory.ticks_remaining_bus_pass = Math.max(0, state.inventory.ticks_remaining_bus_pass - 1);
+  state.ticks_since_slept   += 1;
+  state.ticks_since_ate     += 1;
+  state.ticks_since_pissed  += 1;
+  state.ticks_since_groomed += 1;
+  checkNeeds(state, events);
+}
+
+// Advance time by n ticks, processing each tick individually so that
+// needs thresholds are checked at every tick boundary.
+function advanceTicks(state, n, events) {
+  for (let i = 0; i < n; i++) advanceTick(state, events);
+}
+
+// Ticks from the current tick until the next midnight.
+// Used to calculate bus-pass expiry: passes expire at midnight.
+function ticksUntilMidnight(tick) {
+  const rem = tick % 144;
+  return rem === 0 ? 144 : 144 - rem;
+}
+
+function applyBuyFoodCold(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 5;
+  state.inventory.cold_food += 1;
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyBuyGasoline(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 40;
+  state.car.fuel = 40;
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyBuyTent(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 100;
+  state.inventory.tent = true;
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyBuyBusPass1Day(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 4;
+  state.inventory.ticks_remaining_bus_pass += ticksUntilMidnight(state.tick);
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyBuyBusPass7Day(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 10;
+  state.inventory.ticks_remaining_bus_pass += ticksUntilMidnight(state.tick) + 6 * 144;
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyBuyFoodWarm(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 10;
+  state.ticks_since_ate = 0;
+  state.ticks_since_pissed = 0;
+  events.push("Eating the hot food warmed you up.");
+  events.push("You used the nice clean restroom.");
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyPitchTent(sim) {
+  const events = [];
+  sim.state.tent_pitched = true;
+  advanceTicks(sim.state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyUnpitchTent(sim) {
+  const events = [];
+  sim.state.tent_pitched = false;
+  advanceTicks(sim.state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyEatColdFood(sim) {
+  const { state } = sim;
+  const events = [];
+  state.inventory.cold_food -= 1;
+  state.trauma += 0.001;
+  state.ticks_since_ate = 0;
+  events.push('You eat the cold food. Not great, but it fills the stomach.');
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyRepairCar(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 200;
+  state.car.broken = false;
+  events.push('The mechanic fixes your car. Good as new.');
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyTowCar(sim, destination) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 50;
+  state.car.location = destination;
+  const destName = destination === Location.ALLMART ? 'Allmart' : 'the repair shop';
+  events.push(`Your car is towed to ${destName}.`);
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyUseBathroom(sim) {
+  const { state } = sim;
+  const events = [];
+  state.trauma += pissingTrauma(state.location);
+  state.ticks_since_pissed = 0;
+  if (state.location === Location.MCDOWELLS) {
+    events.push("You used the restroom at McDowell's.");
+  } else if (state.location === Location.PARK) {
+    events.push("You found a private spot in the park.");
+  }
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function sleepMessage(state) {
+  const { inventory, car, location, tent_pitched } = state;
+  if (inventory.car_keys && car.location === location) return 'Slept 8 hours in your car.';
+  if (tent_pitched && location === Location.PARK)      return 'Slept 8 hours in your tent.';
+  if (location === Location.PARK)                      return 'Slept 8 hours in the park.';
+  return 'Slept 8 hours on the street.';
+}
+
+function applySleep(sim) {
+  const { state } = sim;
+  const events = [];
+  const msg = sleepMessage(state);
+  state.trauma += sleepTrauma(state);
+  state.ticks_since_slept = 0;  // prevent auto-sleep firing during the 48-tick advance
+  advanceTicks(state, 48, events);
+  state.ticks_since_slept = 0;  // wake up rested, not 8 hours into a new cycle
+  events.unshift(msg);
+  return { reward: 0, done: false, messages: events };
+}
+
+// --- Job site ---
+
+// Generate a job offer after a wait tick at the job site, if conditions are met.
+// Bob appears when the tick crosses 9am; random employers appear 9am–5pm.
+function generateJobOffer(sim, events) {
+  const { state } = sim;
+  const timeOfDay = state.tick % 144;  // 9am=54, 5pm=102, 6pm=108
+
+  // Bob appears at exactly 9am.
+  if (timeOfDay === 54) {
+    if (state.job_site.bob_skip_next) {
+      state.job_site.bob_skip_next = false;
+      events.push("Bob stops by and looks you over. 'I remember last time — didn't work out. I'm an optimist, so I figure next time might be different. Come back tomorrow and we'll see.'");
+    } else {
+      state.job_site.offer_available = true;
+      state.job_site.offer_wage      = state.job_site.bob_wage;
+      state.job_site.offer_hours     = 8;
+      state.job_site.known_employer  = true;
+      events.push(`Bob arrives right at 9. 'Good morning! I'm here every day, bright and early — always have work for folks willing to put in the effort. Eight hours at ${state.job_site.bob_wage}/hr. Good work doesn't go unnoticed around here.'`);
+    }
+    return;
+  }
+
+  // Random employers appear after 9am and before 5pm, ~1/16 chance per wait tick.
+  if (timeOfDay > 54 && timeOfDay < 102) {
+    if (sim.rng.next() < 1 / 16) {
+      const hoursAvailable = Math.min(8, Math.floor((108 - timeOfDay) / 6));
+      const hours = 1 + Math.floor(sim.rng.next() * hoursAvailable);
+      const wage  = 5  + Math.floor(sim.rng.next() * 16);  // $5–$20
+      state.job_site.offer_available = true;
+      state.job_site.offer_wage      = wage;
+      state.job_site.offer_hours     = hours;
+      state.job_site.known_employer  = false;
+      events.push(`A hardware store customer offers you ${hours} hour(s) of work at ${wage}/hr.`);
+    }
+  }
+}
+
+function applyDeclineJob(sim) {
+  const { state } = sim;
+  const events = ['You decline the offer.'];
+  state.job_site.offer_available = false;
+  state.job_site.offer_wage      = null;
+  state.job_site.offer_hours     = null;
+  state.job_site.known_employer  = false;
+  advanceTicks(state, 1, events);
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyAcceptJob(sim) {
+  const { state } = sim;
+  const { offer_wage, offer_hours, known_employer } = state.job_site;
+  const totalTicks = offer_hours * 6;
+  const events = [];
+
+  // Clear the offer before starting work.
+  state.job_site.offer_available = false;
+  state.job_site.offer_wage      = null;
+  state.job_site.offer_hours     = null;
+  state.job_site.known_employer  = false;
+
+  events.push(`You start work: ${offer_hours} hour(s) at ${offer_wage}/hr.`);
+
+  let failed = false;
+  let failReason = null;
+
+  for (let i = 0; i < totalTicks; i++) {
+    // Check job-specific failure thresholds (tighter than the global neglect limits).
+    if (state.ticks_since_slept >= 96) {
+      failed = true; failReason = 'sleep'; break;
+    }
+    if (state.ticks_since_pissed >= 72) {
+      failed = true; failReason = 'piss'; break;
+    }
+    if (state.ticks_since_ate >= 48) {
+      if (state.inventory.cold_food > 0) {
+        state.inventory.cold_food -= 1;
+        state.trauma += 0.001;
+        state.ticks_since_ate = 0;
+        events.push("You wolf down a cold meal to keep your strength up.");
+      } else {
+        failed = true; failReason = 'hunger'; break;
+      }
+    }
+    advanceTick(state, events);
+  }
+
+  if (failed) {
+    state.trauma += 0.001;  // base job-failure trauma
+    if (failReason === 'sleep') {
+      state.trauma += 0.010;
+      state.ticks_since_slept = 0;
+      events.push("You fell asleep on the job and were sent home without pay.");
+      if (known_employer) events.push("Bob sighs. 'I'm disappointed. I had high hopes for you. Get some rest and come back again sometime.'");
+    } else if (failReason === 'piss') {
+      state.trauma += pissingTrauma(state.location);
+      state.ticks_since_pissed = 0;
+      events.push("You wet yourself on the job and were sent home without pay.");
+      if (known_employer) events.push("Bob winces and shakes his head. 'That can't happen on my job site. Get yourself sorted out.  When you do, I'll be around.'");
+    } else {
+      events.push("You were too weak from hunger and were sent home without pay.");
+      if (known_employer) events.push("Bob frowns. 'You've got to eat if you're going to work. Take care of yourself. Tomorrow's a new day.'");
+    }
+    if (known_employer) {
+      state.job_site.bob_skip_next = true;
+      state.job_site.bob_wage      = 10;
+    }
+  } else {
+    const pay = offer_wage * offer_hours;
+    state.money += pay;
+    events.push(`You finished the job and earned ${pay}.`);
+    if (known_employer) {
+      state.job_site.bob_wage += 2;
+      events.push(`Bob claps you on the shoulder. 'Good work. Same time tomorrow — and the rate goes up for people who deliver.'`);
+    }
+  }
+
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyWait(sim) {
+  const { state } = sim;
+  const events = ['You twiddled your thumbs.'];
+  advanceTicks(state, 1, events);
+  if (state.location === Location.JOB_SITE && !state.job_site.offer_available) {
+    generateJobOffer(sim, events);
+  }
+  return { reward: 0, done: false, messages: events };
+}
+
+function applyRentApartment(sim) {
+  const { state } = sim;
+  const events = [];
+  state.money -= 2000;
+  events.push('You sign the lease and hand over the deposit. You have a home again.');
+  return { reward: 1, done: true, messages: events };
+}
+
+function applyTravel(sim, destination) {
+  const { state } = sim;
+  const events = [];
+  const mode  = travelMode(state, destination);
+  const ticks = mode === 'car'  ? 1
+              : mode === 'bus'  ? 3
+              : walkingTicks(state.location, destination);
+
+  advanceTicks(state, ticks, events);
+  state.location = destination;
+
+  if (mode === 'car') {
+    state.car.fuel     -= 1;
+    state.car.location  = destination;
+  }
+
+  // Check for job offers on arrival, same as after a wait tick.
+  if (destination === Location.JOB_SITE && !state.job_site.offer_available) {
+    generateJobOffer(sim, events);
+  }
+
+  return { reward: 0, done: false, messages: events };
+}
+
+// Apply an action to the sim. Mutates sim.state. Returns { reward, done, messages }.
+function applyAction(sim, actionId) {
+  let result;
+  if (actionId >= Action.GO_TO_PARK && actionId <= Action.GO_TO_JOB_SITE) {
+    result = applyTravel(sim, LOCATION_ORDER[actionId]);
+  } else if (actionId === Action.BUY_FOOD_COLD)         { result = applyBuyFoodCold(sim); }
+  else if (actionId === Action.BUY_GASOLINE)             { result = applyBuyGasoline(sim); }
+  else if (actionId === Action.BUY_TENT)                 { result = applyBuyTent(sim); }
+  else if (actionId === Action.BUY_BUS_PASS_1DAY)        { result = applyBuyBusPass1Day(sim); }
+  else if (actionId === Action.BUY_BUS_PASS_7DAY)        { result = applyBuyBusPass7Day(sim); }
+  else if (actionId === Action.BUY_FOOD_WARM)            { result = applyBuyFoodWarm(sim); }
+  else if (actionId === Action.PITCH_TENT)               { result = applyPitchTent(sim); }
+  else if (actionId === Action.UNPITCH_TENT)             { result = applyUnpitchTent(sim); }
+  else if (actionId === Action.REPAIR_CAR)               { result = applyRepairCar(sim); }
+  else if (actionId === Action.TOW_CAR_TO_ALLMART)       { result = applyTowCar(sim, Location.ALLMART); }
+  else if (actionId === Action.TOW_CAR_TO_REPAIR_SHOP)   { result = applyTowCar(sim, Location.REPAIR_SHOP); }
+  else if (actionId === Action.RENT_APARTMENT)           { result = applyRentApartment(sim); }
+  else if (actionId === Action.ACCEPT_JOB)               { result = applyAcceptJob(sim); }
+  else if (actionId === Action.DECLINE_JOB)              { result = applyDeclineJob(sim); }
+  else if (actionId === Action.EAT_COLD_FOOD)            { result = applyEatColdFood(sim); }
+  else if (actionId === Action.SLEEP)                    { result = applySleep(sim); }
+  else if (actionId === Action.WAIT)                     { result = applyWait(sim); }
+  else if (actionId === Action.USE_BATHROOM)             { result = applyUseBathroom(sim); }
+  else { throw new Error(`Action ${actionId} not yet implemented`); }
+
+  // Loss condition: trauma >= 1.0 ends the game immediately, wherever it happened.
+  if (!result.done && sim.state.trauma >= 1.0) {
+    result.done   = true;
+    result.reward = -1;
+    result.messages.push('The trauma became too much. You gave up.');
+  }
+  return result;
+}
+
+// Returns the list of all 23 actions with enabled flags for the given state.
+function getActions(state) {
+  const { tick, location, money, inventory, car, tent_pitched, job_site } = state;
+  const hour = Math.floor((tick % 144) / 6);
+  const isDaytime = hour >= 8 && hour < 17;
+  const carUsable = inventory.car_keys && !car.broken && car.fuel > 0;
+  const carNeedsTow = inventory.car_keys && (car.broken || car.fuel === 0);
+
+  return [
+    // Travel (0-6): disabled if already at destination
+    { id: Action.GO_TO_PARK,             label: 'Go to park',              enabled: location !== Location.PARK },
+    { id: Action.GO_TO_ALLMART,          label: 'Go to Allmart',           enabled: location !== Location.ALLMART },
+    { id: Action.GO_TO_APARTMENT,        label: 'Go to apartment',         enabled: location !== Location.APARTMENT },
+    { id: Action.GO_TO_MCDOWELLS,        label: "Go to McDowell's",        enabled: location !== Location.MCDOWELLS },
+    { id: Action.GO_TO_SHELTER,          label: 'Go to shelter',           enabled: location !== Location.SHELTER },
+    { id: Action.GO_TO_REPAIR_SHOP,      label: 'Go to repair shop',       enabled: location !== Location.REPAIR_SHOP },
+    { id: Action.GO_TO_JOB_SITE,         label: 'Go to hardware store',    enabled: location !== Location.JOB_SITE },
+
+    // Allmart purchases (7-11)
+    { id: Action.BUY_FOOD_COLD,          label: 'Buy cold food ($5)',       enabled: location === Location.ALLMART && money >= 5 },
+    { id: Action.BUY_GASOLINE,           label: 'Buy gasoline ($40)',       enabled: location === Location.ALLMART && money >= 40 && inventory.car_keys && car.fuel < 40 },
+    { id: Action.BUY_TENT,               label: 'Buy tent ($100)',          enabled: location === Location.ALLMART && money >= 100 && !inventory.tent },
+    { id: Action.BUY_BUS_PASS_1DAY,      label: 'Buy 1-day bus pass ($4)', enabled: location === Location.ALLMART && money >= 4 },
+    { id: Action.BUY_BUS_PASS_7DAY,      label: 'Buy 7-day bus pass ($10)',enabled: location === Location.ALLMART && money >= 10 },
+
+    // McDowell's (12)
+    { id: Action.BUY_FOOD_WARM,          label: "Buy hot food and use restroom ($10)", enabled: location === Location.MCDOWELLS && money >= 10 },
+
+    // Park (13-14)
+    { id: Action.PITCH_TENT,             label: 'Pitch tent',              enabled: location === Location.PARK && inventory.tent && !tent_pitched },
+    { id: Action.UNPITCH_TENT,           label: 'Unpitch tent',            enabled: location === Location.PARK && tent_pitched },
+
+    // Job site (15-16)
+    { id: Action.ACCEPT_JOB,             label: 'Accept job offer',        enabled: location === Location.JOB_SITE && job_site.offer_available },
+    { id: Action.DECLINE_JOB,            label: 'Decline job offer',       enabled: location === Location.JOB_SITE && job_site.offer_available },
+
+    // Repair shop (18-20)
+    { id: Action.REPAIR_CAR,             label: 'Repair car ($200)',        enabled: location === Location.REPAIR_SHOP && inventory.car_keys && car.broken && car.location === Location.REPAIR_SHOP && money >= 200 },
+    { id: Action.TOW_CAR_TO_ALLMART,     label: 'Tow car to Allmart ($50)',        enabled: location === Location.REPAIR_SHOP && carNeedsTow && car.location !== Location.ALLMART && money >= 50 },
+    { id: Action.TOW_CAR_TO_REPAIR_SHOP, label: 'Tow car to repair shop ($50)',    enabled: location === Location.REPAIR_SHOP && carNeedsTow && car.location !== Location.REPAIR_SHOP && money >= 50 },
+
+    // Anywhere (21-22)
+    { id: Action.SLEEP,                  label: 'Sleep',                   enabled: true },
+    { id: Action.WAIT,                   label: 'Wait',                    enabled: true },
+
+    // Park only (23)
+    { id: Action.USE_BATHROOM,           label: 'Relieve yourself in the bushes', enabled: location === Location.PARK },
+
+    // Anywhere (24)
+    { id: Action.EAT_COLD_FOOD,          label: 'Eat cold food',                 enabled: inventory.cold_food > 0 },
+
+    // Apartment (17) -- listed last so it is always visible at the end of the button row
+    { id: Action.RENT_APARTMENT,         label: 'Rent apartment ($2000)',  enabled: location === Location.APARTMENT && money >= 2000 && isDaytime },
+  ];
+}
+
+// --- Pseudo-RNG (LCG) ---
+// Interface: create with makeLCG(seed), call rng.next() for a float in [0, 1).
+// Swap this function to change the RNG implementation.
+function makeLCG(seed) {
+  let s = seed >>> 0;  // ensure 32-bit unsigned integer
+  return {
+    next() {
+      s = (Math.imul(1664525, s) + 1013904223) >>> 0;
+      return s / 0x100000000;
+    }
+  };
+}
+
+// --- Time ---
+// 1 tick = 10 minutes. 6 ticks = 1 hour. 144 ticks = 1 day.
+// tick 48 = 8:00am Day 0 (game start). Midnight = tick 0, 144, 288, ...
+function tickToTime(tick) {
+  const timeOfDay = tick % 144;
+  return {
+    day:    Math.floor(tick / 144),
+    hour:   Math.floor(timeOfDay / 6),
+    minute: (timeOfDay % 6) * 10,
+  };
+}
+
+// --- Create simulation ---
+// Returns { state, rng }. The state is the serializable game state.
+// The rng is the internal pseudo-RNG; do not serialize it.
+function createSim(seed) {
+  return {
+    rng: makeLCG(seed),
+    state: {
+      tick: 48,
+
+      location: Location.APARTMENT,
+      trauma:   0.0,
+      money:    1000,
+
+      ticks_since_slept:   0,
+      ticks_since_ate:     0,
+      ticks_since_pissed:  0,
+      ticks_since_groomed: 0,
+
+      inventory: {
+        car_keys:                true,
+        tent:                    false,
+        cold_food:               0,
+        ticks_remaining_bus_pass: 0,
+      },
+
+      car: {
+        location: Location.APARTMENT,
+        fuel:     40,
+        broken:   false,
+      },
+
+      tent_pitched: false,
+
+      job_site: {
+        offer_available: false,
+        offer_wage:      null,
+        offer_hours:     null,
+        known_employer:  false,
+        bob_wage:        10,
+        bob_skip_next:   false,
+      },
+    },
+  };
+}
+
+// ui.js -- all DOM manipulation. No game logic lives here.
+const sim = createSim(Date.now());
+
+// --- Location display data ---
+
+const LOCATION_NAME = {
+  park:        'The Park',
+  allmart:     'Allmart Super Store',
+  apartment:   'The Apartment Building',
+  mcdowells:   "McDowell's",
+  shelter:     'The Homeless Shelter',
+  repair_shop: "Joe's Car Repair",
+  job_site:    "Highs and Low's Hardware",
+};
+
+const LOCATION_DESC = {
+  park:        'A leafy park with worn benches and a grassy field. A small glade sits in the corner.',
+  allmart:     'The sprawling parking lot of Allmart. Fluorescent light spills through the sliding doors.',
+  apartment:   'Outside the apartment building where you used to live. The buzzer no longer lets you in.',
+  mcdowells:   "McDowell's fast food restaurant. The smell of frying food drifts through the door. There is a sign saying 'bathroom for customers only'.",
+  shelter:     'The entrance to the city homeless shelter. A handwritten sign lists the check-in hours.',
+  repair_shop: "Joe's Car Repair. Vehicles sit on lifts inside the open bay, and the smell of oil hangs in the air.",
+};
+
+// --- Formatting ---
+
+function formatTime(tick) {
+  const { day, hour, minute } = tickToTime(tick);
+  const h    = String(hour).padStart(2, '0');
+  const m    = String(minute).padStart(2, '0');
+  return `Day ${day + 1},  ${h}:${m}`;
+}
+
+function formatGallons(fuel) {
+  // 1 trip = 0.25 gallons; full tank = 40 trips = 10 gallons
+  return (fuel * 0.25).toFixed(2) + ' gal';
+}
+
+function formatBusPassDays(ticks) {
+  return Math.ceil(ticks / 144) + ' day(s)';
+}
+
+// --- Needs descriptions ---
+// Each returns a string when the need is at 75%+ of its limit, or null if fine.
+
+function sleepDesc(ticks) {
+  const pct = ticks / Limit.SLEEP;
+  if (pct >= 0.95) return 'You are about to collapse from exhaustion.';
+  if (pct >= 0.90) return 'You are very sleepy.';
+  if (pct >= 0.75) return 'You are a little sleepy.';
+  return null;
+}
+
+function hungerDesc(ticks) {
+  const pct = ticks / Limit.HUNGER;
+  if (pct >= 0.95) return 'You are desperately hungry.';
+  if (pct >= 0.90) return 'You are very hungry.';
+  if (pct >= 0.75) return 'You are a little hungry.';
+  return null;
+}
+
+function bladderDesc(ticks) {
+  const pct = ticks / Limit.BLADDER;
+  if (pct >= 0.95) return 'You are about to wet yourself.';
+  if (pct >= 0.90) return 'You urgently need a bathroom.';
+  if (pct >= 0.75) return 'You need to find a bathroom.';
+  return null;
+}
+
+function getLocationDesc(location, tick) {
+  const { hour } = tickToTime(tick);
+  const daytime = hour >= 8 && hour < 17;
+
+  if (location === 'job_site') {
+    return daytime
+      ? 'The parking lot of a hardware store. Other day laborers lean against the wall, waiting for work.'
+      : "The parking lot of Highs and Low's Hardware. The lot is empty now, except for food wrappers left by day laborers who were there earlier.";
+  }
+
+  if (location === 'apartment') {
+    return daytime
+      ? "Outside the apartment building where you used to live. Destiny, the apartment manager, is at her desk. She smiles and asks how you're doing."
+      : "Outside the apartment building where you used to live. The apartment manager's door is dark and locked.";
+  }
+
+  return LOCATION_DESC[location] ?? '';
+}
+
+// --- Rendering ---
+
+function render(messages = []) {
+  const msgDiv = document.getElementById('action-messages');
+  msgDiv.innerHTML = '';
+  for (const text of messages) {
+    const p = document.createElement('p');
+    p.textContent = text;
+    msgDiv.appendChild(p);
+  }
+
+  const {
+    tick, location, money, trauma, inventory, car,
+    tent_pitched, job_site,
+    ticks_since_slept, ticks_since_ate, ticks_since_pissed,
+  } = sim.state;
+
+  // Status bar
+  document.getElementById('time').textContent  = formatTime(tick);
+  document.getElementById('money').textContent = `${money}`;
+  document.getElementById('score').textContent = (-trauma).toFixed(3);
+
+  // Location
+  document.getElementById('location-name').textContent = LOCATION_NAME[location] ?? location;
+  document.getElementById('location-desc').textContent = getLocationDesc(location, tick);
+
+  // Extra description paragraphs
+  const paras = [];
+
+  // Car (only if player's car is at this location)
+  if (inventory.car_keys && car.location === location) {
+    if (car.broken && car.fuel <= 0)
+      paras.push(`Your car is here. It is broken down and out of gas.`);
+    else if (car.broken)
+      paras.push(`Your car is here. It is broken down (${formatGallons(car.fuel)} remaining).`);
+    else if (car.fuel <= 0)
+      paras.push(`Your car is here, but it is out of gas.`);
+    else
+      paras.push(`Your car is parked here. It has ${formatGallons(car.fuel)} of gas.`);
+  }
+
+  // Needs
+  const sleep   = sleepDesc(ticks_since_slept);
+  const hunger  = hungerDesc(ticks_since_ate);
+  const bladder = bladderDesc(ticks_since_pissed);
+  if (sleep)   paras.push(sleep);
+  if (hunger)  paras.push(hunger);
+  if (bladder) paras.push(bladder);
+
+  // Job offer
+  if (job_site.offer_available) {
+    const who = job_site.known_employer ? 'Bob' : 'A hardware store customer';
+    paras.push(
+      `${who} is offering you work: ${job_site.offer_wage}/hr ` +
+      `for ${job_site.offer_hours} hour(s).`
+    );
+  }
+
+  const descExtra = document.getElementById('desc-extra');
+  descExtra.innerHTML = '';
+  for (const text of paras) {
+    const p = document.createElement('p');
+    p.textContent = text;
+    descExtra.appendChild(p);
+  }
+
+  // Inventory
+  const items = [];
+  if (inventory.car_keys)
+    items.push(car.location === location ? 'car keys' : 'car keys (car is elsewhere)');
+  if (inventory.tent)
+    items.push(tent_pitched ? 'tent (pitched)' : 'tent');
+  if (inventory.cold_food > 0)
+    items.push(`${inventory.cold_food} cold meal(s)`);
+  if (inventory.ticks_remaining_bus_pass > 0)
+    items.push(`bus pass (${formatBusPassDays(inventory.ticks_remaining_bus_pass)} left)`);
+
+  document.getElementById('inventory').textContent = items.length > 0
+    ? 'Carrying: ' + items.join(', ') + '.'
+    : 'You are carrying nothing.';
+
+  // Action buttons
+  const actionsDiv = document.getElementById('actions');
+  actionsDiv.innerHTML = '';
+  for (const action of getActions(sim.state)) {
+    const btn = document.createElement('button');
+    btn.textContent = action.label;
+    btn.disabled = !action.enabled;
+    btn.onclick = () => handleAction(action.id);
+    actionsDiv.appendChild(btn);
+  }
+}
+
+function showDone(result) {
+  const won = result.reward > 0;
+  const doneDiv = document.getElementById('done-screen');
+  doneDiv.textContent = won
+    ? 'You did it. You rented the apartment.'
+    : 'Game over. The trauma was too much.';
+  doneDiv.style.display = 'block';
+  document.getElementById('actions').innerHTML = '';
+}
+
+// --- Action handling ---
+
+function handleAction(actionId) {
+  try {
+    const result = applyAction(sim, actionId);
+    if (result.done) {
+      showDone(result);
+      return;
+    }
+    render(result.messages || []);
+  } catch (e) {
+    render([`Not yet implemented: ${e.message}`]);
+  }
+}
+
+// --- Start ---
+render([
+  'You were unable to make this month\'s rent. The apartment manager, Destiny, ' +
+  'takes your key and returns your $1000 deposit to you. She wipes a tear and ' +
+  'thanks you for taking this well. She says you\'re welcome to return when you ' +
+  'have $2000, for the rent and the deposit. You are now homeless.',
+]);
+</script>
+</body>
+</html>
